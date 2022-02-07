@@ -12,28 +12,3 @@ In pre-release versions of our forum we’ll create sample user accounts and pos
 
 The forum will start off as an Android application but has the basis and framework to be extended into other forms of consumption and usage such as a web page or desktop application. Since the forum provides a public API other users are also free to create their own applications or plug-ins using the API to connect to our back end. 
 
-
-Features (Priority, Time Estimate):
-    - User Account Creation (high, 3 days)
-    - User authentication (high, 3 days)
-    - Topic, and discussion creation (high, 4 days)
-    - Commenting/respond to posts (high, 4 days)
-    - UI [ Login/Sign up view, CRUD view, List/Detail view ] (high, 6 days)
-    - Custom profiles (Profile picture, Username, Bio) (medium, 5 days)
-    - Add an image to a post (medium, 3 days)
-    - Make a poll as a post (low, 7 days)
-    - Reaction/Like/Dislike button (low, 2 days)
-    - Follow a topic (low, 3 days)
-    - Favorite a discussion (low, 3 days)
-
-
-
-User stories:
-
-    - “As a user I need to be able to create a new discussion within a topic”
-    - “As a user I need to be able to view other people's discussions.
-    - “As a user I need to be able to comment on someone’s discussion”
-    - “As a user I need to be able to create an account for myself with a unique username and password to ensure my account is safe and distinguishable from others.”
-    - “As a user I want to be able to create a new topic so I as well as others can create and comment on discussions relating to that topic.”
-    - “As a user, I saw an interesting topic and I really liked one comment under that topic, so I can click to agree with that comment.”
-
