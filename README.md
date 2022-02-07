@@ -14,17 +14,18 @@ The forum will start off as an Android application but has the basis and framewo
 
 
 Features (Priority, Time Estimate):
-    1. User Account Creation (high, 3 days)
-    1. User authentication (high, 3 days)
-    1. Topic, and discussion creation (high, 4 days)
-    1. Commenting/respond to posts (high, 4 days)
-    1. UI [ Login/Sign up view, CRUD view, List/Detail view ] (high, 6 days)
-    1. Custom profiles (Profile picture, Username, Bio) (medium, 5 days)
-    1. Add an image to a post (medium, 3 days)
-    1. Make a poll as a post (low, 7 days)
-    1. Reaction/Like/Dislike button (low, 2 days)
-    1. Follow a topic (low, 3 days)
-    1. Favorite a discussion (low, 3 days)
+    - User Account Creation (high, 3 days)
+    - User authentication (high, 3 days)
+    - Topic, and discussion creation (high, 4 days)
+    - Commenting/respond to posts (high, 4 days)
+    - UI [ Login/Sign up view, CRUD view, List/Detail view ] (high, 6 days)
+    - Custom profiles (Profile picture, Username, Bio) (medium, 5 days)
+    - Add an image to a post (medium, 3 days)
+    - Make a poll as a post (low, 7 days)
+    - Reaction/Like/Dislike button (low, 2 days)
+    - Follow a topic (low, 3 days)
+    - Favorite a discussion (low, 3 days)
+
 
 
 User stories:
