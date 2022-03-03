@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Movies",
+    "date_created": "2022-02-28T00:22:58.538787Z",
+    "user": "kurt"
+  },
+  {
+    "title": "Video Games",
+    "date_created": "2022-02-28T00:23:03.287250Z",
+    "user": "kurt"
+  },
+  {
+    "title": "Cars",
+    "date_created": "2022-02-28T00:23:06.035252Z",
+    "user": "kurt"
+  },
+  {
+    "title": "Popular",
+    "date_created": "2022-02-28T00:23:08.286043Z",
+    "user": "kurt"
+  },
+  {
+    "title": "Music",
+    "date_created": "2022-02-28T00:23:13.055427Z",
+    "user": "kurt"
+  }
+]
