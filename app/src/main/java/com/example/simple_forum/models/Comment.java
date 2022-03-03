@@ -1,33 +1,24 @@
 package com.example.simple_forum.models;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-
 
 public class Comment {
     private String content;
     private User user;
-    private ZonedDateTime date_created;
+    private ZonedDateTime date;
 
     // Default constructor
     public Comment(){
         this.content = "";
         this.user = null;
-        this.date_created = null;
+        this.date = null;
     }
 
     // custom constructor
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Comment(String content, User user, String date){
+    public Comment(String content, User user, ZonedDateTime date){
         this.content = content;
         this.user = user;
-
-        this.date_created = ZonedDateTime.parse(date);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm:ss a");
+        this.date = date;
     }
 
     /*---SETTERS---*/
@@ -40,7 +31,7 @@ public class Comment {
     }
 
     public void set_date(ZonedDateTime date){
-        this.date_created = date;
+        this.date = date;
     }
 
     /*---GETTERS---*/
@@ -53,6 +44,6 @@ public class Comment {
     }
 
     public ZonedDateTime getDate() {
-        return date_created;
+        return date;
     }
 }
