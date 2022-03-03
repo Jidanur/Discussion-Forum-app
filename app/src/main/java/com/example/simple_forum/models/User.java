@@ -1,11 +1,6 @@
 package com.example.simple_forum.models;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 public class User {
     private String username;
@@ -23,22 +18,17 @@ public class User {
         this.email = "";
         this.bio = "";
         this.token = "";
-        this.id = 0;
         this.date_created = null;
     }
 
     // Custom constructor
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public User(String username, String password, String email, String bio, String date){
+    public User(String username, String password, String email, String bio, ZonedDateTime date){
         this.username = username;
         this.password = password;
         this.email = email;
         this.bio = bio;
         this.token = "";
-        this.id = 0;
-
-        this.date_created = ZonedDateTime.parse(date);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm:ss a");
+        this.date_created = date;
     }
 
     /*---SETTERS---*/
