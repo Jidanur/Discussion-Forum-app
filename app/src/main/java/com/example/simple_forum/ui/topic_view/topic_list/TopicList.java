@@ -13,6 +13,7 @@ import android.util.Log;
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -26,8 +27,7 @@ import java.util.ArrayList;
 
 public class TopicList extends AppCompatActivity {
 
-    String[] test_data = {"DATA1", "DATA2", "DATA3", "DATA4"};
-    ArrayList<Topic> topic_list;
+    TopicManager t_manager;
     private RecyclerView topic_recycler;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -39,30 +39,15 @@ public class TopicList extends AppCompatActivity {
         // TODO
         // Populate topic list via json api call
 
-        // Create Topic objects from parsed json file
-        JSONArray topics = JSONParser.get_json(getApplicationContext(), "topics.json");
-        topic_list = new ArrayList<Topic>();
-        for(int i = 0; i < topics.length(); i++){
-            try {
-                JSONObject obj = topics.getJSONObject(i);
-
-                // TODO
-                // Find user and match the obj argument
-                Topic t = new Topic( obj.get("title").toString(), new User(), ZonedDateTime.parse(obj.get("date_created").toString()) );
-
-                // Add item to the list
-                topic_list.add(t);
-            } catch(JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
-            }
-        }
+        // Create Topic manager and parse json test file
+        t_manager = new TopicManager();
+        t_manager.add_json_file("topics.json", getApplicationContext());
 
         // Set the recycler
         topic_recycler = findViewById(R.id.topic_list);
 
         // Set the adapter for the recycler
         set_adapter();
-
     }
 
     private void set_adapter() {
@@ -70,7 +55,7 @@ public class TopicList extends AppCompatActivity {
         // TODO
         // Parse JSON file and pass in parsed Topic Objects as an array list
         // Create recycler instance
-        TopicRecyclerAdapter topic_adapter = new TopicRecyclerAdapter(topic_list);
+        TopicRecyclerAdapter topic_adapter = new TopicRecyclerAdapter(t_manager);
 
         // Create linear layout manager
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());

@@ -1,17 +1,19 @@
 package com.example.simple_forum.models;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Comment {
     private String content;
     private User user;
-    private ZonedDateTime date_created;
+    private Date date_created;
 
     // Default constructor
     public Comment(){
@@ -26,8 +28,13 @@ public class Comment {
         this.content = content;
         this.user = user;
 
-        this.date_created = ZonedDateTime.parse(date);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm:ss a");
+        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
+
+        try {
+            this.date_created = dtf.parse(date);
+        } catch (ParseException e){
+            Log.i("TOPIC_MODEL", e.getMessage());
+        }
     }
 
     /*---SETTERS---*/
@@ -39,7 +46,7 @@ public class Comment {
         this.user = user;
     }
 
-    public void set_date(ZonedDateTime date){
+    public void set_date(Date date){
         this.date_created = date;
     }
 
@@ -52,7 +59,7 @@ public class Comment {
         return user;
     }
 
-    public ZonedDateTime getDate() {
+    public Date getDate() {
         return date_created;
     }
 }
