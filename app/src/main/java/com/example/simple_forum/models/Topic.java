@@ -1,7 +1,12 @@
 package com.example.simple_forum.models;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.Clock;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Topic {
@@ -19,10 +24,13 @@ public class Topic {
     }
 
     // Custom constructor
-    public Topic (String title, User user, ZonedDateTime date){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Topic (String title, User user, String date){
         this.title = title;
         this.user = user;
-        this.date_created = date;
+        this.date_created = ZonedDateTime.parse(date);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm:ss a");
+
         this.discussions = new ArrayList<Discussion>();
     }
 
