@@ -60,6 +60,7 @@ public class TopicManager implements BaseManager{
     }
 
     // Add a collection of json entries from a string
+    // Ignore for now until our API is available for use
     public void add_json_str(String line){
 
     }
