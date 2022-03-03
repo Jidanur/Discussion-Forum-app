@@ -1,13 +1,15 @@
 package com.example.simple_forum.models;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class Discussion {
     private String title;
     private String content;
     private User user;
-    private Clock date_created;
+    private ZonedDateTime date_created;
     private ArrayList comments;
 
     //default constructor
@@ -20,7 +22,7 @@ public class Discussion {
     }
 
     // custom constructor
-    public Discussion(String title, String content, User user, Clock date, Comment comment) {
+    public Discussion(String title, String content, User user, ZonedDateTime date, Comment comment) {
         this.title = title;
         this.content = content;
         this.user = user;
@@ -45,7 +47,7 @@ public class Discussion {
         this.user = user;
     }
 
-    public void setDate_created(Clock date_created) {
+    public void setDate_created(ZonedDateTime date_created) {
         this.date_created = date_created;
     }
 
@@ -66,7 +68,7 @@ public class Discussion {
         return user;
     }
 
-    public Clock getDate_created() {
+    public ZonedDateTime getDate_created() {
         return date_created;
     }
 
