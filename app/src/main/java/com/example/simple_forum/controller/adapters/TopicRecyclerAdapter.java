@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
 
 import java.lang.reflect.Array;
@@ -16,14 +17,14 @@ import java.util.ArrayList;
 
 public class TopicRecyclerAdapter extends RecyclerView.Adapter<TopicRecyclerAdapter.TopicViewHolder> {
 
-    // Topic string names
-    private ArrayList<Topic> topic_list;
+    // Topic manager
+    private TopicManager topic_manager;
 
     // TODO
     // Use array list of Topic class instead of array
     // Constructor
-    public TopicRecyclerAdapter(ArrayList<Topic> topic_list){
-        this.topic_list = topic_list;
+    public TopicRecyclerAdapter(TopicManager t_manager){
+        topic_manager =  t_manager;
     }
 
     @NonNull
@@ -40,13 +41,13 @@ public class TopicRecyclerAdapter extends RecyclerView.Adapter<TopicRecyclerAdap
     public void onBindViewHolder(@NonNull TopicRecyclerAdapter.TopicViewHolder holder, int position) {
 
         // Set the discussion title once
-        String title = topic_list.get(position).getTitle();
+        String title = topic_manager.get(position).getTitle();
         holder.topic_title.setText(title);
     }
 
     @Override
     public int getItemCount() {
-        return topic_list.size();
+        return topic_manager.size();
     }
 
     // View holder class
