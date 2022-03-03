@@ -1,10 +1,12 @@
 package com.example.simple_forum.ui.topic_view.topic_list;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +19,9 @@ import com.example.simple_forum.models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TopicList extends AppCompatActivity {
@@ -25,6 +30,7 @@ public class TopicList extends AppCompatActivity {
     ArrayList<Topic> topic_list;
     private RecyclerView topic_recycler;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +48,7 @@ public class TopicList extends AppCompatActivity {
 
                 // TODO
                 // Find user and match the obj argument
-                Topic t = new Topic( obj.get("title").toString(), new User(), obj.get("date_created").toString() );
+                Topic t = new Topic( obj.get("title").toString(), new User(), ZonedDateTime.parse(obj.get("date_created").toString()) );
 
                 // Add item to the list
                 topic_list.add(t);
