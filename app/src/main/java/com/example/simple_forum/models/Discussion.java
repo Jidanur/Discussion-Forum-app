@@ -1,15 +1,19 @@
 package com.example.simple_forum.models;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Discussion {
     private String title;
     private String content;
     private User user;
-    private ZonedDateTime date_created;
+    private Date date_created;
     private ArrayList comments;
 
     //default constructor
@@ -22,11 +26,20 @@ public class Discussion {
     }
 
     // custom constructor
-    public Discussion(String title, String content, User user, ZonedDateTime date, Comment comment) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Discussion(String title, String content, User user, String date, Comment comment) {
         this.title = title;
         this.content = content;
         this.user = user;
-        this.date_created = date;
+
+        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
+
+        try {
+            this.date_created = dtf.parse(date);
+        } catch (ParseException e){
+            Log.i("TOPIC_MODEL", e.getMessage());
+        }
+
         this.comments = new ArrayList<Comment>();
     }
 
@@ -47,7 +60,7 @@ public class Discussion {
         this.user = user;
     }
 
-    public void setDate_created(ZonedDateTime date_created) {
+    public void setDate_created(Date date_created) {
         this.date_created = date_created;
     }
 
@@ -68,7 +81,7 @@ public class Discussion {
         return user;
     }
 
-    public ZonedDateTime getDate_created() {
+    public Date getDate_created() {
         return date_created;
     }
 

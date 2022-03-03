@@ -1,24 +1,40 @@
 package com.example.simple_forum.models;
 
-import java.time.*;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class Comment {
     private String content;
     private User user;
-    private ZonedDateTime date;
+    private Date date_created;
 
     // Default constructor
     public Comment(){
         this.content = "";
         this.user = null;
-        this.date = null;
+        this.date_created = null;
     }
 
     // custom constructor
-    public Comment(String content, User user, ZonedDateTime date){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Comment(String content, User user, String date){
         this.content = content;
         this.user = user;
-        this.date = date;
+
+        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
+
+        try {
+            this.date_created = dtf.parse(date);
+        } catch (ParseException e){
+            Log.i("TOPIC_MODEL", e.getMessage());
+        }
     }
 
     /*---SETTERS---*/
@@ -30,8 +46,8 @@ public class Comment {
         this.user = user;
     }
 
-    public void set_date(ZonedDateTime date){
-        this.date = date;
+    public void set_date(Date date){
+        this.date_created = date;
     }
 
     /*---GETTERS---*/
@@ -43,7 +59,7 @@ public class Comment {
         return user;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public Date getDate() {
+        return date_created;
     }
 }

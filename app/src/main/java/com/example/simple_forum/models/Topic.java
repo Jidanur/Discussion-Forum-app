@@ -1,13 +1,19 @@
 package com.example.simple_forum.models;
 
-import java.time.Clock;
-import java.time.*;
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Topic {
     private String title;
     private User user;
-    private ZonedDateTime date_created;
+    private Date date_created;
     private ArrayList discussions;
 
     // Default constructor
@@ -19,11 +25,18 @@ public class Topic {
     }
 
     // Custom constructor
-    public Topic (String title, User user, ZonedDateTime date){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Topic (String title, User user, String date){
         this.title = title;
         this.user = user;
-        this.date_created = date;
+        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
         this.discussions = new ArrayList<Discussion>();
+
+        try {
+            this.date_created = dtf.parse(date);
+        } catch (ParseException e){
+            Log.i("TOPIC_MODEL", e.getMessage());
+        }
     }
 
     public void add_discussion(Discussion new_d) {
@@ -39,7 +52,7 @@ public class Topic {
         this.user = user;
     }
 
-    public void setDate_created(ZonedDateTime date_created) {
+    public void setDate_created(Date date_created) {
         this.date_created = date_created;
     }
 
@@ -56,7 +69,7 @@ public class Topic {
         return user;
     }
 
-    public ZonedDateTime getDate_created() {
+    public Date getDate_created() {
         return date_created;
     }
 
