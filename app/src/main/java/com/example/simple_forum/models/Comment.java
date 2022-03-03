@@ -1,11 +1,11 @@
 package com.example.simple_forum.models;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 public class Comment {
     private String content;
     private User user;
-    private LocalDateTime date;
+    private ZonedDateTime date;
 
     // Default constructor
     public Comment(){
@@ -15,7 +15,7 @@ public class Comment {
     }
 
     // custom constructor
-    public Comment(String content, User user, LocalDateTime date){
+    public Comment(String content, User user, ZonedDateTime date){
         this.content = content;
         this.user = user;
         this.date = date;
@@ -30,7 +30,7 @@ public class Comment {
         this.user = user;
     }
 
-    public void set_date(LocalDateTime date){
+    public void set_date(ZonedDateTime date){
         this.date = date;
     }
 
@@ -43,7 +43,7 @@ public class Comment {
         return user;
     }
 
-    public LocalDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 }

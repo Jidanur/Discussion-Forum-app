@@ -1,6 +1,6 @@
 package com.example.simple_forum.models;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 public class User {
     private String username;
@@ -9,7 +9,7 @@ public class User {
     private String bio;
     private String token;
     private int id;
-    private LocalDateTime date_created;
+    private ZonedDateTime date_created;
 
     // Default constructor
     public User(){
@@ -22,7 +22,7 @@ public class User {
     }
 
     // Custom constructor
-    public User(String username, String password, String email, String bio, LocalDateTime date){
+    public User(String username, String password, String email, String bio, ZonedDateTime date){
         this.username = username;
         this.password = password;
         this.email = email;
@@ -52,7 +52,7 @@ public class User {
         this.token = token;
     }
 
-    public void setDate_created(LocalDateTime date_created) {
+    public void setDate_created(ZonedDateTime date_created) {
         this.date_created = date_created;
     }
 
@@ -77,7 +77,7 @@ public class User {
         return token;
     }
 
-    public LocalDateTime getDate_created() {
+    public ZonedDateTime getDate_created() {
         return date_created;
     }
 }
