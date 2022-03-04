@@ -27,8 +27,6 @@ public class DiscussionManagerTest {
 
         // if added properly
         assertEquals(2,d_manager.size());
-
-
     }
 
 
