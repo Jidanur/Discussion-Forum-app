@@ -66,5 +66,3 @@ User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/
 User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/8 
 
 User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/10 
-
-User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/12 
