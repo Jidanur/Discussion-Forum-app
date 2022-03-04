@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import com.example.simple_forum.controller.JSONParser;
 import  com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
@@ -103,7 +102,7 @@ public class DiscussionManager implements BaseManager{
 
     @Override
     public Object get(int pos) {
-        return null;
+        return discussionList.get(pos);
     }
 
     @Override
