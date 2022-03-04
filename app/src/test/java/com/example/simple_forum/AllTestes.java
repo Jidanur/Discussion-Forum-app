@@ -6,6 +6,9 @@ import com.example.simple_forum.Discussion_test;
 import com.example.simple_forum.TopicManagerTest;
 import com.example.simple_forum.Topic_test;
 import com.example.simple_forum.User_test;
+import com.example.simple_forum.controller.adapters.TopicRecyclerAdapterTest;
+import com.example.simple_forum.data.LoginDataSourceTest;
+import com.example.simple_forum.data.model.LoggedInUserTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,7 +27,10 @@ import org.junit.runners.Suite;
         User_test.class,
         Topic_test.class,
         Discussion_test.class,
-        Comment_test.class
+        Comment_test.class,
+        LoggedInUserTest.class,
+        LoginDataSourceTest.class,
+        TopicRecyclerAdapterTest.class
 })
 public class AllTestes {
 
