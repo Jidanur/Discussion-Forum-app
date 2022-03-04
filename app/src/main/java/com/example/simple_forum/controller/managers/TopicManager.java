@@ -61,13 +61,35 @@ public class TopicManager implements BaseManager{
 
     // Add a collection of json entries from a string
     // Ignore for now until our API is available for use
-    public void add_json_str(String line){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void add_json_str(String data){
+        JSONArray topics = JSONParser.get_json(data);
 
+        // Iterate through serialized objects and create topic models
+        for(int i = 0; i < topics.length(); i++) {
+            try {
+
+                // Get json object
+                JSONObject topic = topics.getJSONObject(i);
+
+                // TODO
+                // Query for user model to create a new entry
+
+                // Create topic model
+                Topic t = new Topic(topic.get("title").toString(), new User(), topic.get("date_created").toString());
+
+                // Add to the list
+                add(t);
+
+            } catch (JSONException e) {
+                Log.i("TOPIC_LIST", e.getMessage());
+            }
+        }
     }
 
     // Add a new topic to the list
-    public void add(Topic t){
-        topic_list.add(t);
+    public void add(Object item){
+        topic_list.add( (Topic) item) ;
     }
 
     // Get a topic by title
@@ -85,6 +107,18 @@ public class TopicManager implements BaseManager{
     // Get a topic by position
     public Topic get(int pos){
         return topic_list.get(pos);
+    }
+
+    // Get by object
+    @Override
+    public Object get(Object item) {
+        int index  = topic_list.indexOf((Topic) item);
+        Topic t = null;
+
+        if (index != -1){
+            t = topic_list.get(index);
+        }
+        return t;
     }
 
     // Get size
