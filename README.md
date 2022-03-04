@@ -12,3 +12,4 @@ In pre-release versions of our forum we’ll create sample user accounts and pos
 
 The forum will start off as an Android application but has the basis and framework to be extended into other forms of consumption and usage such as a web page or desktop application. Since the forum provides a public API other users are also free to create their own applications or plug-ins using the API to connect to our back end. 
 
+**Our branching strategy is located in our iteration 1 worksheet which can be found here:** https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/i1_worksheet.md
