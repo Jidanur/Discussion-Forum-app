@@ -4,12 +4,24 @@ Iteration 1 Worksheet
 Adding a feature
 -----------------
 
-Tell the story of how one of your features was added to the project.
-Provide links to the
-feature, user stories, and merge requests (if used), associated tests, and merge commit
-that was used complete the feature.
+When we thought of the idea of a forum, we knew that one of the most important things the user should be able to do is view a list of topics so they could view discussions that were relevant to them. Topics are a way to sort and organize all the different discussions. For example, if someone were to create a discussion talking about their meal they prepared today, it would be situated in a “Cooking” topic. Likewise, if someone were talking about their favorite character from the movie “Avengers,” it would be put into a “Marvel” topic. We then put forward what we needed to make it work, including: 
 
-Use one or two paragraphs which can have point-form within them.
+- How we would read sample text from a JSON file to generate these topics.  
+
+- Creating a GUI capable of displaying said topics. 
+
+- Taking the data read from the JSON file and displaying them on the page. 
+
+ 
+
+Here are the links to the user stories and issues: 
+
+User story: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/17 
+
+Feature: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/3 
+
+Feature: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/4
+
 
 Exceptional code
 ----------------
@@ -18,31 +30,41 @@ Provide a link to a test of exceptional code. In a few sentences,
 provide an explanation of why the exception is handled or thrown
 in the code you are testing.
 
+
 Branching
 ----------
 
-Provide a link to where you describe your branching strategy.
+Our branching strategy is a form of Gitflow where we contain a main branch, a development branch, and branches for parts of the project currently being edited/worked on (like the GUI or database). We pull from the latest development branch, make changes, and create a new branch labeled as the area we are changing. Once we are done with the branch, we push it to development where we make sure everything is running smoothly together and then push it to main when we are ready for a release. 
 
 ![alt text](graph.png)
 
-Provide screen shot of a feature being added using your branching strategy
-successfully. The [GitLab Graph tool can do this](https://code.cs.umanitoba.ca/comp3350-summer2019/cook-eBook/-/network/develop),
-as well as using `git log --graph`.
+
 
 SOLID
 -----
 
-Find a SOLID violation in the project of group `(n%16)+1` (group 16 does group 1).
-Open an issue in their project with the violation,
-clearly explaining the SOLID violation - specifying the type, provide a link to that issue. Be sure
-your links in the issues are to **specific commits** (not to `main`, or `develop` as those will be changed).
+SOLID violation of the D Principle in commit 73478053  
 
-Provide a link to the issue you created here.
+The UserAccount class should have fields such as Username, Password, etc., with defined types instead of a HashMap. The HashMap is also not static so any references to this Model Class will have different or empty entries for the Hash Map. 
+
+Issue link: https://code.cs.umanitoba.ca/winter-2022-a02/group-16/pet-exchange-app/-/issues/23 
+
 
 Agile Planning
 --------------
 
-Write a paragraph about any plans that were changed. Did you
-'push' any features to iteration 2? Did you change the description
-of any Features or User Stories? Have links to any changed or pushed Features
-or User Stories.
+We realized later in development that we expected too much out of ourselves for iteration 1. As this is the first time many of us have seen Android studio, much of our time for iteration 1 was spent getting comfortable with how everything works and how it all comes together. This meant that direct work on things like making a new GUI for a page was slower than if we had the knowledge that we now possess at the end of iteration 1. Now that everyone is a bit more comfortable, we should have a much better and achievable plan for iteration 2. Here are the user stories and features we pushed back: 
+
+Feature https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/1 
+
+Feature https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/2 
+
+User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/5 
+
+User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/7 
+
+User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/8 
+
+User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/10 
+
+User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/12 
