@@ -4,9 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.models.Topic;
-import com.example.simple_forum.models.User;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -19,15 +18,18 @@ public class TopicManagerTest {
     public void test_add_topic(){
 
         // Instantiate a topic manager
-        TopicManager t_manager = new TopicManager();
+        DiscussionManager t_manager = new DiscussionManager();
 
-        assertEquals(0, t_manager.size());
+        String data = "[\n" +
+                "  {\n" +
+                "    \"title\": \"Good Music\",\n" +
+                "    \"content\": \"The chair sat in the corner where it had been for over 25 years. The only difference was there was someone actually sitting in it. How long had it been since someone had done that? Ten years or more he imagined. Yet there was no denying the presence in the chair now\",\n" +
+                "    \"date_created\": \"2022-02-28T00:52:48.769746Z\",\n" +
+                "    \"user\": \"kurt\",\n" +
+                "  }]";
 
-        // Create new topic with data
-        Topic t_comp = new Topic("Movies", new User(), "2022-02-28T00:22:58.538787Z");
-        t_manager.add(t_comp);
+        t_manager.add_json_str(data);
 
-        // Check to see if it has been added
         assertEquals(1, t_manager.size());
     }
 }
