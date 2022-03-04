@@ -13,13 +13,15 @@ import com.example.simple_forum.models.User;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
+public class TopicManagerTest {
 
     @Test
     public void test_add_topic(){
 
         // Instantiate a topic manager
         TopicManager t_manager = new TopicManager();
+
+        assertEquals(0, t_manager.size());
 
         // Create new topic with data
         Topic t_comp = new Topic("Movies", new User(), "2022-02-28T00:22:58.538787Z");
