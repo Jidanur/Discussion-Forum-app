@@ -39,15 +39,24 @@ public class DiscussionManagerTest {
                 " \"user\": \"kurt\" \" ,\"content\": \"life is full of shit, just chill and enjoy till u die\"}] ";
 
 
+        String test_data_2 = "[\n" +
+                "  {\n" +
+                "    \"title\": \"Good Music\",\n" +
+                "    \"content\": \"The chair sat in the corner where it had been for over 25 years. The only difference was there was someone actually sitting in it. How long had it been since someone had done that? Ten years or more he imagined. Yet there was no denying the presence in the chair now\",\n" +
+                "    \"date_created\": \"2022-02-28T00:52:48.769746Z\",\n" +
+                "    \"user\": \"kurt\",\n" +
+                "    \"topic\": \"Music\"\n" +
+                "  }]";
+
         //initial list
         DiscussionManager d_manager = new DiscussionManager();
 
-        d_manager.add_json_str(test_data);
+        d_manager.add_json_str(test_data_2);
 
         assertEquals(1,d_manager.size());
 
         Discussion d_test = (Discussion) d_manager.get(0);
-        //assertEquals("what is life?",d_test.getTitle());
+        assertEquals("Good Music",d_test.getTitle());
 
     }
 }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import com.example.simple_forum.controller.JSONParser;
 import  com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
