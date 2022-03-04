@@ -18,6 +18,15 @@ public class User_test {
 
     }
 
+    @Test
+    public void test_invalid_date(){
+
+        User newUser = new User("jidan","12345678","jidan@gmail.com","just chill","no Date");
+
+        assertNull(newUser.getDate_created());
+    }
+
+
 
 
 

@@ -33,6 +33,14 @@ public class Topic_test extends TestCase {
         assertEquals(1,test_topic.getDiscussions().size());
     }
 
+    @Test
+    public void test_invalid_date(){
+        String date = "No date";
+        Topic test_topic = new Topic("Cars", new User(),date);
+
+        assertNull(test_topic.getDate_created());
+
+    }
 
 
 }
