@@ -15,6 +15,7 @@ import com.example.simple_forum.models.User;
  */
 public class TopicManagerTest {
 
+
     @Test
     public void test_add_topic(){
 
@@ -30,4 +31,26 @@ public class TopicManagerTest {
         // Check to see if it has been added
         assertEquals(1, t_manager.size());
     }
+
+
+    @Test
+    public void test_json_parser(){
+
+        String test_data = "[ {\"title\": \"Movies\",\"date_created\": \"2022-02-28T00:22:58.538787Z\",\n" +
+                "    \"user\": \"kurt\"}]";
+
+        // Instantiate a topic manager
+        TopicManager t_manager = new TopicManager();
+        t_manager.add_json_str(test_data);
+
+       // System.out.println(test_data);
+        assertEquals(1,t_manager.size());
+
+
+       assertEquals("Movies",t_manager.get(0).getTitle());
+
+
+    }
+
+
 }

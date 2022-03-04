@@ -103,7 +103,7 @@ public class DiscussionManager implements BaseManager{
 
     @Override
     public Object get(int pos) {
-        return null;
+        return discussionList.get(pos);
     }
 
     @Override
