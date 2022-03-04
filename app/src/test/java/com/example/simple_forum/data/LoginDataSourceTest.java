@@ -10,6 +10,7 @@ public class LoginDataSourceTest {
     @Test
     public void loginTest(){
         Result<LoggedInUser> test1 = new Result.Error(new Exception());
+        
     }
 
 }
