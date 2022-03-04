@@ -26,9 +26,9 @@ Feature: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/is
 Exceptional code
 ----------------
 
-Link: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/test_suite/app/src/test/java/com/example/simple_forum/Comment_test.java
-
 On line 39 we test a comment to see if the date variable is storing what we want it to. Before this test we add a date in the correct form for each of the comments. In this test, however, we create a comment with a bad date. Because it is a bad date (not in the correct form) we want the function getDate() to return NULL indicating a bad date was passed. The test assertNull() passes as when we call the constructor of Comment, it will try to parse the string of the date passed into a new SimpleDateFormat variable. the function to parse this will throw a ParseException the value passed is not correct, hence why getDate() returns null as it was not able to turn the string into the new variable format. 
+
+Link: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/app/src/test/java/com/example/simple_forum/Comment_test.java
 
 
 Branching
@@ -66,5 +66,3 @@ User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/
 User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/8 
 
 User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/10 
-
-User Story https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/12 
