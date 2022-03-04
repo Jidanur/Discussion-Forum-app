@@ -22,13 +22,9 @@ import java.util.ArrayList;
 // implements interface BaseManager
 public class TopicManager implements BaseManager{
 
-    private static ArrayList<Topic> topic_list;
+    private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
 
-    public TopicManager(){
-
-        // Init list
-        topic_list = new ArrayList<Topic>();
-    }
+    public TopicManager(){}
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)

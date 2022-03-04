@@ -73,14 +73,12 @@ public class TopicManagerTest {
         TopicManager test = new TopicManager();
         Topic testTopic1 = new Topic("Movies",new User(),"2022-02-28T00:22:58.538787Z");
         Topic testTopic2 = new Topic("Car",new User(),"2077-02-27T00:22:58.538787Z");
-        Topic testTopic3 = null;
         test.add(testTopic1);
         test.add(testTopic2);
 
         // Test if the method find the correct object.
         assertEquals(test.get(0),testTopic1);
         assertEquals(test.get(1),testTopic2);
-
     }
 
     @Test
