@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.adapters.TopicRecyclerAdapter;
@@ -29,6 +31,7 @@ public class TopicList extends AppCompatActivity {
 
     TopicManager t_manager;
     private RecyclerView topic_recycler;
+    TopicRecyclerAdapter topic_adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -48,14 +51,13 @@ public class TopicList extends AppCompatActivity {
 
         // Set the adapter for the recycler
         set_adapter();
+
     }
 
     private void set_adapter() {
 
-        // TODO
-        // Parse JSON file and pass in parsed Topic Objects as an array list
         // Create recycler instance
-        TopicRecyclerAdapter topic_adapter = new TopicRecyclerAdapter(t_manager);
+        topic_adapter = new TopicRecyclerAdapter(t_manager);
 
         // Create linear layout manager
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -66,5 +68,24 @@ public class TopicList extends AppCompatActivity {
 
         // Set the topic recyclers adapter
         topic_recycler.setAdapter(topic_adapter);
+    }
+
+    // Create topic on button click
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void create_topic(View view){
+
+        // Get the text from the input field
+        EditText text_input = (EditText) findViewById(R.id.topic_create_input);
+        String new_topic = text_input.getText().toString();
+
+        // Create a new topic object
+        Topic t = new Topic(new_topic, new User(), "2022-02-28T00:22:58.538787Z");
+
+        // Add the topic to the topic manager
+        t_manager.add(t);
+
+        // Notify the adapter of the change
+        topic_adapter.notifyDataSetChanged();
+
     }
 }

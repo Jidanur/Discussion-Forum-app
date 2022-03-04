@@ -17,16 +17,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class DiscussionsManager implements BaseManager{
+public class DiscussionManager implements BaseManager{
 
     private static ArrayList<Discussion> discussionList;
 
-    public DiscussionsManager(){
+    public DiscussionManager(){
 
         discussionList = new ArrayList<Discussion>();
     }
-
-
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -50,12 +48,36 @@ public class DiscussionsManager implements BaseManager{
                 Log.i("Discussion_list_error", e.getMessage());
             }
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void add_json_str(String data) {
+        JSONArray discussions = JSONParser.get_json(data);
 
+        // Iterate through serialized objects and create disc models
+        for(int i = 0; i < discussions.length(); i++) {
+            try {
+
+                // Get json object
+                JSONObject disc = discussions.getJSONObject(i);
+
+                // TODO
+                // Query for user model to create a new entry
+
+                // Create disc model
+                Discussion t = new Discussion(disc.get("title").toString(), disc.get("content").toString(), new User(), disc.get("date_created").toString(), null);
+
+                // Add to the list
+                add(t);
+
+            } catch (JSONException e) {
+                Log.i("TOPIC_LIST", e.getMessage());
+            }
+        }
     }
 
     // get discussionList of a specific user
-
     public ArrayList<Discussion> get(User user){
 
         ArrayList<Discussion> userDiscussionList = new ArrayList<Discussion>();
@@ -73,21 +95,36 @@ public class DiscussionsManager implements BaseManager{
     }
 
 
-    public void addDiscussion(Discussion d){
-        discussionList.add(d);
+    @Override
+    public void add(Object item) {
+        discussionList.add((Discussion) item);
     }
 
+    @Override
+    public Object get(int pos) {
+        return discussionList.get(pos);
+    }
+
+    @Override
+    // Get by object
+    public Object get(Object item) {
+
+        int index = discussionList.indexOf((Discussion) item);
+        Discussion d = null;
+
+        if(index != -1){
+            d = discussionList.get(index);
+        }
+        return d;
+    }
 
     //returns the number of discussions
     public int size(){
         return discussionList.size();
     }
 
-    public ArrayList<Discussion> getList(){
+    @Override
+    public ArrayList get_list() {
         return discussionList;
     }
-
-
-
-
 }

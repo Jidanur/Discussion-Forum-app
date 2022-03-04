@@ -24,6 +24,18 @@ public class JSONParser {
         return str_obj;
     }
 
+    // Parse a string
+    public static JSONArray get_json(String data){
+        JSONArray str_obj = null;
+        try{
+            str_obj = new JSONArray(data);
+        } catch (JSONException e){
+            Log.i("GuiFormData", "IOException: " + e.getMessage());
+        }
+
+        return str_obj;
+    }
+
     private static String get_json_string(Context context, String filename){
 
         String data = "";
