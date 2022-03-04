@@ -12,9 +12,12 @@ public class User_test {
 
         User newUser = new User("jidan","12345678","jidan@gmail.com","just chill","2022-02-28T00:22:58.538787Z");
 
+        //validating creating of user
+        assertNotNull(newUser);
         assertEquals("jidan",newUser.getUsername());
 
     }
+
 
 
 

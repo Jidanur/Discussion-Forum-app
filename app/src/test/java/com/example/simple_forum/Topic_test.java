@@ -16,6 +16,7 @@ public class Topic_test extends TestCase {
         String date = "2022-02-28T00:52:48.769746Z";
         Topic test_topic = new Topic("Cars", new User(),date);
 
+        assertNotNull(test_topic);
         assertEquals("Cars",test_topic.getTitle());
     }
 
@@ -31,5 +32,7 @@ public class Topic_test extends TestCase {
 
         assertEquals(1,test_topic.getDiscussions().size());
     }
+
+
 
 }
