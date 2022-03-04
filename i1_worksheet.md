@@ -12,7 +12,10 @@ When we thought of the idea of a forum, we knew that one of the most important t
 
 - Taking the data read from the JSON file and displaying them on the page. 
 
+ With the base of the topic made, we were able to complete the feature of allowing a user to create a new topic. The user would simply go to the topic page, type the name of the topic they want to create, then click the create button which added the topic to the list.
+
  
+Here is the commit that added the ability to create topics: 5fc2f9a2
 
 Here are the links to the user stories and issues: 
 
@@ -21,6 +24,11 @@ User story: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-
 Feature: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/3 
 
 Feature: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/issues/4
+
+Here are links to the associated test files: 
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/app/src/test/java/com/example/simple_forum/TopicManagerTest.java
+
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/app/src/test/java/com/example/simple_forum/Topic_test.java
 
 
 Exceptional code
