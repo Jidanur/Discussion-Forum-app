@@ -42,7 +42,7 @@ Link: https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/
 Branching
 ----------
 
-Our branching strategy is a form of Gitflow where we contain a main branch, a development branch, and branches for parts of the project currently being edited/worked on (like the GUI or database). We pull from the latest development branch, make changes, and create a new branch labeled as the area we are changing. Once we are done with the branch, we push it to development where we make sure everything is running smoothly together and then push it to main when we are ready for a release. 
+Our branching strategy is a form of Gitflow where we contain a main branch, a development branch, and branches for parts of the project currently being edited/worked on (like the topic manager or how date and time is handled). We pull from the latest development branch, make changes, and create a new branch labeled as the area we are changing. Once we are done with the feature being worked on, we merge it to the development branch where we make sure everything is running smoothly together and then merge it to main when we are ready for a release. This method allows each indiviual to work on seperate features without the fear of someone changing code somewhere else until your happy. It also means we know percisely whats been worked on/changed in each branch for greater clarification when merging different branches.
 
 ![alt text](graph.png)
 
