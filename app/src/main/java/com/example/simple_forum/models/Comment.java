@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 public class Comment {
-    private Discussion discussion
+    private Discussion discussion;
     private String content;
     private User user;
     private Date date_created;
