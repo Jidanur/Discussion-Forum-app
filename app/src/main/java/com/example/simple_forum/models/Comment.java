@@ -11,12 +11,14 @@ import java.util.Date;
 
 
 public class Comment {
+    private Discussion discussion
     private String content;
     private User user;
     private Date date_created;
 
     // Default constructor
     public Comment(){
+        this.discussion =null;
         this.content = "";
         this.user = null;
         this.date_created = null;
@@ -24,7 +26,8 @@ public class Comment {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Comment(String content, User user, String date){
+    public Comment(Discussion discussion, String content, User user, String date){
+        this.discussion = discussion;
         this.content = content;
         this.user = user;
 
