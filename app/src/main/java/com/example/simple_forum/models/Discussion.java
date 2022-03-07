@@ -16,6 +16,7 @@ public class Discussion {
     private User user;
     private Date date_created;
     private ArrayList comments;
+    private Topic topic;
 
     //default constructor
     public Discussion() {
@@ -76,6 +77,8 @@ public class Discussion {
     public String getTitle() {
         return title;
     }
+
+    public Topic getTopic(){ return topic; }
 
     public String getContent() {
         return content;

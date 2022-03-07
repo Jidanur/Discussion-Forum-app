@@ -10,4 +10,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="topic_list_item">"Topic List Item"</string>
+    <string name="topics">TOPICS</string>
+    <string name="discussion_title">Discussion title</string>
 </resources>

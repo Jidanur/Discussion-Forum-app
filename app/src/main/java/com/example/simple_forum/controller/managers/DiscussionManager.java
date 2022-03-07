@@ -38,7 +38,6 @@ public class DiscussionManager implements BaseManager{
                 // Get json object
                 JSONObject curr_discussion = discussions.getJSONObject(i);
 
-
                 Discussion newDiscussion = new Discussion(curr_discussion.get("title").toString(),curr_discussion.get("content").toString(),new User(),curr_discussion.get("date_created").toString(),null);
 
                 discussionList.add(newDiscussion);

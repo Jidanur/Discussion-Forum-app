@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,24 +15,16 @@ import android.widget.EditText;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.adapters.TopicRecyclerAdapter;
-import com.example.simple_forum.controller.JSONParser;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
+import com.example.simple_forum.ui.discussion_view.DiscussionList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+public class TopicList extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
-public class TopicList extends AppCompatActivity {
-
-    TopicManager t_manager;
+    private TopicManager t_manager;
     private RecyclerView topic_recycler;
-    TopicRecyclerAdapter topic_adapter;
+    private TopicRecyclerAdapter topic_adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -57,7 +50,7 @@ public class TopicList extends AppCompatActivity {
     private void set_adapter() {
 
         // Create recycler instance
-        topic_adapter = new TopicRecyclerAdapter(t_manager);
+        topic_adapter = new TopicRecyclerAdapter(t_manager, this);
 
         // Create linear layout manager
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -78,14 +71,34 @@ public class TopicList extends AppCompatActivity {
         EditText text_input = (EditText) findViewById(R.id.topic_create_input);
         String new_topic = text_input.getText().toString();
 
+        // TODO
+        // Validate input
+
         // Create a new topic object
         Topic t = new Topic(new_topic, new User(), "2022-02-28T00:22:58.538787Z");
 
         // Add the topic to the topic manager
         t_manager.add(t);
 
+        // TODO
+        // add(t) should return true or false if it was added via api successfully
+
         // Notify the adapter of the change
         topic_adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onTopicClick(int position) {
+
+        // TODO
+        // Start a new intent and pass in the Topic object
+        Log.d("TOPIC_CLICK", "onTopicClick: CLICKED: " + position);
+        Intent discussion_list = new Intent(this, DiscussionList.class);
+
+        // Pass the topic title
+        String t = t_manager.get(position).getTitle();
+        discussion_list.putExtra("TOPIC_TITLE", t);
+        startActivity(discussion_list);
     }
 }

@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="10dp"
+    android:paddingLeft="10dp"
     android:paddingTop="10dp">
 
     <TextView
-        android:id="@+id/topic_title"
-        android:layout_width="591dp"
-        android:layout_height="58dp"
-        android:clickable="false"
-        android:text="Topic title"
-        android:textIsSelectable="false"
-        android:textSize="24sp"
+        android:id="@+id/discussion_title"
+        android:layout_width="589dp"
+        android:layout_height="62dp"
+        android:text="@string/discussion_title"
+        android:textIsSelectable="true"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
