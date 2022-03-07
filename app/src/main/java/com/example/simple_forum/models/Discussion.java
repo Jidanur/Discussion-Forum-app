@@ -16,7 +16,6 @@ public class Discussion {
     private User user;
     private Date date_created;
     private ArrayList comments;
-    private Topic topic;
 
     //default constructor
     public Discussion() {
