@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Discussion {
+    private Topic topic;
     private String title;
     private String content;
     private User user;
@@ -19,6 +20,7 @@ public class Discussion {
 
     //default constructor
     public Discussion() {
+        this.topic = null;
         this.title = "";
         this.content = "";
         this.user = null;
@@ -28,7 +30,8 @@ public class Discussion {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Discussion(String title, String content, User user, String date, Comment comment) {
+    public Discussion(Topic topic, String title, String content, User user, String date) {
+        this.topic = topic;
         this.title = title;
         this.content = content;
         this.user = user;
@@ -44,6 +47,7 @@ public class Discussion {
         this.comments = new ArrayList<Comment>();
     }
 
+    // Adds comments to the list of comments in the discussion.
     public void add_comment(Comment new_c) {
         comments.add(new_c);
     }
