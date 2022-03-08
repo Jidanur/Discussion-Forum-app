@@ -38,8 +38,7 @@ public class DiscussionManager implements BaseManager{
                 // Get json object
                 JSONObject curr_discussion = discussions.getJSONObject(i);
 
-
-                Discussion newDiscussion = new Discussion(curr_discussion.get("title").toString(),curr_discussion.get("content").toString(),new User(),curr_discussion.get("date_created").toString(),null);
+                Discussion newDiscussion = new Discussion(null, curr_discussion.get("title").toString(),curr_discussion.get("content").toString(),new User(),curr_discussion.get("date_created").toString());
 
                 discussionList.add(newDiscussion);
 
@@ -66,7 +65,7 @@ public class DiscussionManager implements BaseManager{
                 // Query for user model to create a new entry
 
                 // Create disc model
-                Discussion t = new Discussion(disc.get("title").toString(), disc.get("content").toString(), new User(), disc.get("date_created").toString(), null);
+                Discussion t = new Discussion(null, disc.get("title").toString(), disc.get("content").toString(), new User(), disc.get("date_created").toString());
 
                 // Add to the list
                 add(t);

@@ -22,7 +22,7 @@ public class Discussion_test {
         String date = "2022-02-28T00:52:48.769746Z";
 
 
-        Discussion newDiscussion = new Discussion(topic, title,content,new User(),date,null);
+        Discussion newDiscussion = new Discussion(null, title,content,new User(),date);
 
         assertEquals(title,newDiscussion.getTitle());
 
@@ -36,10 +36,10 @@ public class Discussion_test {
         String date = "2022-02-28T00:52:48.769746Z";
 
 
-        Discussion newDiscussion = new Discussion(topic, title, content, new User(), date,null);
+        Discussion newDiscussion = new Discussion(null, title,content,new User(),date);
 
         //comment to add
-        Comment newComment = new Comment(newDiscussion, "Great", new User(), date);
+        Comment newComment = new Comment(null, "Great",new User(), date);
         newDiscussion.add_comment(newComment);
 
         ///test
@@ -54,7 +54,7 @@ public class Discussion_test {
         String content = "The chair sat in the corner where it had been for over 25 years. The only difference was there was someone actually sitting in it. How long had it been since someone had done that? Ten years or more he imagined. Yet there was no denying the presence in the chair now";
         String date = "2022-02-28T00:52:48.769746Z";
 
-        Discussion newDiscussion = new Discussion(topic,title,content,new User(),date,null);
+        Discussion newDiscussion = new Discussion(null, title,content,new User(),date);
 
 
         //initializing commentList
@@ -76,7 +76,7 @@ public class Discussion_test {
         String content = "The chair sat in the corner where it had been for over 25 years. The only difference was there was someone actually sitting in it. How long had it been since someone had done that? Ten years or more he imagined. Yet there was no denying the presence in the chair now";
         String date = "no date";
 
-        Discussion newDiscussion = new Discussion(title,content,new User(),date,null);
+        Discussion newDiscussion = new Discussion(null, title,content,new User(),date);
 
         // date should be null because of invalid date
         assertNull(newDiscussion.getDate_created());

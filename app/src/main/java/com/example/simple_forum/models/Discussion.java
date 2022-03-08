@@ -84,6 +84,8 @@ public class Discussion {
         return title;
     }
 
+    public Topic getTopic(){ return topic; }
+
     public String getContent() {
         return content;
     }
