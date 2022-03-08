@@ -18,7 +18,7 @@ public class Comment {
 
     // Default constructor
     public Comment(){
-        this.discussion =null;
+        this.discussion = null;
         this.content = "";
         this.user = null;
         this.date_created = null;
@@ -26,7 +26,7 @@ public class Comment {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Comment(Discussion discussion, String content, User user, String date){
+    public Comment(Discussion discussion, content, User user, String date){
         this.discussion = discussion;
         this.content = content;
         this.user = user;
@@ -41,6 +41,10 @@ public class Comment {
     }
 
     /*---SETTERS---*/
+    public void setDiscussion(Discussion discussion) {
+        this.discussion = discussion;
+    }
+
     public void set_content(String content){
         this.content = content;
     }
@@ -54,6 +58,10 @@ public class Comment {
     }
 
     /*---GETTERS---*/
+    public Discussion getDiscussion() {
+        return discussion;
+    }
+
     public String getContent() {
         return content;
     }

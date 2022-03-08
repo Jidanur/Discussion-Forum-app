@@ -29,7 +29,7 @@ public class Discussion {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Discussion(Topic topic, String title, String content, User user, String date) {
+    public Discussion(Topic topic, String title, String content, User user, String date, Comment comment) {
         this.topic = topic;
         this.title = title;
         this.content = content;
@@ -46,12 +46,15 @@ public class Discussion {
         this.comments = new ArrayList<Comment>();
     }
 
-    // Adds comments to the list of comments in the discussion.
     public void add_comment(Comment new_c) {
         comments.add(new_c);
     }
 
     /*---SETTERS---*/
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -73,6 +76,10 @@ public class Discussion {
     }
 
     /*---GETTERS---*/
+    public Topic getTopic() {
+        return topic;
+    }
+
     public String getTitle() {
         return title;
     }
