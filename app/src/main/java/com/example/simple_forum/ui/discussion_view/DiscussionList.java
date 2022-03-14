@@ -9,18 +9,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.ui.topic_view.TopicList;
+
+import java.util.ArrayList;
 
 public class DiscussionList extends AppCompatActivity {
 
     private DiscussionManager disc_manager;
+    private String topic;
     private RecyclerView disc_recycler;
     private DiscussionRecyclerAdapter disc_adapter;
-    Intent intent;
+    private Intent intent;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -31,8 +37,11 @@ public class DiscussionList extends AppCompatActivity {
         // TODO
         // Populate discussion list via json api call
 
-        // Set intent
+        // Get intent
         intent = getIntent();
+
+        // Set topic
+        topic = intent.getStringExtra("TOPIC_TITLE");
 
         // Create a discussion manager and parse json file for now
         disc_manager = new DiscussionManager();
@@ -46,13 +55,13 @@ public class DiscussionList extends AppCompatActivity {
 
         // Set the topic title text of the view
         TextView topic_title = (TextView) findViewById(R.id.discussion_topic_title);
-        topic_title.setText(intent.getStringExtra("TOPIC_TITLE"));
+        topic_title.setText(topic);
     }
 
     private void set_adapter() {
 
         // Create recycler instance
-        disc_adapter = new DiscussionRecyclerAdapter(disc_manager);
+        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic);
 
         // Create linear layout manger
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -63,5 +72,26 @@ public class DiscussionList extends AppCompatActivity {
 
         // Set the topic recyclers adapter
         disc_recycler.setAdapter(disc_adapter);
+    }
+
+    // Clicked new discussion button
+    public void new_discussion(View view){
+
+        // Open new discussion form
+        Intent intent = new Intent(this, NewDiscussionForm.class);
+
+        // Pass extra data
+        intent.putExtra("TOPIC_TITLE", topic);
+
+        // Start activity
+        startActivity(intent);
+    }
+
+    // Clicked back to topics
+    public void back_to_topics(View view){
+
+        // Start intent
+        Intent topics_list = new Intent(this, TopicList.class);
+        startActivity(topics_list);
     }
 }

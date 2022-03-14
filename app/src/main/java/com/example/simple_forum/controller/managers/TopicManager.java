@@ -99,8 +99,12 @@ public class TopicManager implements BaseManager{
         // TODO
         // add(t) should return true or false if it was added via api successfully
 
-        // Add the topic object to the list
-        topic_list.add(t);
+        // Make sure title does not exist already
+        if( !exists(t.getTitle()) ){
+            // Add the topic object to the list
+            topic_list.add(t);
+        }
+
     }
 
     // Get a topic by title

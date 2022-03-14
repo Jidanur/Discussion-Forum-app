@@ -1,4 +1,4 @@
-package com.example.simple_forum.ui.topic_view.topic_list;
+package com.example.simple_forum.ui.topic_view;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,9 +80,6 @@ public class TopicList extends AppCompatActivity implements TopicRecyclerAdapter
         // Add the topic to the topic manager
         t_manager.add(t);
 
-        // TODO
-        // add(t) should return true or false if it was added via api successfully
-
         // Notify the adapter of the change
         topic_adapter.notifyDataSetChanged();
 
@@ -91,13 +88,12 @@ public class TopicList extends AppCompatActivity implements TopicRecyclerAdapter
     @Override
     public void onTopicClick(int position) {
 
-        // TODO
         // Start a new intent and pass in the Topic object
-        Log.d("TOPIC_CLICK", "onTopicClick: CLICKED: " + position);
         Intent discussion_list = new Intent(this, DiscussionList.class);
 
-        // Pass the topic title
+        // Pass the topic title as an extra arg to the activity
         String t = t_manager.get(position).getTitle();
+        Log.d("TOPIC_LIST", "onTopicClick: " + t);
         discussion_list.putExtra("TOPIC_TITLE", t);
         startActivity(discussion_list);
     }

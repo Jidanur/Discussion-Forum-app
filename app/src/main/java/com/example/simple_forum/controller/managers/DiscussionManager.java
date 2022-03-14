@@ -6,7 +6,11 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.example.simple_forum.controller.JSONParser;
 import com.example.simple_forum.models.Discussion;
@@ -127,6 +131,33 @@ public class DiscussionManager implements BaseManager, FilterManager {
         return queryset;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void new_discussion(String topic, String title, String content){
+
+        // TODO
+        // Get the current logged in user via user manager
+        User user = new User();
+
+        // Get topic via topic manager
+        TopicManager t_manager = new TopicManager();
+        Topic t = t_manager.get(topic);
+
+        // Set the time created
+        Date date_time_now = Calendar.getInstance().getTime();
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String date_time = format.toString();
+
+        // TODO
+        // Make sure topic and user is not null
+        if(topic != null){
+            // Create Discussion object
+            Discussion d = new Discussion(t, title, content, user, date_time);
+
+            // Add it to the discussion list via the built in add() function through discussion manager
+            add(d);
+        }
+    }
+
     @Override
     public void add(Object item) {
 
@@ -134,7 +165,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
         Discussion d = (Discussion) item;
 
         // Make sure item does not exist yet
-        if (!exists(d.getTitle())) {
+        if ( !exists(d.getTitle()) ) {
 
             // TODO
             // Validate
