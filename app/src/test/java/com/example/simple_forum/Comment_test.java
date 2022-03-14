@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.example.simple_forum.models.Comment;
+import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.User;
 
 

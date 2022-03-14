@@ -2,6 +2,7 @@ package com.example.simple_forum;
 
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import org.junit.Test;
@@ -61,7 +62,7 @@ public class Discussion_test {
         ArrayList<Comment> commentList = new ArrayList<>();
         for(int i=0;i<5;i++){
             //commentList.add(new Comment());
-            newDiscussion.add_comment(new Commnet());
+            newDiscussion.add_comment(new Comment());
         }
 
 //        newDiscussion.setComment(commentList);

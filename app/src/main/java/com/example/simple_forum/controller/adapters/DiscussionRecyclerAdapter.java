@@ -12,13 +12,23 @@ import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.models.Discussion;
 
+import java.util.ArrayList;
+
 public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRecyclerAdapter.DiscussionViewHolder> {
 
     // Discussion manager
     private DiscussionManager disc_manager;
 
+    // Queryset
+    private ArrayList<Discussion> queryset;
+
     // Constructor
-    public DiscussionRecyclerAdapter(DiscussionManager d_manager){disc_manager = d_manager;}
+    public DiscussionRecyclerAdapter(DiscussionManager d_manager, String topic_title){
+        disc_manager = d_manager;
+
+        // Set disc_manager queryset based on topic
+        disc_manager.filter(topic_title);
+    }
 
     @NonNull
     @Override

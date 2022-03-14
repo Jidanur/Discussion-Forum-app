@@ -85,7 +85,22 @@ public class TopicManager implements BaseManager{
 
     // Add a new topic to the list
     public void add(Object item){
-        topic_list.add( (Topic) item) ;
+
+        // Cast item
+        Topic t = (Topic) item;
+
+        // TODO
+        // Validate
+
+        // TODO
+        // Serialize item and add to json file "topics.json"
+        // Write a method in the json parser to do this
+
+        // TODO
+        // add(t) should return true or false if it was added via api successfully
+
+        // Add the topic object to the list
+        topic_list.add(t);
     }
 
     // Get a topic by title
@@ -126,5 +141,4 @@ public class TopicManager implements BaseManager{
     public ArrayList get_list(){
         return topic_list;
     }
-
 }
