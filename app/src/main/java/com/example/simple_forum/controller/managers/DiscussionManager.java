@@ -45,12 +45,8 @@ public class DiscussionManager implements BaseManager, FilterManager {
 
                 Discussion newDiscussion = new Discussion(t, curr_discussion.get("title").toString(), curr_discussion.get("content").toString(), new User(), curr_discussion.get("date_created").toString());
 
-                // Make sure item does not already exist
-                if(!exists(newDiscussion.getTitle())) {
-                    discussionList.add(newDiscussion);
-                } else {
-                    Log.d("DISC_MANGER", "discussion already exists " + newDiscussion.getTitle());
-                }
+                add((Object) newDiscussion);
+
             } catch (JSONException e) {
                 Log.i("Discussion_list_error", e.getMessage());
             }

@@ -27,7 +27,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
 
         // Set disc_manager queryset based on topic
         queryset = disc_manager.filter(topic_title);
-
     }
 
     @NonNull
