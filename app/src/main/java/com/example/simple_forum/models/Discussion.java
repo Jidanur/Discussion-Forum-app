@@ -29,7 +29,7 @@ public class Discussion {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Discussion(Topic topic, String title, String content, User user, String date, Comment comment) {
+    public Discussion(Topic topic, String title, String content, User user, String date) {
         this.topic = topic;
         this.title = title;
         this.content = content;
@@ -42,8 +42,6 @@ public class Discussion {
         } catch (ParseException e){
             Log.i("TOPIC_MODEL", e.getMessage());
         }
-
-        this.comments = new ArrayList<Comment>();
     }
 
     public void add_comment(Comment new_c) {
@@ -83,8 +81,6 @@ public class Discussion {
     public String getTitle() {
         return title;
     }
-
-    public Topic getTopic(){ return topic; }
 
     public String getContent() {
         return content;

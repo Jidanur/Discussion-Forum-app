@@ -17,13 +17,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class DiscussionManager implements BaseManager{
+public class DiscussionManager implements BaseManager, FilterManager{
 
-    private static ArrayList<Discussion> discussionList;
+    private static ArrayList<Discussion> discussionList = new ArrayList<Discussion>();
+    private ArrayList<Discussion> queryset;
 
     public DiscussionManager(){
 
-        discussionList = new ArrayList<Discussion>();
+        queryset = discussionList;
     }
 
     // Add a collection of json entries from a file
@@ -93,10 +94,45 @@ public class DiscussionManager implements BaseManager{
 
     }
 
+    // Filter discussion queryset by topic title
+    // Blank string implies all
+    public void filter(String topic_title){
+
+        // If blank string, filter for all
+        if(topic_title.equals("")){
+            queryset = discussionList;
+        } else {
+
+            // TODO
+            // Get any discussion items from discussionList that are a part of topic_title
+            // and add them to the queryset
+        }
+    }
+
+    @Override
+    public ArrayList get_queryset() {
+        // TODO
+        // Return the queryset
+        return null;
+    }
 
     @Override
     public void add(Object item) {
-        discussionList.add((Discussion) item);
+
+        // Cast item
+        Discussion d = (Discussion) item;
+
+        // TODO
+        // Validate
+
+        // TODO
+        // Serialize item and add to json file "discussions.json"
+        // Write a method in the json parser to do this
+
+        // TODO
+        // add(t) should return true or false if it was added via api successfully
+
+        discussionList.add(d);
     }
 
     @Override

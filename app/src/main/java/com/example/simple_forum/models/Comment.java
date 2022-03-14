@@ -26,7 +26,7 @@ public class Comment {
 
     // custom constructor
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Comment(Discussion discussion, content, User user, String date){
+    public Comment(Discussion discussion, String content, User user, String date){
         this.discussion = discussion;
         this.content = content;
         this.user = user;
