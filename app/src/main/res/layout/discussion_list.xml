@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="back_to_topics"
     tools:context=".ui.discussion_view.DiscussionList">
 
     <LinearLayout
@@ -13,6 +14,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="back_to_topics"
+            android:text="BACK TO TOPICS"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/discussion_topic_title"
@@ -24,6 +33,13 @@
             android:textSize="48sp"
             android:textStyle="bold"
             tools:text="Topic Discussion" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="new_discussion"
+            android:text="New Discussion" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/discussion_list"
