@@ -9,7 +9,8 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 
 import com.example.simple_forum.controller.JSONParser;
-import  com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
@@ -17,34 +18,40 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class DiscussionManager implements BaseManager, FilterManager{
+public class DiscussionManager implements BaseManager, FilterManager {
 
     private static ArrayList<Discussion> discussionList = new ArrayList<Discussion>();
-    private ArrayList<Discussion> queryset;
 
-    public DiscussionManager(){
-
-        queryset = discussionList;
-    }
+    public DiscussionManager() {}
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String fileName, Context context){
+    public void add_json_file(String fileName, Context context) {
 
-        JSONArray discussions = JSONParser.get_json(context,fileName);
+        JSONArray discussions = JSONParser.get_json(context, fileName);
 
-        for(int i = 0; i < discussions.length(); i++){
-            try{
+        for (int i = 0; i < discussions.length(); i++) {
+            try {
 
                 // Get json object
                 JSONObject curr_discussion = discussions.getJSONObject(i);
 
-                Discussion newDiscussion = new Discussion(null, curr_discussion.get("title").toString(),curr_discussion.get("content").toString(),new User(),curr_discussion.get("date_created").toString());
+                // Get the topic object
+                TopicManager t_manager = new TopicManager();
+                Topic t = t_manager.get(curr_discussion.get("topic").toString());
 
-                discussionList.add(newDiscussion);
+                // TODO
+                // Get the user
 
+                Discussion newDiscussion = new Discussion(t, curr_discussion.get("title").toString(), curr_discussion.get("content").toString(), new User(), curr_discussion.get("date_created").toString());
 
-            } catch (JSONException e){
+                // Make sure item does not already exist
+                if(!exists(newDiscussion.getTitle())) {
+                    discussionList.add(newDiscussion);
+                } else {
+                    Log.d("DISC_MANGER", "discussion already exists " + newDiscussion.getTitle());
+                }
+            } catch (JSONException e) {
                 Log.i("Discussion_list_error", e.getMessage());
             }
         }
@@ -56,11 +63,12 @@ public class DiscussionManager implements BaseManager, FilterManager{
         JSONArray discussions = JSONParser.get_json(data);
 
         // Iterate through serialized objects and create disc models
-        for(int i = 0; i < discussions.length(); i++) {
+        for (int i = 0; i < discussions.length(); i++) {
             try {
 
                 // Get json object
                 JSONObject disc = discussions.getJSONObject(i);
+
 
                 // TODO
                 // Query for user model to create a new entry
@@ -78,14 +86,14 @@ public class DiscussionManager implements BaseManager, FilterManager{
     }
 
     // get discussionList of a specific user
-    public ArrayList<Discussion> get(User user){
+    public ArrayList<Discussion> get(User user) {
 
         ArrayList<Discussion> userDiscussionList = new ArrayList<Discussion>();
 
-        for(int i =0;i<discussionList.size();i++){
+        for (int i = 0; i < discussionList.size(); i++) {
 
             Discussion curr = discussionList.get(i);
-            if(curr.getUser() == user){
+            if (curr.getUser() == user) {
                 userDiscussionList.add(curr);
             }
         }
@@ -96,24 +104,31 @@ public class DiscussionManager implements BaseManager, FilterManager{
 
     // Filter discussion queryset by topic title
     // Blank string implies all
-    public void filter(String topic_title){
+    public ArrayList filter(String title) {
+
+        ArrayList<Discussion> queryset = new ArrayList<Discussion>();
 
         // If blank string, filter for all
-        if(topic_title.equals("")){
+        if (title.equals("")) {
             queryset = discussionList;
         } else {
 
-            // TODO
             // Get any discussion items from discussionList that are a part of topic_title
             // and add them to the queryset
-        }
-    }
+            for(int i = 0; i < discussionList.size(); i++){
+                Discussion d = discussionList.get(i);
+                Topic d_topic = d.getTopic();
 
-    @Override
-    public ArrayList get_queryset() {
-        // TODO
-        // Return the queryset
-        return null;
+                Log.d("DISC_MANGER", "discussion: " + d.getTitle());
+
+                if(d_topic != null && d_topic.getTitle().equals(title) && !queryset.contains(d)){
+                    queryset.add(d);
+                    Log.d("DISC_MANGER", "discussion added to queryset: " + d.getTitle());
+                }
+            }
+        }
+
+        return queryset;
     }
 
     @Override
@@ -122,17 +137,22 @@ public class DiscussionManager implements BaseManager, FilterManager{
         // Cast item
         Discussion d = (Discussion) item;
 
-        // TODO
-        // Validate
+        // Make sure item does not exist yet
+        if (!exists(d.getTitle())) {
 
-        // TODO
-        // Serialize item and add to json file "discussions.json"
-        // Write a method in the json parser to do this
+            // TODO
+            // Validate
 
-        // TODO
-        // add(t) should return true or false if it was added via api successfully
+            // TODO
+            // Serialize item and add to json file "discussions.json"
+            // Write a method in the json parser to do this
 
-        discussionList.add(d);
+            // TODO
+            // add(t) should return true or false if it was added via api successfully
+            Log.d("DISC_MANGER", "discussion added: " + d.getTitle());
+
+            discussionList.add(d);
+        }
     }
 
     @Override
@@ -147,19 +167,31 @@ public class DiscussionManager implements BaseManager, FilterManager{
         int index = discussionList.indexOf((Discussion) item);
         Discussion d = null;
 
-        if(index != -1){
+        if (index != -1) {
             d = discussionList.get(index);
         }
         return d;
     }
 
     //returns the number of discussions
-    public int size(){
+    public int size() {
         return discussionList.size();
     }
 
     @Override
     public ArrayList get_list() {
         return discussionList;
+    }
+
+    @Override
+    public Boolean exists(String text) {
+
+        // Iterate through array list
+        for (int i = 0; i < discussionList.size(); i++) {
+            if (discussionList.get(i).getTitle().equals(text)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

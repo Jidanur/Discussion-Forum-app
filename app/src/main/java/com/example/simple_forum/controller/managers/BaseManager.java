@@ -27,4 +27,7 @@ public interface BaseManager {
 
     // Get as list
     public ArrayList get_list();
+
+    // Check if string exists
+    public Boolean exists(String text);
 }

@@ -141,4 +141,15 @@ public class TopicManager implements BaseManager{
     public ArrayList get_list(){
         return topic_list;
     }
+
+    @Override
+    public Boolean exists(String text) {
+        // Iterate through array list
+        for(int i = 0; i < topic_list.size(); i++){
+            if(topic_list.get(i).getTitle().equals(text)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
