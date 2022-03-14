@@ -65,7 +65,6 @@ public class TopicRecyclerAdapter extends RecyclerView.Adapter<TopicRecyclerAdap
 
             // Set on click listener
             view.setOnClickListener(this);
-
         }
 
         // On click listener

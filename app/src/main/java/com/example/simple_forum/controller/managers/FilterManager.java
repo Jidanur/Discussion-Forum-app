@@ -4,6 +4,5 @@ import java.util.ArrayList;
 
 public interface FilterManager {
 
-    public void filter(String title);
-    public ArrayList get_queryset();
+    public ArrayList filter(String title);
 }

@@ -1,5 +1,6 @@
 package com.example.simple_forum.controller.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
 
     // Discussion manager
     private DiscussionManager disc_manager;
-
-    // Queryset
     private ArrayList<Discussion> queryset;
 
     // Constructor
@@ -27,7 +26,8 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
         disc_manager = d_manager;
 
         // Set disc_manager queryset based on topic
-        disc_manager.filter(topic_title);
+        queryset = disc_manager.filter(topic_title);
+
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
     public void onBindViewHolder(@NonNull DiscussionViewHolder holder, int position) {
 
         // Get obj
-        Discussion disc = ((Discussion) disc_manager.get(position));
+        Discussion disc = ((Discussion) queryset.get(position));
 
         // Set the discussion title
         String disc_title = disc.getTitle();
@@ -53,7 +53,7 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
 
     @Override
     public int getItemCount() {
-        return disc_manager.size();
+        return queryset.size();
     }
 
     // Discussion view holder
@@ -66,7 +66,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
 
             // Get the discussion title
             disc_title = view.findViewById(R.id.discussion_title);
-
         }
     }
 }
