@@ -110,6 +110,13 @@ public class DiscussionManager implements BaseManager, FilterManager{
     }
 
     @Override
+    public ArrayList get_queryset() {
+        // TODO
+        // Return the queryset
+        return null;
+    }
+
+    @Override
     public void add(Object item) {
 
         // Cast item
