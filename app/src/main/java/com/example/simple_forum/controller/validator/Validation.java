@@ -9,9 +9,6 @@ public interface Validation {
     //validates user info
     public boolean checkUser();
 
-    // validate the title field
-    public boolean checkTitle();
-
     // validate the date
     public boolean checkDate();
 
