@@ -41,7 +41,7 @@ public class Comment {
     }
 
     /*---SETTERS---*/
-    public void setDiscussion(Discussion discussion) {
+    public void set_Discussion(Discussion discussion) {
         this.discussion = discussion;
     }
 
