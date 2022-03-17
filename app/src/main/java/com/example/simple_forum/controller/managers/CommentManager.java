@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import com.example.simple_forum.controller.JSONParser;
 import com.example.simple_forum.models.Comment;
+import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
@@ -38,12 +39,14 @@ public class CommentManager implements BaseManager, FilterManager{
                 // Get json object
                 JSONObject curr_comment = comments.getJSONObject(i);
 
+                // Get the discussion object
+                DiscussionManager d_manager = new DiscussionManager();
+                Discussion d = (Discussion) d_manager.get(curr_comment.get("discussion").toString());
 
-                Comment newComment = new Comment();
-                newComment.set_Discussion(curr_comment.get("discussion").toString());
-                newComment.set_content(curr_comment.get("content").toString());
-                newComment.set_user(new User());
-                newComment.set_date(curr_comment.get("date_created").toString());
+                // TODO
+                // Get the user
+
+                Comment newComment = new Comment(d, curr_comment.get("content").toString(), new User(), curr_comment.get("date_created").toString());
 
                 commentList.add(newComment);
 
@@ -66,18 +69,15 @@ public class CommentManager implements BaseManager, FilterManager{
                 // Get json object
                 JSONObject comm = comments.getJSONObject(i);
 
+
                 // Create comm model
-                Comment c = new Comment();
-                c.set_Discussion(comm.get("discussion").toString());
-                c.set_content(comm.get("content").toString());
-                c.set_user(new User());
-                c.set_date(comm.get("date_created").toString());
+                Comment c = new Comment(null, comm.get("content").toString(), new User(), comm.get("date_created").toString());
 
                 // Add to the list
                 add(c);
 
             } catch (JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
+                Log.i("DISCUSSION_LIST", e.getMessage());
             }
         }
     }
@@ -112,16 +112,16 @@ public class CommentManager implements BaseManager, FilterManager{
         } else {
 
             // Get any comment items from commentList that are a part of discussion_title
-            // and add them to the queryset
+            // and add them to the query set
             for(int i = 0; i < commentList.size(); i++){
-                comment c = commentList.get(i);
+                Comment c = commentList.get(i);
                 Discussion c_discussion = c.getDiscussion();
 
-                Log.c("COMM_MANAGER", "discussion_comment: " + c_discussion.getTitle());
+                Log.i("COMM_MANAGER", "discussion_comment: " + c_discussion.getTitle());
 
                 if(c_discussion != null && c_discussion.getTitle().equals(title) && !queryset.contains(c)){
                     queryset.add(c);
-                    Log.c("COMM_MANAGER", "Comment added to queryset: " + c_discussion.getTitle());
+                    Log.i("COMM_MANAGER", "Comment added to queryset: " + c_discussion.getTitle());
                 }
             }
         }
@@ -161,4 +161,15 @@ public class CommentManager implements BaseManager, FilterManager{
         return commentList;
     }
 
+    @Override
+    public Boolean exists(String text) {
+
+        // Iterate through array list
+        for (int i = 0; i < commentList.size(); i++) {
+            if (commentList.get(i).getDiscussion().getTitle().equals(text)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
