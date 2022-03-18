@@ -15,7 +15,7 @@ public class Discussion {
     private String content;
     private User user;
     private Date date_created;
-    private ArrayList comments;
+    private ArrayList<Comment> comments;
 
     //default constructor
     public Discussion() {
@@ -24,7 +24,7 @@ public class Discussion {
         this.content = "";
         this.user = null;
         this.date_created = null;
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<>();
     }
 
     // custom constructor
@@ -42,6 +42,8 @@ public class Discussion {
         } catch (ParseException e){
             Log.i("TOPIC_MODEL", e.getMessage());
         }
+
+        this.comments = new ArrayList<>();
     }
 
     public void add_comment(Comment new_c) {
