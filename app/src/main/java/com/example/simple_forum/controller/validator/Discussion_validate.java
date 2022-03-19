@@ -55,7 +55,7 @@ public class Discussion_validate implements Validation{
         return valid;
     }
 
-    @Override
+
     public boolean checkTitle() {
         boolean valid = false;
         String title = discussion_obj.getTitle();

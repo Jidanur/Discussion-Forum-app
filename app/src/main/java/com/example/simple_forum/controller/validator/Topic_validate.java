@@ -24,7 +24,6 @@ public class Topic_validate implements Validation{
         return valid;
     }
 
-    @Override
     public boolean checkTitle() {
         boolean valid = false;
         String title = topic_obj.getTitle();
