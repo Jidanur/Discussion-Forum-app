@@ -15,6 +15,15 @@ import com.example.simple_forum.models.User;
  */
 public class TopicManagerTest {
 
+    @Test
+    public void getList_Test(){
+        TopicManager test = new TopicManager();
+
+        //Test if the method return a list.
+        assertNotNull(test.get_list());
+        assertEquals(0,test.get_list().size());
+    }
+
 
     @Test
     public void test_add_topic(){
@@ -99,14 +108,5 @@ public class TopicManagerTest {
 
         //Test the size after testTopics were added into TopicManager.
         assertEquals(test.size(),2);
-    }
-
-    @Test
-    public void getList_Test(){
-        TopicManager test = new TopicManager();
-
-        //Test if the method return a list.
-        assertNotNull(test.get_list());
-        assertEquals(0,test.get_list().size());
     }
 }
