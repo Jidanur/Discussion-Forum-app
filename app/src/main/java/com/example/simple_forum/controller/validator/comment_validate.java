@@ -8,6 +8,9 @@ public class comment_validate implements Validation{
     private Comment comment_obj;
 
 
+    public comment_validate(Comment c){
+        comment_obj = c;
+    }
 
     public boolean validate(){
         boolean valid =  checkContent() && checkDate() && checkUser() && checkDiscussion();

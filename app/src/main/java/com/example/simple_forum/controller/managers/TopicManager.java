@@ -8,6 +8,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.validator.Topic_validate;
+import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -90,9 +92,6 @@ public class TopicManager implements BaseManager{
         Topic t = (Topic) item;
 
         // TODO
-        // Validate
-
-        // TODO
         // Serialize item and add to json file "topics.json"
         // Write a method in the json parser to do this
 
@@ -101,8 +100,12 @@ public class TopicManager implements BaseManager{
 
         // Make sure title does not exist already
         if( !exists(t.getTitle()) ){
-            // Add the topic object to the list
-            topic_list.add(t);
+            //validation
+            Validation topic_val = new Topic_validate(t);
+            if(topic_val.validate()) {
+                // Add the topic object to the list
+                topic_list.add(t);
+            }
         }
 
     }
