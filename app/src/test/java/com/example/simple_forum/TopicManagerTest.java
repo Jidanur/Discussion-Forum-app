@@ -22,8 +22,6 @@ public class TopicManagerTest {
         // Instantiate a topic manager.
         TopicManager t_manager = new TopicManager();
 
-        assertEquals(0, t_manager.size());
-
         // Create new topic with data
         Topic t_comp = new Topic("Movies", new User(), "2022-02-28T00:22:58.538787Z");
         t_manager.add(t_comp);
@@ -55,6 +53,10 @@ public class TopicManagerTest {
     @Test
     public void getTopicByTitle_Test(){
         TopicManager test = new TopicManager();
+
+        // Clear topic manager first
+        test.clear();
+
         Topic testTopic1 = new Topic("Movies",new User(),"2022-02-28T00:22:58.538787Z");
         Topic testTopic2 = new Topic("Car",new User(),"2077-02-27T00:22:58.538787Z");
         Topic testTopic3 = null;
@@ -64,6 +66,7 @@ public class TopicManagerTest {
         // Test if the method find the correct object.
         assertEquals(test.get("Movies"),testTopic1);
         assertEquals(test.get("Car"),testTopic2);
+
         // Make sure method return null if the object doesn't in list.
         assertSame(test.get("wow"),testTopic3);
     }
@@ -71,6 +74,10 @@ public class TopicManagerTest {
     @Test
     public void getTopicByPosition_Test(){
         TopicManager test = new TopicManager();
+
+        // Clear topic manager first
+        test.clear();
+
         Topic testTopic1 = new Topic("Movies",new User(),"2022-02-28T00:22:58.538787Z");
         Topic testTopic2 = new Topic("Car",new User(),"2077-02-27T00:22:58.538787Z");
         test.add(testTopic1);
@@ -86,9 +93,6 @@ public class TopicManagerTest {
         TopicManager test = new TopicManager();
         Topic testTopic1 = new Topic("Movies",new User(),"2022-02-28T00:22:58.538787Z");
         Topic testTopic2 = new Topic("Car",new User(),"2077-02-27T00:22:58.538787Z");
-
-        //Test the size when TopicManager is empty.
-        assertEquals(test.size(),0);
 
         test.add(testTopic1);
         test.add(testTopic2);

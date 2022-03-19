@@ -221,4 +221,9 @@ public class DiscussionManager implements BaseManager, FilterManager {
         }
         return false;
     }
+
+    @Override
+    public void clear() {
+        discussionList.clear();
+    }
 }

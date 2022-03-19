@@ -30,4 +30,7 @@ public interface BaseManager {
 
     // Check if string exists
     public Boolean exists(String text);
+
+    // Clear internal array list
+    public void clear();
 }
