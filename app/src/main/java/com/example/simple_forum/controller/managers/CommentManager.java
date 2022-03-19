@@ -172,4 +172,9 @@ public class CommentManager implements BaseManager, FilterManager{
         }
         return false;
     }
+
+    @Override
+    public void clear() {
+        commentList.clear();
+    }
 }

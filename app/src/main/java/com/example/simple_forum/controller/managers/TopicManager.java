@@ -156,4 +156,10 @@ public class TopicManager implements BaseManager{
         }
         return false;
     }
+
+    // Clears array list
+    @Override
+    public void clear() {
+        topic_list.clear();
+    }
 }
