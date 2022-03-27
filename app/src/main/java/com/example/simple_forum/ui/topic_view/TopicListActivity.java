@@ -14,13 +14,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.controller.adapters.TopicRecyclerAdapter;
+import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
-import com.example.simple_forum.ui.discussion_view.DiscussionList;
+import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
 
-public class TopicList extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
+public class TopicListActivity extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
     private TopicManager t_manager;
     private RecyclerView topic_recycler;
@@ -89,7 +89,7 @@ public class TopicList extends AppCompatActivity implements TopicRecyclerAdapter
     public void onTopicClick(int position) {
 
         // Start a new intent and pass in the Topic object
-        Intent discussion_list = new Intent(this, DiscussionList.class);
+        Intent discussion_list = new Intent(this, DiscussionListActivity.class);
 
         // Pass the topic title as an extra arg to the activity
         String t = t_manager.get(position).getTitle();

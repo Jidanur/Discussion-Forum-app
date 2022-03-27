@@ -1,6 +1,6 @@
 package com.example.simple_forum;
 
-import com.example.simple_forum.data.LoginDataSourceTest;
+
 import com.example.simple_forum.data.model.LoggedInUserTest;
 
 import org.junit.runner.JUnitCore;
@@ -13,13 +13,13 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 
         TopicManagerTest.class,
-        Discussion_test.class,
+        DiscussionManagerTest.class,
+        CommentManagerTest.class,
         User_test.class,
         Topic_test.class,
         Discussion_test.class,
         Comment_test.class,
         LoggedInUserTest.class,
-        LoginDataSourceTest.class,
 })
 public class AllTests {
 

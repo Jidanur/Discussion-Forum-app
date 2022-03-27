@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="back_to_topics"
-    tools:context=".ui.discussion_view.DiscussionList">
+    tools:context=".ui.discussion_view.DiscussionListActivity">
 
     <LinearLayout
         android:layout_width="0dp"

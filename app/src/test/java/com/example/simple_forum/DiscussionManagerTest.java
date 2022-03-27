@@ -48,6 +48,7 @@ public class DiscussionManagerTest {
 
         //initial list
         DiscussionManager d_manager = new DiscussionManager();
+        d_manager.clear();
 
         d_manager.add_json_str(test_data_2);
 
