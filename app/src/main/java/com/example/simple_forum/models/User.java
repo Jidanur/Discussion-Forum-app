@@ -1,14 +1,6 @@
 package com.example.simple_forum.models;
 
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import java.text.ParseException;
-import java.time.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class User {
     private String username;
@@ -29,7 +21,6 @@ public class User {
     }
 
     // Custom constructor
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public User(String username, String password, String email, String bio, String date){
         this.username = username;
         this.password = password;
