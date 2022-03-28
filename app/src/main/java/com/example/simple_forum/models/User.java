@@ -17,7 +17,6 @@ public class User {
     private String bio;
     private String token;
     private int id;
-    private Date date_created;
 
     // Default constructor
     public User(){
@@ -27,7 +26,6 @@ public class User {
         this.bio = "";
         this.token = "";
         this.id = 0;
-        this.date_created = null;
     }
 
     // Custom constructor
@@ -40,12 +38,6 @@ public class User {
         this.token = "";
         this.id = 0;
         SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
-
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            Log.i("TOPIC_MODEL", e.getMessage());
-        }
     }
 
     /*---SETTERS---*/
@@ -57,9 +49,7 @@ public class User {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public void setBio(String bio) {
         this.bio = bio;
@@ -67,10 +57,6 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
     }
 
     /*---GETTERS---*/
@@ -92,9 +78,5 @@ public class User {
 
     public String getToken() {
         return token;
-    }
-
-    public Date getDate_created() {
-        return date_created;
     }
 }
