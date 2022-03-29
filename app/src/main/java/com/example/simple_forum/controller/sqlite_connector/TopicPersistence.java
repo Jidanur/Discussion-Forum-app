@@ -1,54 +1,39 @@
 package com.example.simple_forum.controller.sqlite_connector;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import com.example.simple_forum.models.Topic;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class TopicPersistence implements PersistenceInterface{
+public class TopicPersistence {
 
-    private static String filename = "";
-    private final static String sql_url = "jdbc:sqlite:app\\src\\main\\assets\\";
-    private static Connection conn = null;
+    private final IDBManager idbManager;
 
-    public Connection connect() {
-
-        try{
-
-            conn = DriverManager.getConnection(sql_url + filename);
-
-            return conn;
-
-        } catch (SQLException e){
-            return null;
-        }
+    public TopicPersistence(IDBManager db) {
+        this.idbManager = db;
+        db.connect();
+        db.initialize();
     }
 
-    public boolean create_db(String db_name) {
+    public void add_topic(Topic t){
+        Statement stmt;
 
-        this.filename = filename;
+        if(idbManager.connect()) {
+            try{
+                stmt  = idbManager.getConnection().createStatement();
 
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(sql_url + filename);
+                String username  = t.getUser().getUsername();
 
-            if ( conn != null){
-                return true;
+                String statement = "SELECT id FROM user WHERE username = " + username;
+
+                ResultSet rs = stmt.executeQuery(statement);
+                int user = rs.getInt("id");
+
+                
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-            return false;
         }
-
-        return true;
-    }
-
-    @Override
-    public void create_table(String table_name) {
-    }
-
-    @Override
-    public boolean insert(Object item) {
-        return false;
     }
 }
