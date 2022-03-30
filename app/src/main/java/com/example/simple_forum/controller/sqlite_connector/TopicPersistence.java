@@ -30,10 +30,18 @@ public class TopicPersistence {
                 ResultSet rs = stmt.executeQuery(statement);
                 int user = rs.getInt("id");
 
-                
+                String columns = "title, date_created, user";
+                String[] data = {t.getTitle(), t.getDate_created().toString(), String.valueOf(user)};
+
+                idbManager.insert(columns, data, "topic");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Topic get_Topic(String data){
+
+        return null;
     }
 }

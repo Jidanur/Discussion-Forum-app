@@ -92,7 +92,9 @@ public class DBManager implements IDBManager{
             try{
                 stmt = connection.createStatement();
 
-                String insert_st = "INSERT INTO" + table + columns + " VAlUES";
+                String insert_st = "INSERT INTO" + table + "(" + columns + ") VAlUES (" + buildString(data) +")";
+
+                flag = true;
             }
             catch(SQLException e){
 
@@ -101,9 +103,23 @@ public class DBManager implements IDBManager{
         return flag;
     }
 
+    private String buildString(String[] data) {
+        String s = "";
+
+        for (int i = 0; i < data.length; i++) {
+            s += "'" + data[1] + "'";
+
+            if(i != data.length - 1) {
+                s += ", ";
+            }
+        }
+
+        return s;
+    }
+
     @Override
-    public Object get() {
-        return false;
+    public String get_Data(String data) {
+        return null;
     }
 
     @Override
