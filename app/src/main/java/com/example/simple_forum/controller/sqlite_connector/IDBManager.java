@@ -7,7 +7,7 @@ public interface IDBManager {
     boolean connect();
     void initialize();
     boolean insert(String columns, String[] data, String table);
-    Object get();
+    String  get_Data(String data);
     boolean disconnect();
     Connection getConnection();
 }
