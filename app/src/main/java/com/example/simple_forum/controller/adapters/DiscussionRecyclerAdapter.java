@@ -21,12 +21,16 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
     private DiscussionManager disc_manager;
     private ArrayList<Discussion> queryset;
 
+    private OnDiscussionListener listener;
+
     // Constructor
-    public DiscussionRecyclerAdapter(DiscussionManager d_manager, String topic_title){
+    public DiscussionRecyclerAdapter(DiscussionManager d_manager, String topic_title, OnDiscussionListener newListener){
         disc_manager = d_manager;
 
         // Set disc_manager queryset based on topic
         queryset = disc_manager.filter(topic_title);
+
+        listener = newListener;
     }
 
     @NonNull
@@ -56,7 +60,7 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
     }
 
     // Discussion view holder
-    public class DiscussionViewHolder extends RecyclerView.ViewHolder {
+    public class DiscussionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView disc_title;
 
@@ -65,6 +69,18 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
 
             // Get the discussion title
             disc_title = view.findViewById(R.id.discussion_title);
+
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onDiscussionClick(view, getAdapterPosition());
+        }
+    }
+
+    // On Discussion listener interface for discussion items
+    public interface OnDiscussionListener{
+        void onDiscussionClick(View v, int position);
     }
 }

@@ -27,6 +27,7 @@ public class DiscussionList extends AppCompatActivity {
     private RecyclerView disc_recycler;
     private DiscussionRecyclerAdapter disc_adapter;
     private Intent intent;
+    private DiscussionRecyclerAdapter.OnDiscussionListener listener;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -59,9 +60,10 @@ public class DiscussionList extends AppCompatActivity {
     }
 
     private void set_adapter() {
+        setOnClickListener();
 
         // Create recycler instance
-        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic);
+        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic, listener);
 
         // Create linear layout manger
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -72,6 +74,18 @@ public class DiscussionList extends AppCompatActivity {
 
         // Set the topic recyclers adapter
         disc_recycler.setAdapter(disc_adapter);
+    }
+
+    private void setOnClickListener() {
+        listener = new DiscussionRecyclerAdapter.OnDiscussionListener() {
+            @Override
+            public void onDiscussionClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), DiscussionView.class);
+                Discussion disc_holder = (Discussion)disc_manager.get(position);
+                intent.putExtra("discussion title", disc_holder.getTitle());
+                startActivity(intent);
+            }
+        };
     }
 
     // Clicked new discussion button
