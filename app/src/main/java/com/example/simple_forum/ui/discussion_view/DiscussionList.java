@@ -83,6 +83,11 @@ public class DiscussionList extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), DiscussionView.class);
                 Discussion disc_holder = (Discussion)disc_manager.get(position);
                 intent.putExtra("discussion title", disc_holder.getTitle());
+                intent.putExtra("discussion content", disc_holder.getContent());
+                //TODO
+                //currently the username and date are null or non existent.
+                intent.putExtra("discussion username", disc_holder.getUser().getUsername());
+                intent.putExtra("discussion date", disc_holder.getDate_created());
                 startActivity(intent);
             }
         };
