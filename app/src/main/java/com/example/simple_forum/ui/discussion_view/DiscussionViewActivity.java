@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.example.simple_forum.R;
 import com.example.simple_forum.ui.topic_view.TopicList;
 
-public class DiscussionView extends AppCompatActivity {
+public class DiscussionViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

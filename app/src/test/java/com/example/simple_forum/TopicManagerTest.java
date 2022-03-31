@@ -55,8 +55,6 @@ public class TopicManagerTest {
 
 
         assertEquals("Movies",t_manager.get(0).getTitle());
-
-
     }
 
     @Test

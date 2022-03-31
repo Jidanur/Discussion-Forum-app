@@ -25,8 +25,8 @@ public class DiscussionManagerTest {
 
         d_manager.add(anotherDiscussion);
 
-        // if added properly
-        assertEquals(2,d_manager.size());
+        // Duplicate should not have been added
+        assertEquals(1,d_manager.size());
     }
 
 
@@ -48,6 +48,7 @@ public class DiscussionManagerTest {
 
         //initial list
         DiscussionManager d_manager = new DiscussionManager();
+        d_manager.clear();
 
         d_manager.add_json_str(test_data_2);
 

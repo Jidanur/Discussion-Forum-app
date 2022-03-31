@@ -1,15 +1,5 @@
 package com.example.simple_forum.models;
 
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import java.text.ParseException;
-import java.time.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class User {
     private String username;
     private String password;
@@ -17,7 +7,6 @@ public class User {
     private String bio;
     private String token;
     private int id;
-    private Date date_created;
 
     // Default constructor
     public User(){
@@ -27,25 +16,16 @@ public class User {
         this.bio = "";
         this.token = "";
         this.id = 0;
-        this.date_created = null;
     }
 
     // Custom constructor
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public User(String username, String password, String email, String bio, String date){
+    public User(String username, String password, String email, String bio){
         this.username = username;
         this.password = password;
         this.email = email;
         this.bio = bio;
         this.token = "";
         this.id = 0;
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
-
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            Log.i("TOPIC_MODEL", e.getMessage());
-        }
     }
 
     /*---SETTERS---*/
@@ -57,9 +37,7 @@ public class User {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public void setBio(String bio) {
         this.bio = bio;
@@ -67,10 +45,6 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
     }
 
     /*---GETTERS---*/
@@ -92,9 +66,5 @@ public class User {
 
     public String getToken() {
         return token;
-    }
-
-    public Date getDate_created() {
-        return date_created;
     }
 }

@@ -60,19 +60,4 @@ public class JSONParser {
 
         return data;
     }
-
-    // TODO
-    // Append json object to file
-    // Returns true or false if item has been added
-    public static Boolean add(JSONObject obj, String filename){
-
-        // TODO
-        // add the obj and write to file
-        // Best way to do this IMO is to get the JSONArray of the filename
-        // and add the JSONObject into the JSONArray then
-        // write the JSONArray to a file, but try to find better
-        // ways if possible -Kurt
-
-        return false;
-    }
 }
