@@ -10,7 +10,7 @@ public class User_test {
     @Test
     public void test_user_create(){
 
-        User newUser = new User("jidan","12345678","jidan@gmail.com","just chill","2022-02-28T00:22:58.538787Z");
+        User newUser = new User("jidan","12345678","jidan@gmail.com","just chill");
 
         //validating creating of user
         assertNotNull(newUser);
