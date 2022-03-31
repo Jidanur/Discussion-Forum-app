@@ -1,7 +1,5 @@
 package com.example.simple_forum.models;
 
-import java.text.SimpleDateFormat;
-
 public class User {
     private String username;
     private String password;
@@ -21,14 +19,13 @@ public class User {
     }
 
     // Custom constructor
-    public User(String username, String password, String email, String bio, String date){
+    public User(String username, String password, String email, String bio){
         this.username = username;
         this.password = password;
         this.email = email;
         this.bio = bio;
         this.token = "";
         this.id = 0;
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
     }
 
     /*---SETTERS---*/

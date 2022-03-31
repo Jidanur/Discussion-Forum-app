@@ -9,28 +9,26 @@ import com.example.simple_forum.models.User;
 
 public class User_test {
 
-    String name = "Jidan";
-    String pass = "12345678";
-    String email = "jidan@gmail.com";
-    String bio = "just chill";
-    String date = "2022-02-28T00:22:58.538787Z";
+    String name,pass,email,bio;
+
+    @Before
+    public void init(){
+         name = "Jidan";
+         pass = "12345678";
+         email = "jidan@gmail.com";
+         bio = "just chill";
+
+    }
+
+
 
     @Test
     public void test_user_create(){
-        User newUser = new User(name,pass,email,bio,date);
+        User newUser = new User(name,pass,email,bio);
         //validating creating of user
         assertNotNull(newUser);
         assertEquals("Jidan",newUser.getUsername());
 
-    }
-
-    @Test
-    public void test_invalid_date(){
-        //try a invalid date
-        date = "no date";
-
-        User newUser = new User(name,pass,email,bio,date);
-        assertNull(newUser.getDate_created());
     }
 
 
