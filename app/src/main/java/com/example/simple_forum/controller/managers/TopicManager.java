@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 // Topic manager class for CRUD operations
@@ -34,6 +33,10 @@ public class TopicManager implements BaseManager{
 
         // Init JSON parser
         JSONArray topics = JSONParser.get_json(context, filename);
+
+        // Clear manager first
+        TopicManager t_manager = new TopicManager();
+        t_manager.clear();
 
         // Iterate through serialized objects and create topic models
         for(int i = 0; i < topics.length(); i++){
@@ -164,5 +167,8 @@ public class TopicManager implements BaseManager{
     @Override
     public void clear() {
         topic_list.clear();
+    }
+
+    public void add_json_file(String filepath) {
     }
 }

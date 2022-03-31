@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.simple_forum.R;
 
-public class DiscussionView extends AppCompatActivity {
+public class DiscussionViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -48,15 +48,13 @@ public class TopicManagerTest {
 
         // Instantiate a topic manager
         TopicManager t_manager = new TopicManager();
-        t_manager.add_json_str(test_data);
+        t_manager.add_json_file("src/main/assets/topics.json");
 
         // System.out.println(test_data);
         assertEquals(1,t_manager.size());
 
 
         assertEquals("Movies",t_manager.get(0).getTitle());
-
-
     }
 
     @Test

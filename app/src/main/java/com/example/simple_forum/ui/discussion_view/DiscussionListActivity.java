@@ -13,14 +13,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.controller.adapters.DiscussionRecyclerAdapter;
+import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.ui.topic_view.TopicList;
+import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
-import java.util.ArrayList;
-
-public class DiscussionList extends AppCompatActivity {
+public class DiscussionListActivity extends AppCompatActivity {
 
     private DiscussionManager disc_manager;
     private String topic;
@@ -78,7 +75,7 @@ public class DiscussionList extends AppCompatActivity {
     public void new_discussion(View view){
 
         // Open new discussion form
-        Intent intent = new Intent(this, NewDiscussionForm.class);
+        Intent intent = new Intent(this, NewDiscussionFormActivity.class);
 
         // Pass extra data
         intent.putExtra("TOPIC_TITLE", topic);
@@ -91,7 +88,7 @@ public class DiscussionList extends AppCompatActivity {
     public void back_to_topics(View view){
 
         // Start intent
-        Intent topics_list = new Intent(this, TopicList.class);
+        Intent topics_list = new Intent(this, TopicListActivity.class);
         startActivity(topics_list);
     }
 }

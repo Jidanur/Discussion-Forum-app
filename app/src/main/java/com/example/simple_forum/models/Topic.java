@@ -1,10 +1,5 @@
 package com.example.simple_forum.models;
 
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +20,6 @@ public class Topic {
     }
 
     // Custom constructor
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public Topic (String title, User user, String date){
         this.title = title;
         this.user = user;
@@ -35,7 +29,7 @@ public class Topic {
         try {
             this.date_created = dtf.parse(date);
         } catch (ParseException e){
-            Log.i("TOPIC_MODEL", e.getMessage());
+            System.out.println("date error");
         }
     }
 
