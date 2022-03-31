@@ -19,6 +19,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="back_to_topics"
             android:text="BACK TO TOPICS"
             android:textSize="16sp" />
 

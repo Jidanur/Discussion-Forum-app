@@ -40,12 +40,4 @@ public class DiscussionView extends AppCompatActivity {
         usernameTxt.setText(disc_username);
         dateTxt.setText(disc_date);
     }
-
-    // Clicked back to discussions
-    public void back_to_discussions(View view){
-
-        // Start intent
-        Intent discussion_list = new Intent(this, DiscussionList.class);
-        startActivity(discussion_list);
-    }
 }
