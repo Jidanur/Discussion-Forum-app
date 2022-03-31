@@ -2,10 +2,13 @@ package com.example.simple_forum.ui.discussion_view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.ui.topic_view.TopicList;
 
 public class DiscussionView extends AppCompatActivity {
 
@@ -36,5 +39,13 @@ public class DiscussionView extends AppCompatActivity {
         contentTxt.setText(disc_content);
         usernameTxt.setText(disc_username);
         dateTxt.setText(disc_date);
+    }
+
+    // Clicked back to discussions
+    public void back_to_discussions(View view){
+
+        // Start intent
+        Intent discussion_list = new Intent(this, DiscussionList.class);
+        startActivity(discussion_list);
     }
 }

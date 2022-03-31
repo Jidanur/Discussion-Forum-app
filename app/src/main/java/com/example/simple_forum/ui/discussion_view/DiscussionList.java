@@ -81,13 +81,18 @@ public class DiscussionList extends AppCompatActivity {
             @Override
             public void onDiscussionClick(View v, int position) {
                 Intent intent = new Intent(getApplicationContext(), DiscussionView.class);
-                Discussion disc_holder = (Discussion)disc_manager.get(position);
-                intent.putExtra("discussion title", disc_holder.getTitle());
-                intent.putExtra("discussion content", disc_holder.getContent());
-                //TODO
-                //currently the username and date are null or non existent.
-                intent.putExtra("discussion username", disc_holder.getUser().getUsername());
-                intent.putExtra("discussion date", disc_holder.getDate_created());
+                ArrayList<Discussion> queryset = disc_manager.filter(topic);
+                Discussion disc_holder = queryset.get(position);
+
+                if (disc_holder != null){
+                    intent.putExtra("discussion title", disc_holder.getTitle());
+                    intent.putExtra("discussion content", disc_holder.getContent());
+                    //TODO
+                    //currently the username and date are null or non existent.
+                    intent.putExtra("discussion username", disc_holder.getUser().getUsername());
+                    intent.putExtra("discussion date", disc_holder.getDate_created());
+                }
+
                 startActivity(intent);
             }
         };
