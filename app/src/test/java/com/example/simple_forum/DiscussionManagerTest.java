@@ -25,8 +25,8 @@ public class DiscussionManagerTest {
 
         d_manager.add(anotherDiscussion);
 
-        // if added properly
-        assertEquals(2,d_manager.size());
+        // Duplicate should not have been added
+        assertEquals(1,d_manager.size());
     }
 
 
