@@ -2,6 +2,7 @@ package com.example.simple_forum.controller.sqlite_connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -94,6 +95,7 @@ public class DBManager implements IDBManager{
 
                 String insert_st = "INSERT INTO" + table + "(" + columns + ") VAlUES (" + buildString(data) +")";
 
+                stmt.execute(insert_st);
                 flag = true;
             }
             catch(SQLException e){
@@ -118,8 +120,22 @@ public class DBManager implements IDBManager{
     }
 
     @Override
-    public String get_Data(String data) {
-        return null;
+    public ResultSet get_Data(String statement) {
+        Statement stmt;
+        ResultSet rs = null;
+
+        if (connect()) {
+            try {
+                stmt  = connection.createStatement();
+
+                rs = stmt.executeQuery(statement);
+
+            }
+            catch (SQLException e){
+
+            }
+        }
+        return rs;
     }
 
     @Override
