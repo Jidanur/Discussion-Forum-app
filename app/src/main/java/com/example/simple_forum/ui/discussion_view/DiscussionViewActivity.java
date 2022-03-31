@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.ui.topic_view.TopicList;
+import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 

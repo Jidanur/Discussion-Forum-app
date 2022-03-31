@@ -13,9 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
+
+import java.util.ArrayList;
 
 public class DiscussionListActivity extends AppCompatActivity {
 
@@ -77,7 +80,7 @@ public class DiscussionListActivity extends AppCompatActivity {
         listener = new DiscussionRecyclerAdapter.OnDiscussionListener() {
             @Override
             public void onDiscussionClick(View v, int position) {
-                Intent intent = new Intent(getApplicationContext(), DiscussionView.class);
+                Intent intent = new Intent(getApplicationContext(), DiscussionViewActivity.class);
                 ArrayList<Discussion> queryset = disc_manager.filter(topic);
                 Discussion disc_holder = queryset.get(position);
 
