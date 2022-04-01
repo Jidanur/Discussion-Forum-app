@@ -29,8 +29,10 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
 
         String query = "INSERT INTO topic VALUES(?,?,?)";
 
-        try(final Connection c = connection();
-            PreparedStatement statement = c.prepareStatement(query) ){
+        try{
+
+            final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query);
 
             statement.setString(1, t.getTitle() );
             statement.setDate(2, Date.valueOf("2022-04-01"));
