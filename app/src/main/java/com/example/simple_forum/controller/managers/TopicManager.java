@@ -112,6 +112,7 @@ public class TopicManager implements BaseManager{
         if( !exists(t.getTitle()) ){
             // Add the topic object to the list
             topic_list.add(t);
+            itp.add_Topic(t);
         }
 
     }
