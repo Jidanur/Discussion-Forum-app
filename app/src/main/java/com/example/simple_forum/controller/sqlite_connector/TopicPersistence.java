@@ -18,7 +18,8 @@ public class TopicPersistence implements ITopicPersistence{
         db.initialize();
     }
 
-    public void add_topic(Topic t){
+    @Override
+    public void add_Topic(Topic t){
         Statement stmt;
 
         if(idbManager.connect()) {
@@ -42,7 +43,8 @@ public class TopicPersistence implements ITopicPersistence{
         }
     }
 
-    public ArrayList<Topic> get_Topic(String data){
+    @Override
+    public ArrayList<Topic> get_TopicList(String data){
 
         ArrayList<Topic> topicList = new ArrayList<>();
 
@@ -60,7 +62,10 @@ public class TopicPersistence implements ITopicPersistence{
                     Topic t = new Topic();
                     t.setTitle(rs.getString("title"));
                     t.setDate_created(rs.getDate("date_created"));
-                    
+
+                    //to-do
+                    // Implement a way to get the user into topic
+
                     topicList.add(t);
                 }
             }
