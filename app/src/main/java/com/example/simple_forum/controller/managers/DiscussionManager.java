@@ -13,6 +13,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.validator.Discussion_validate;
+import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
@@ -166,19 +168,20 @@ public class DiscussionManager implements BaseManager, FilterManager {
 
         // Make sure item does not exist yet
         if ( !exists(d.getTitle()) ) {
-
-            // TODO
-            // Validate
-
             // TODO
             // Serialize item and add to json file "discussions.json"
             // Write a method in the json parser to do this
 
             // TODO
             // add(t) should return true or false if it was added via api successfully
-            Log.d("DISC_MANGER", "discussion added: " + d.getTitle());
 
-            discussionList.add(d);
+            //validation
+            Validation discussion_val = new Discussion_validate(d);
+            if(discussion_val.validate()) {
+                Log.d("DISC_MANGER", "discussion added: " + d.getTitle());
+
+                discussionList.add(d);
+            }
         }
     }
 

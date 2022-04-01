@@ -1,61 +1,84 @@
 package com.example.simple_forum;
 
 import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
+import com.example.simple_forum.models.User;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DiscussionManagerTest {
 
+
+    String test_data =  "[ {\"title\": \"what is life? \",\"date_created\": \"2022-02-28T00:22:58.538787Z\",\n" +
+            " \"user\": \"kurt\" \" ,\"content\": \"life is full of shit, just chill and enjoy till u die\"}] ";
+
+
+    String title, content, date,topicTitle;
+    User tmpUser;
+    Topic tmpTopic;
+    DiscussionManager d_manager;
+    TopicManager t_manager;
+
+    @Before
+    public void init(){ // initial manager
+        d_manager = new DiscussionManager();
+        title = "Good Music";
+        content = "Eminem is the best rapper";
+        date = "2022-02-28T00:22:58.538787Z";    // some issues with date
+        tmpUser = new User();
+        topicTitle = "topic";
+        tmpTopic = new Topic(topicTitle,tmpUser,date);
+
+        // add some topics to add discussions
+        t_manager = new TopicManager();
+        t_manager.add(tmpTopic);
+    }
+
+    @After
+    public void afterTest(){
+        d_manager.clear();
+        t_manager.clear();
+    }
+
     @Test
     public void test_add_discussion(){
-        //initial list
-        DiscussionManager d_manager = new DiscussionManager();
 
-        //adding a test object
-        Discussion newDiscussion = new Discussion();
+        Discussion d = new Discussion(tmpTopic,title,content,tmpUser,date);
+        d_manager.add(d);
 
-        d_manager.add(newDiscussion);
-
-        // if added properly
         assertEquals(1,d_manager.size());
 
-        Discussion anotherDiscussion =  new Discussion();
+    }
 
-        d_manager.add(anotherDiscussion);
 
-        // Duplicate should not have been added
-        assertEquals(1,d_manager.size());
+    @Test
+    public void test_add_invalid_items(){
+
+        Discussion d1 = new Discussion();//discussion with nothing
+        Discussion d2 =  new Discussion(null,title,content,tmpUser,date); // discussion with no topic
+        Discussion d3 =  new Discussion(tmpTopic,title,content,null,date); // discussion with no user
+        Discussion d4 =  new Discussion(tmpTopic,null,content,tmpUser,date); // discussion with no title
+        Discussion d5 =  new Discussion(tmpTopic,title,null,tmpUser,date); // discussion with no content
+
+        // trying to add them
+        d_manager.add(d1);d_manager.add(d2);d_manager.add(d3);d_manager.add(d4);d_manager.add(d5);
+
+        //should not add and list should be 0
+        assertEquals(0,d_manager.size());
+
+
     }
 
 
     @Test
     public void test_json_str(){
 
-        String test_data =  "[ {\"title\": \"what is life? \",\"date_created\": \"2022-02-28T00:22:58.538787Z\",\n" +
-                " \"user\": \"kurt\" \" ,\"content\": \"life is full of shit, just chill and enjoy till u die\"}] ";
-
-
-        String test_data_2 = "[\n" +
-                "  {\n" +
-                "    \"title\": \"Good Music\",\n" +
-                "    \"content\": \"The chair sat in the corner where it had been for over 25 years. The only difference was there was someone actually sitting in it. How long had it been since someone had done that? Ten years or more he imagined. Yet there was no denying the presence in the chair now\",\n" +
-                "    \"date_created\": \"2022-02-28T00:52:48.769746Z\",\n" +
-                "    \"user\": \"kurt\",\n" +
-                "    \"topic\": \"Music\"\n" +
-                "  }]";
-
-        //initial list
-        DiscussionManager d_manager = new DiscussionManager();
-        d_manager.clear();
-
-        d_manager.add_json_str(test_data_2);
-
+        d_manager.add_json_str(test_data);
         assertEquals(1,d_manager.size());
-
-        Discussion d_test = (Discussion) d_manager.get(0);
-        assertEquals("Good Music",d_test.getTitle());
-
     }
 }
