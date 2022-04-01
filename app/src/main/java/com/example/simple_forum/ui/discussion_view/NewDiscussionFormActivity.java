@@ -12,12 +12,8 @@ import android.widget.TextView;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
-import com.example.simple_forum.models.User;
 
-public class NewDiscussionForm extends AppCompatActivity {
+public class NewDiscussionFormActivity extends AppCompatActivity {
 
     private String topic;
     private Intent intent;
@@ -47,7 +43,7 @@ public class NewDiscussionForm extends AppCompatActivity {
         d_manager.new_discussion(topic, disc_title, disc_content);
 
         // Navigate back to the discussion list of topic
-        Intent nav = new Intent(this, DiscussionList.class);
+        Intent nav = new Intent(this, DiscussionListActivity.class);
         nav.putExtra("TOPIC_TITLE", topic);
         startActivity(nav);
     }

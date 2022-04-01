@@ -1,6 +1,5 @@
-package com.example.simple_forum.controller.adapters;
+package com.example.simple_forum.ui.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
