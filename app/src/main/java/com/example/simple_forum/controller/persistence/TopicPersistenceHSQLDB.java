@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class TopicPersistenceHSQLDB {
+public class TopicPersistenceHSQLDB implements ITopicPersistence{
 
     private final String db_path;
 

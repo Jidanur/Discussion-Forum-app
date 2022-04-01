@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
@@ -25,8 +26,20 @@ public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
     private boolean use_persistence;
+    private static TopicPersistenceHSQLDB tp;
 
     public TopicManager() {
+
+        this.tp = null;
+    }
+
+    public TopicManager(boolean use_persistence){
+        this.use_persistence = use_persistence;
+
+        if(use_persistence){
+            this.tp = null;
+            topic_list = tp.get_all();
+        }
     }
 
 
@@ -107,7 +120,12 @@ public class TopicManager implements BaseManager {
         if (topic_val.validate() && !exists(t.getTitle())) {
 
             // Add the topic object to the list
-            topic_list.add(t);
+            if (use_persistence) {
+                tp.insert_topic(t);
+                topic_list = tp.get_all();
+            } else {
+                topic_list.add(t);
+            }
         }
     }
 
