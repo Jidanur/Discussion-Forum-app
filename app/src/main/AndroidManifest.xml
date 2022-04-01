@@ -11,6 +11,16 @@
         android:theme="@style/Theme.Simple_forum"
         android:windowSoftInputMode="adjustPan">
         <activity
+            android:name=".ui.Login_view.LoginActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.discussion_view.NewDiscussionFormActivity"
             android:exported="false" />
         <activity
@@ -18,16 +28,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.discussion_view.DiscussionListActivity"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".ui.topic_view.TopicListActivity"
             android:exported="true"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

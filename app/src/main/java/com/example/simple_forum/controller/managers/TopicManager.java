@@ -8,8 +8,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.controller.validator.Topic_validate;
-import com.example.simple_forum.controller.validator.Validation;
+import com.example.simple_forum.controller.sqlite_connector.ITopicPersistence;
+import com.example.simple_forum.controller.sqlite_connector.Services;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -24,8 +24,12 @@ import java.util.ArrayList;
 public class TopicManager implements BaseManager{
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
+    private static ITopicPersistence itp;
 
-    public TopicManager(){}
+    public TopicManager(){
+
+        this.itp = Services.getTopicPersistence();
+    }
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,6 +99,9 @@ public class TopicManager implements BaseManager{
         Topic t = (Topic) item;
 
         // TODO
+        // Validate
+
+        // TODO
         // Serialize item and add to json file "topics.json"
         // Write a method in the json parser to do this
 
@@ -103,12 +110,9 @@ public class TopicManager implements BaseManager{
 
         // Make sure title does not exist already
         if( !exists(t.getTitle()) ){
-            //validation
-            Validation topic_val = new Topic_validate(t);
-            if(topic_val.validate()) {
-                // Add the topic object to the list
-                topic_list.add(t);
-            }
+            // Add the topic object to the list
+            topic_list.add(t);
+            itp.add_Topic(t);
         }
 
     }

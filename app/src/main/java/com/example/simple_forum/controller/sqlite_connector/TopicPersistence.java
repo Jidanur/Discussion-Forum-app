@@ -18,6 +18,7 @@ public class TopicPersistence implements ITopicPersistence{
         db.initialize();
     }
 
+
     @Override
     public void add_Topic(Topic t){
         Statement stmt;
