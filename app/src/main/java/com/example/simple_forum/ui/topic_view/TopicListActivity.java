@@ -36,8 +36,8 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         // Populate topic list via json api call
 
         // Create Topic manager and parse json test file
-        t_manager = new TopicManager();
-        t_manager.add_json_file("topics.json", getApplicationContext());
+        t_manager = new TopicManager(true);
+        //t_manager.add_json_file("topics.json", getApplicationContext());
 
         // Set the recycler
         topic_recycler = findViewById(R.id.topic_list);

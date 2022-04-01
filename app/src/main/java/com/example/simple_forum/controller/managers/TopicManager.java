@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import com.example.simple_forum.controller.JSONParser;
 import com.example.simple_forum.controller.sqlite_connector.ITopicPersistence;
 import com.example.simple_forum.controller.sqlite_connector.Services;
+import com.example.simple_forum.controller.sqlite_connector.TopicPersistence;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
@@ -23,26 +24,28 @@ import java.util.ArrayList;
 
 // Topic manager class for CRUD operations
 // implements interface BaseManager
-public class TopicManager implements BaseManager{
+public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
     private boolean use_persistence;
     private static ITopicPersistence itp;
 
-    public TopicManager(){
+    public TopicManager() {
 
         this.itp = Services.getTopicPersistence();
     }
 
-    public TopicManager(boolean use_persistence){
-        if(use_persistence){
+    public TopicManager(boolean use_persistence) {
+        this.itp = new TopicPersistence(null);
+        if (use_persistence) {
             topic_list = itp.get_TopicList();
+            this.use_persistence = use_persistence;
         }
     }
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String filename, Context context){
+    public void add_json_file(String filename, Context context) {
 
         // Init JSON parser
         JSONArray topics = JSONParser.get_json(context, filename);
@@ -52,8 +55,8 @@ public class TopicManager implements BaseManager{
         t_manager.clear();
 
         // Iterate through serialized objects and create topic models
-        for(int i = 0; i < topics.length(); i++){
-            try{
+        for (int i = 0; i < topics.length(); i++) {
+            try {
 
                 // Get json object
                 JSONObject topic = topics.getJSONObject(i);
@@ -67,7 +70,7 @@ public class TopicManager implements BaseManager{
                 // Add to the list
                 add(t);
 
-            } catch (JSONException e){
+            } catch (JSONException e) {
                 Log.i("TOPIC_LIST", e.getMessage());
             }
         }
@@ -76,11 +79,11 @@ public class TopicManager implements BaseManager{
     // Add a collection of json entries from a string
     // Ignore for now until our API is available for use
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_str(String data){
+    public void add_json_str(String data) {
         JSONArray topics = JSONParser.get_json(data);
 
         // Iterate through serialized objects and create topic models
-        for(int i = 0; i < topics.length(); i++) {
+        for (int i = 0; i < topics.length(); i++) {
             try {
 
                 // Get json object
@@ -102,10 +105,11 @@ public class TopicManager implements BaseManager{
     }
 
     // Add a new topic to the list
-    public void add(Object item){
+    public void add(Object item) {
 
         // Cast item
         Topic t = (Topic) item;
+        System.out.println(t);
 
         // TODO
         // add(t) should return true or false if it was added via api successfully
@@ -113,26 +117,23 @@ public class TopicManager implements BaseManager{
         // Make sure title does not exist already
         Validation topic_val = new Topic_validate(t);
 
-        if(topic_val.validate()) {
-            if (!exists(t.getTitle())) {
+        if (topic_val.validate() && !exists(t.getTitle())) {
 
-                // Add the topic object to the list
-                if (use_persistence) {
-                    itp.add_Topic(t);
-                    topic_list = itp.get_TopicList();
-                } else {
-                    topic_list.add(t);
-                }
+            // Add the topic object to the list
+            if (use_persistence) {
+                itp.add_Topic(t);
+                topic_list = itp.get_TopicList();
+            } else {
+                topic_list.add(t);
             }
         }
-
     }
 
     // Get a topic by title
-    public Topic get(String title){
+    public Topic get(String title) {
 
-        for(Topic t : topic_list){
-            if(t.getTitle().equals(title)){
+        for (Topic t : topic_list) {
+            if (t.getTitle().equals(title)) {
                 return t;
             }
         }
@@ -141,37 +142,37 @@ public class TopicManager implements BaseManager{
     }
 
     // Get a topic by position
-    public Topic get(int pos){
+    public Topic get(int pos) {
         return topic_list.get(pos);
     }
 
     // Get by object
     @Override
     public Object get(Object item) {
-        int index  = topic_list.indexOf((Topic) item);
+        int index = topic_list.indexOf((Topic) item);
         Topic t = null;
 
-        if (index != -1){
+        if (index != -1) {
             t = topic_list.get(index);
         }
         return t;
     }
 
     // Get size
-    public int size(){
+    public int size() {
         return topic_list.size();
     }
 
     // Return the array list
-    public ArrayList get_list(){
+    public ArrayList get_list() {
         return topic_list;
     }
 
     @Override
     public Boolean exists(String text) {
         // Iterate through array list
-        for(int i = 0; i < topic_list.size(); i++){
-            if(topic_list.get(i).getTitle().equals(text)){
+        for (int i = 0; i < topic_list.size(); i++) {
+            if (topic_list.get(i).getTitle().equals(text)) {
                 return true;
             }
         }

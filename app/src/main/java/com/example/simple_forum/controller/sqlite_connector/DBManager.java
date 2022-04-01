@@ -24,11 +24,13 @@ public class DBManager implements IDBManager{
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(sql_url + filename);
+            if(connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(sql_url + filename);
+            }
             flag = true;
         }
         catch(SQLException | ClassNotFoundException e){
-
+            e.printStackTrace();
         }
         return flag;
     }
