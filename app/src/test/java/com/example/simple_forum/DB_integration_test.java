@@ -31,10 +31,9 @@ public class DB_integration_test {
     public void init(){
 
         User newUser = new User();
-        fileName = "testDB";
-        Main.setDBPathName(fileName);
-        db = Services.getTopicPersistence();
-        t = new Topic("test",newUser,"date");
+        fileName = "\\app\\src\\main\\assets\\db\\testDB";
+        db = new TopicPersistenceHSQLDB(fileName);
+        t = new Topic("test",newUser,"2022-04-01");
 
     }
 
@@ -48,11 +47,6 @@ public class DB_integration_test {
 
     }
 
-
-    @Test
-    public void test_connection(){
-
-    }
 
     @Test
     public void test_add(){
@@ -93,11 +87,5 @@ public class DB_integration_test {
         Topic get = db.get(t.getTitle());
 
         assertNotNull(get);
-
-
     }
-
-
-
-
 }

@@ -22,8 +22,10 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
     }
 
     private Connection connection() throws SQLException{
+        Connection conn = null;
         try {
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
+            conn = DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -33,7 +35,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
         }
 
 
-        return DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
+        return conn;
     }
 
     // Insert topic
