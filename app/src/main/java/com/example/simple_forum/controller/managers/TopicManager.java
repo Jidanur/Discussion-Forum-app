@@ -10,6 +10,8 @@ import androidx.annotation.RequiresApi;
 import com.example.simple_forum.controller.JSONParser;
 import com.example.simple_forum.controller.sqlite_connector.ITopicPersistence;
 import com.example.simple_forum.controller.sqlite_connector.Services;
+import com.example.simple_forum.controller.validator.Topic_validate;
+import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -116,14 +118,18 @@ public class TopicManager implements BaseManager{
         // add(t) should return true or false if it was added via api successfully
 
         // Make sure title does not exist already
-        if( !exists(t.getTitle()) ){
+        Validation topic_val = new Topic_validate(t);
 
-            // Add the topic object to the list
-            if(use_persistence){
-                itp.add_Topic(t);
-                topic_list = itp.get_TopicList();
-            } else {
-                topic_list.add(t);
+        if(topic_val.validate()) {
+            if (!exists(t.getTitle())) {
+
+                // Add the topic object to the list
+                if (use_persistence) {
+                    itp.add_Topic(t);
+                    topic_list = itp.get_TopicList();
+                } else {
+                    topic_list.add(t);
+                }
             }
         }
 
