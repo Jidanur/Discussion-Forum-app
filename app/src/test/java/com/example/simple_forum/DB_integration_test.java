@@ -25,12 +25,11 @@ public class DB_integration_test {
     @Before
     public void init(){
         try{
-            String fileName = "testDB";
-            String extension = ".db";
+            String fileName = "testDB.db";
 
-            File tempFile = File.createTempFile(fileName,extension);
+            //File tempFile = File.createTempFile(fileName,extension);
 
-            test_DB = new DBManager(fileName + extension);
+            test_DB = new DBManager(fileName );
 
         }
         catch (Exception e){
@@ -42,7 +41,7 @@ public class DB_integration_test {
     @After
     public void clear(){
         try{
-            tempFile.delete();
+            //tempFile.delete();
 
         }
         catch (Exception e){
@@ -63,6 +62,8 @@ public class DB_integration_test {
         topicP.add_Topic(t);
 
         ArrayList<Topic> list = topicP.get_TopicList();
+
+        assertEquals(1,list.size());
 
     }
 

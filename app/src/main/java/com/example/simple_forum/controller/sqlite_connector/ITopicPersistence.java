@@ -7,6 +7,6 @@ import java.util.ArrayList;
 public interface ITopicPersistence {
 
     void add_Topic(Topic t);
-    ArrayList<Topic> get_TopicList(String data);
+    ArrayList<Topic> get_TopicList();
 }
 
