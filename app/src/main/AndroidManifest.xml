@@ -11,6 +11,9 @@
         android:theme="@style/Theme.Simple_forum"
         android:windowSoftInputMode="adjustPan">
         <activity
+            android:name=".ui.Login_view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.discussion_view.NewDiscussionFormActivity"
             android:exported="false" />
         <activity
