@@ -42,8 +42,10 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
         String query = "INSERT INTO topic VALUES(?,?,?,?)";
         TopicManager tm = new TopicManager(true);
 
-        try(final Connection c = connection();
-            PreparedStatement statement = c.prepareStatement(query) ){
+        try{
+
+            final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query);
 
             statement.setInt(1, tm.size()+1);
             statement.setString(2, t.getTitle() );
