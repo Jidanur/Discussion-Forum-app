@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="back_to_disc_list"
     tools:context=".ui.discussion_view.DiscussionViewActivity">
 
     <LinearLayout
@@ -13,12 +14,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/back_to_discussions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="back_to_disc_list"
             android:text="BACK TO DISCUSSIONS" />
 
         <LinearLayout
@@ -27,7 +29,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/discussionView_title"
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
                 android:padding="10dp"
@@ -35,7 +37,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/discussionView_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -60,7 +62,7 @@
                 android:text="Created By:" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/discussionView_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -74,7 +76,7 @@
                 android:text="Date Created:" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/discussionView_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -13,9 +13,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
+
+import java.util.ArrayList;
 
 public class DiscussionListActivity extends AppCompatActivity {
 
@@ -24,6 +27,7 @@ public class DiscussionListActivity extends AppCompatActivity {
     private RecyclerView disc_recycler;
     private DiscussionRecyclerAdapter disc_adapter;
     private Intent intent;
+    private DiscussionRecyclerAdapter.OnDiscussionListener listener;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -56,9 +60,10 @@ public class DiscussionListActivity extends AppCompatActivity {
     }
 
     private void set_adapter() {
+        setOnClickListener();
 
         // Create recycler instance
-        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic);
+        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic, listener);
 
         // Create linear layout manger
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -69,6 +74,29 @@ public class DiscussionListActivity extends AppCompatActivity {
 
         // Set the topic recyclers adapter
         disc_recycler.setAdapter(disc_adapter);
+    }
+
+    private void setOnClickListener() {
+        listener = new DiscussionRecyclerAdapter.OnDiscussionListener() {
+            @Override
+            public void onDiscussionClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), DiscussionViewActivity.class);
+                ArrayList<Discussion> queryset = disc_manager.filter(topic);
+                Discussion disc_holder = queryset.get(position);
+
+                if (disc_holder != null){
+                    intent.putExtra("topic title", topic);
+                    intent.putExtra("discussion title", disc_holder.getTitle());
+                    intent.putExtra("discussion content", disc_holder.getContent());
+                    //TODO
+                    //currently the username and date are null or non existent.
+                    intent.putExtra("discussion username", disc_holder.getUser().getUsername());
+                    intent.putExtra("discussion date", disc_holder.getDate_created());
+                }
+
+                startActivity(intent);
+            }
+        };
     }
 
     // Clicked new discussion button
