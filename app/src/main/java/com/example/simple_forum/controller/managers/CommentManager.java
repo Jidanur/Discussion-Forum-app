@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.validator.Validation;
+import com.example.simple_forum.controller.validator.comment_validate;
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.User;
@@ -136,7 +138,13 @@ public class CommentManager implements BaseManager, FilterManager{
     }
     @Override
     public void add(Object item) {
-        commentList.add((Comment) item);
+
+        Comment c = (Comment) item;
+        // validation
+        Validation comment_val = new comment_validate(c);
+        if(comment_val.validate()) {
+            commentList.add(c);
+        }
     }
 
     @Override
