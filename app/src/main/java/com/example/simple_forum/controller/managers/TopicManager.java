@@ -39,7 +39,7 @@ public class TopicManager implements BaseManager {
         this.use_persistence = use_persistence;
 
         if(use_persistence){
-            this.tp = (TopicPersistenceHSQLDB) Services.getTopicPersistence();
+            tp = (TopicPersistenceHSQLDB) Services.getTopicPersistence();
             topic_list = tp.get_all();
         }
     }
@@ -174,7 +174,8 @@ public class TopicManager implements BaseManager {
     public Boolean exists(String text) {
         // Iterate through array list
         for (int i = 0; i < topic_list.size(); i++) {
-            if (topic_list.get(i).getTitle().equals(text)) {
+            Topic item = topic_list.get(i);
+            if (item != null && item.getTitle().equals(text)) {
                 return true;
             }
         }
