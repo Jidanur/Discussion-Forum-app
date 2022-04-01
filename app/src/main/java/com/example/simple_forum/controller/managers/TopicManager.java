@@ -8,6 +8,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.sqlite_connector.ITopicPersistence;
+import com.example.simple_forum.controller.sqlite_connector.Services;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -22,8 +24,12 @@ import java.util.ArrayList;
 public class TopicManager implements BaseManager{
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
+    private static ITopicPersistence itp;
 
-    public TopicManager(){}
+    public TopicManager(){
+
+        this.itp = Services.getTopicPersistence();
+    }
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
