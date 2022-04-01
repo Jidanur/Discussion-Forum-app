@@ -8,9 +8,6 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.controller.sqlite_connector.ITopicPersistence;
-import com.example.simple_forum.controller.sqlite_connector.Services;
-import com.example.simple_forum.controller.sqlite_connector.TopicPersistence;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
@@ -28,20 +25,10 @@ public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
     private boolean use_persistence;
-    private static ITopicPersistence itp;
 
     public TopicManager() {
-
-        this.itp = Services.getTopicPersistence();
     }
 
-    public TopicManager(boolean use_persistence) {
-        this.itp = new TopicPersistence(null);
-        if (use_persistence) {
-            topic_list = itp.get_TopicList();
-            this.use_persistence = use_persistence;
-        }
-    }
 
     // Add a collection of json entries from a file
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -120,12 +107,7 @@ public class TopicManager implements BaseManager {
         if (topic_val.validate() && !exists(t.getTitle())) {
 
             // Add the topic object to the list
-            if (use_persistence) {
-                itp.add_Topic(t);
-                topic_list = itp.get_TopicList();
-            } else {
-                topic_list.add(t);
-            }
+            topic_list.add(t);
         }
     }
 

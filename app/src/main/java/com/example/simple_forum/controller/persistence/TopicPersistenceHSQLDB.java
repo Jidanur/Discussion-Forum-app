@@ -22,6 +22,11 @@ public class TopicPersistenceHSQLDB {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
     }
 
+    // Insert topic
+    public void insert_topic(Topic t){
+        
+    }
+
     // Get all topics in the DB
     public ArrayList<Topic> get_topics(){
 
@@ -41,5 +46,7 @@ public class TopicPersistenceHSQLDB {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        return queryset;
     }
 }
