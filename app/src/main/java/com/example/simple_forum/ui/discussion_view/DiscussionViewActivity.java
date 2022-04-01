@@ -12,6 +12,8 @@ import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
+    private String topic_title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
+            topic_title = extras.getString("topic title");
             disc_title = extras.getString("discussion title");
             disc_content = extras.getString("discussion content");
             disc_username = extras.getString("discussion username");
@@ -46,6 +49,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
 
         // Start intent
         Intent disc_list = new Intent(this, DiscussionListActivity.class);
+        disc_list.putExtra("TOPIC_TITLE", topic_title);
         startActivity(disc_list);
     }
 }

@@ -85,6 +85,7 @@ public class DiscussionListActivity extends AppCompatActivity {
                 Discussion disc_holder = queryset.get(position);
 
                 if (disc_holder != null){
+                    intent.putExtra("topic title", topic);
                     intent.putExtra("discussion title", disc_holder.getTitle());
                     intent.putExtra("discussion content", disc_holder.getContent());
                     //TODO
