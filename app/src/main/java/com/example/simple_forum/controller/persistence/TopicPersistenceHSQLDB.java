@@ -22,7 +22,18 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
     }
 
     private Connection connection() throws SQLException{
-        return DriverManager.getConnection("jdbc:hsqldb:file:app\\src\\main\\assets\\" + db_path + ";shutdown=true", "SA", "");
+        try {
+            Class.forName("org.hsqldb.jdbcDriver").newInstance();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
     }
 
     // Insert topic
