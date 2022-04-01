@@ -1,12 +1,14 @@
 package com.example.simple_forum.controller.sqlite_connector;
 
+
 import com.example.simple_forum.models.Topic;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-public class TopicPersistence {
+public class TopicPersistence implements ITopicPersistence{
 
     private final IDBManager idbManager;
 
@@ -16,7 +18,8 @@ public class TopicPersistence {
         db.initialize();
     }
 
-    public void add_topic(Topic t){
+    @Override
+    public void add_Topic(Topic t){
         Statement stmt;
 
         if(idbManager.connect()) {
@@ -40,8 +43,37 @@ public class TopicPersistence {
         }
     }
 
-    public Topic get_Topic(String data){
+    @Override
+    public ArrayList<Topic> get_TopicList(String data){
 
-        return null;
+        ArrayList<Topic> topicList = new ArrayList<>();
+
+        String fields = "title, date_created, user" ;
+        Statement stmt;
+
+        if(idbManager.connect()) {
+            try {
+                stmt = idbManager.getConnection().createStatement();
+
+                String statement = "SELECT " + fields + " FROM topic";
+                ResultSet rs = idbManager.get_Data(statement);
+
+                while (rs.next()) {
+                    Topic t = new Topic();
+                    t.setTitle(rs.getString("title"));
+                    t.setDate_created(rs.getDate("date_created"));
+
+                    //to-do
+                    // Implement a way to get the user into topic
+
+                    topicList.add(t);
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return topicList;
     }
 }

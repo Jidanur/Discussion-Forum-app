@@ -5,7 +5,7 @@ public class Main {
 
         IDBManager dbManager = new DBManager("SIMPLE_FORUM_DB.db");
 
-        TopicPersistence tp = new TopicPersistence(dbManager);
+        ITopicPersistence tp = new TopicPersistence(dbManager);
 
     }
 }
