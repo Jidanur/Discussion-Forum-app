@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="back_to_disc_list"
     tools:context=".ui.discussion_view.DiscussionViewActivity">
 
     <LinearLayout
@@ -13,12 +14,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/back_to_discussions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="back_to_disc_list"
             android:text="BACK TO DISCUSSIONS" />
 
         <LinearLayout

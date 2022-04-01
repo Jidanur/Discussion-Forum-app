@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.ui.topic_view.TopicList;
+import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
@@ -39,5 +39,13 @@ public class DiscussionViewActivity extends AppCompatActivity {
         contentTxt.setText(disc_content);
         usernameTxt.setText(disc_username);
         dateTxt.setText(disc_date);
+    }
+
+    // Clicked back to discussion list
+    public void back_to_disc_list(View view){
+
+        // Start intent
+        Intent disc_list = new Intent(this, DiscussionListActivity.class);
+        startActivity(disc_list);
     }
 }
