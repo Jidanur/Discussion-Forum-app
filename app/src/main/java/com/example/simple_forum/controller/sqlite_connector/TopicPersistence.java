@@ -45,7 +45,7 @@ public class TopicPersistence implements ITopicPersistence{
     }
 
     @Override
-    public ArrayList<Topic> get_TopicList(String data){
+    public ArrayList<Topic> get_TopicList(){
 
         ArrayList<Topic> topicList = new ArrayList<>();
 

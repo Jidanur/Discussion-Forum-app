@@ -24,11 +24,18 @@ import java.util.ArrayList;
 public class TopicManager implements BaseManager{
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
+    private boolean use_persistence;
     private static ITopicPersistence itp;
 
     public TopicManager(){
 
         this.itp = Services.getTopicPersistence();
+    }
+
+    public TopicManager(boolean use_persistence){
+        if(use_persistence){
+            topic_list = itp.get_TopicList();
+        }
     }
 
     // Add a collection of json entries from a file
@@ -110,9 +117,14 @@ public class TopicManager implements BaseManager{
 
         // Make sure title does not exist already
         if( !exists(t.getTitle()) ){
+
             // Add the topic object to the list
-            topic_list.add(t);
-            itp.add_Topic(t);
+            if(use_persistence){
+                itp.add_Topic(t);
+                topic_list = itp.get_TopicList();
+            } else {
+                topic_list.add(t);
+            }
         }
 
     }
