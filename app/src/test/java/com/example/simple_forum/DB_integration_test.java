@@ -5,69 +5,87 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.example.simple_forum.controller.sqlite_connector.DBManager;
-import com.example.simple_forum.controller.sqlite_connector.IDBManager;
-import com.example.simple_forum.controller.sqlite_connector.TopicPersistence;
+import com.example.simple_forum.controller.application.Main;
+import com.example.simple_forum.controller.application.Services;
+import com.example.simple_forum.controller.persistence.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class DB_integration_test {
 
 
-    String fileName,extension;
-    File tempFile;
-    IDBManager test_DB;
+    String fileName;
+    Path tempFile;
+    ITopicPersistence db;
+    Topic t;
 
     @Before
     public void init(){
-        try{
-            String fileName = "testDB.db";
 
-            //File tempFile = File.createTempFile(fileName,extension);
-
-            test_DB = new DBManager(fileName );
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        User newUser = new User();
+        fileName = "\\app\\src\\main\\assets\\db\\testDB";
+        db = new TopicPersistenceHSQLDB(fileName);
+        t = new Topic("test",newUser,"2022-04-01");
 
     }
 
     @After
     public void clear(){
-        try{
-            //tempFile.delete();
 
+        Topic get = db.get(t.getTitle());
+        if(get != null){
+            db.delete_topic(t);
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
 
 
     @Test
     public void test_add(){
 
-        TopicPersistence topicP = new TopicPersistence(test_DB);
+        db.insert_topic(t);
 
-        User newUser = new User();
-
-        Topic t = new Topic("test",newUser,"date");
-
-        topicP.add_Topic(t);
-
-        ArrayList<Topic> list = topicP.get_TopicList();
+        ArrayList<Topic> list = db.get_all();
 
         assertEquals(1,list.size());
 
     }
 
+    @Test
+    public void test_delete(){
+
+        db.insert_topic(t);
+
+        ArrayList<Topic> list = db.get_all();
+
+        assertEquals(1,list.size());
+
+        db.delete_topic(t);
+
+        assertEquals(0,list.size());
+
+    }
+
+    @Test
+    public void test_get(){
+
+        db.insert_topic(t);
+
+        ArrayList<Topic> list = db.get_all();
+
+        assertEquals(1,list.size());
 
 
+        Topic get = db.get(t.getTitle());
 
+        assertNotNull(get);
+    }
 }

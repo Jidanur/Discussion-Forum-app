@@ -1,5 +1,6 @@
 package com.example.simple_forum.controller.persistence;
 
+import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -21,20 +22,37 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
     }
 
     private Connection connection() throws SQLException{
-        return DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
+        Connection conn = null;
+        try {
+            Class.forName("org.hsqldb.jdbcDriver").newInstance();
+            conn = DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return conn;
     }
 
     // Insert topic
     public void insert_topic(Topic t){
 
-        String query = "INSERT INTO topic VALUES(?,?,?)";
+        String query = "INSERT INTO topic VALUES(?,?,?,?)";
+        TopicManager tm = new TopicManager(true);
 
-        try(final Connection c = connection();
-            PreparedStatement statement = c.prepareStatement(query) ){
+        try{
 
-            statement.setString(1, t.getTitle() );
-            statement.setDate(2, Date.valueOf("2022-04-01"));
-            statement.setInt(2, 1);
+            final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query);
+
+            statement.setInt(1, tm.size()+1);
+            statement.setString(2, t.getTitle() );
+            statement.setDate(3, Date.valueOf("2022-04-01"));
+            statement.setInt(4, 1);
 
             statement.executeUpdate();
 

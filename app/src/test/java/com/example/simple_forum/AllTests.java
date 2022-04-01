@@ -7,15 +7,15 @@ import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
+        @Suite.SuiteClasses({
 
-        TopicManagerTest.class,
-        DiscussionManagerTest.class,
-        CommentManagerTest.class,
-        User_test.class,
-        Topic_test.class,
-        Discussion_test.class,
-        Comment_test.class,
+                TopicManagerTest.class,
+                DiscussionManagerTest.class,
+                CommentManagerTest.class,
+                User_test.class,
+                Topic_test.class,
+                Discussion_test.class,
+                Comment_test.class,
 })
 public class AllTests {
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.application.Services;
 import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
@@ -31,13 +32,14 @@ public class TopicManager implements BaseManager {
     public TopicManager() {
 
         this.tp = null;
+        use_persistence = false;
     }
 
     public TopicManager(boolean use_persistence){
         this.use_persistence = use_persistence;
 
         if(use_persistence){
-            this.tp = null;
+            tp = (TopicPersistenceHSQLDB) Services.getTopicPersistence();
             topic_list = tp.get_all();
         }
     }
@@ -172,7 +174,8 @@ public class TopicManager implements BaseManager {
     public Boolean exists(String text) {
         // Iterate through array list
         for (int i = 0; i < topic_list.size(); i++) {
-            if (topic_list.get(i).getTitle().equals(text)) {
+            Topic item = topic_list.get(i);
+            if (item != null && item.getTitle().equals(text)) {
                 return true;
             }
         }
