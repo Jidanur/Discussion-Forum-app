@@ -66,4 +66,5 @@ dependencies {
     implementation 'com.oracle.database.jdbc:ojdbc8:19.6.0.0'
     implementation 'com.oracle.database.jdbc:ucp:19.6.0.0'
     implementation 'org.xerial:sqlite-jdbc:3.32.3.2'
+    implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
 }
