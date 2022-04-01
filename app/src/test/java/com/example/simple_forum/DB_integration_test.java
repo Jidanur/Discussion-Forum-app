@@ -5,9 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.example.simple_forum.controller.sqlite_connector.DBManager;
-import com.example.simple_forum.controller.sqlite_connector.IDBManager;
-import com.example.simple_forum.controller.sqlite_connector.TopicPersistence;
+import com.example.simple_forum.controller.persistence.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -20,20 +19,24 @@ public class DB_integration_test {
 
     String fileName,extension;
     File tempFile;
-    IDBManager test_DB;
+    ITopicPersistence db;
 
     @Before
     public void init(){
         try{
-            String fileName = "testDB.db";
+            fileName = "testDB";
+            extension = ".script";
 
-            //File tempFile = File.createTempFile(fileName,extension);
+           tempFile = File.createTempFile(fileName,extension);
 
-            test_DB = new DBManager(fileName );
+            db = new TopicPersistenceHSQLDB(tempFile.getPath());
 
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+        finally {
+            System.out.println("worked");
         }
 
     }
@@ -41,7 +44,7 @@ public class DB_integration_test {
     @After
     public void clear(){
         try{
-            //tempFile.delete();
+            tempFile.delete();
 
         }
         catch (Exception e){
@@ -53,15 +56,13 @@ public class DB_integration_test {
     @Test
     public void test_add(){
 
-        TopicPersistence topicP = new TopicPersistence(test_DB);
-
         User newUser = new User();
 
         Topic t = new Topic("test",newUser,"date");
 
-        topicP.add_Topic(t);
+        db.insert_topic(t);
 
-        ArrayList<Topic> list = topicP.get_TopicList();
+        ArrayList<Topic> list = db.get_all();
 
         assertEquals(1,list.size());
 
