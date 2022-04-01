@@ -108,13 +108,6 @@ public class TopicManager implements BaseManager{
         Topic t = (Topic) item;
 
         // TODO
-        // Validate
-
-        // TODO
-        // Serialize item and add to json file "topics.json"
-        // Write a method in the json parser to do this
-
-        // TODO
         // add(t) should return true or false if it was added via api successfully
 
         // Make sure title does not exist already
