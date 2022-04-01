@@ -29,7 +29,7 @@ public class UserManagerTest {
         UserManager t_manager = new UserManager();
 
         // Create new user with data
-        User t_user = new User("haha", "abc123","haha@hotmail.com","" ,"2022-02-28T00:22:58.538787Z");
+        User t_user = new User("haha", "abc123","haha@hotmail.com","");
         t_manager.add(t_user);
 
         // Check to see if it has been added.
@@ -64,8 +64,8 @@ public class UserManagerTest {
         // Clear UserManager first
         test.clear();
 
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
         test.add(testUser1);
         test.add(testUser2);
 
@@ -81,8 +81,8 @@ public class UserManagerTest {
         // Clear UserManager first
         test.clear();
 
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
         test.add(testUser1);
         test.add(testUser2);
 
@@ -96,8 +96,8 @@ public class UserManagerTest {
         UserManager test = new UserManager();
 
         test.clear();
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
 
         test.add(testUser1);
         test.add(testUser2);
@@ -112,8 +112,8 @@ public class UserManagerTest {
         ArrayList<User> test2 = new ArrayList<User>();
 
         test1.clear();
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
 
         test1.add(testUser1);
         test1.add(testUser2);
@@ -132,8 +132,8 @@ public class UserManagerTest {
         UserManager test = new UserManager();
 
         test.clear();
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
 
         test.add(testUser1);
         test.add(testUser2);
@@ -148,8 +148,8 @@ public class UserManagerTest {
     public void clearTest(){
         UserManager test = new UserManager();
 
-        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","","2022-02-28T00:22:58.538787Z");
-        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","","2022-02-28T00:12:58.538787Z");
+        User testUser1 = new User("kurt","abcd123","kurt@uofm.ca","");
+        User testUser2 = new User("Jiale","abcd456","Jiale@uofm.ca","");
 
         test.add(testUser1);
         test.add(testUser2);

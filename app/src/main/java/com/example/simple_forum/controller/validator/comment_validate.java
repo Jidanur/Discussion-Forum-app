@@ -13,7 +13,7 @@ public class comment_validate implements Validation{
     }
 
     public boolean validate(){
-        boolean valid =  checkContent() && checkDate() && checkUser() && checkDiscussion();
+        boolean valid =  checkContent()  && checkUser() && checkDiscussion();
 
         return valid;
     }
@@ -46,12 +46,7 @@ public class comment_validate implements Validation{
         return valid;
     }
 
-    @Override
-    public boolean checkDate() {
-        boolean valid = comment_obj.getDate() != null;
 
-        return valid;
-    }
 
 
     @Override

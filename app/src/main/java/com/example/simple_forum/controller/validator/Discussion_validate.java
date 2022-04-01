@@ -14,7 +14,7 @@ public class Discussion_validate implements Validation{
 
     @Override
     public boolean validate() {
-        boolean valid = checkTitle() && checkContent() && checkDate() && checkUser() && checkTopic();
+        boolean valid = checkTitle() && checkContent() && checkUser() && checkTopic();
 
         return valid;
     }
@@ -48,12 +48,7 @@ public class Discussion_validate implements Validation{
         return valid;
     }
 
-    @Override
-    public boolean checkDate() {
-        boolean valid = discussion_obj.getDate_created() != null;
 
-        return valid;
-    }
 
 
     public boolean checkTitle() {

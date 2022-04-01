@@ -12,17 +12,12 @@ public class Topic_validate implements Validation{
 
     @Override
     public boolean validate() {
-        boolean valid = checkTitle() && checkDate() && checkUser();
+        boolean valid = checkTitle() && checkUser();
 
         return valid;
     }
 
-    @Override
-    public boolean checkDate() {
-        boolean valid = topic_obj.getDate_created() != null;
 
-        return valid;
-    }
 
     public boolean checkTitle() {
         boolean valid = false;

@@ -8,8 +8,5 @@ public interface Validation {
     //validates user info
     public boolean checkUser();
 
-    // validate the date
-    public boolean checkDate();
-
 
 }
