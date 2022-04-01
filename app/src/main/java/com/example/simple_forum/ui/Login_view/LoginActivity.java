@@ -58,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Login user if username and password are not empty
                 if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                    Intent login = new Intent(LoginActivity.this, TopicListActivity.class);
-                    login.putExtra("username",name);
-                    startActivity(login);
+                    Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
+                    topic_list.putExtra("username",name);
+                    startActivity(topic_list);
                     Toast.makeText(getApplicationContext(),"Welcome, "+name,Toast.LENGTH_SHORT).show();
                 }
             }

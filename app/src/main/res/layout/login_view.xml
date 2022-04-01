@@ -55,4 +55,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="566dp"
+        android:layout_height="20dp"
+        android:text="YOU CAN LOG IN WITH ANY USERNAME/PASSWORD COMBO"
+        android:textColor="#F10F0F"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
