@@ -6,10 +6,14 @@ public class PersistenceManager {
 
     private static String db_name = Main.getDBPathName();
 
+    // Persistence
+    private static ITopicPersistence tp, dp, cp, up = null;
+
     // Get TopicPersistence type
     public static synchronized ITopicPersistence get_topic_persistence(boolean use_local){
 
-        ITopicPersistence tp = null;
+        if(tp != null){ return tp; }
+
         if(use_local){
 
             // Make sure this works outside of the emulator
