@@ -10,14 +10,15 @@ public class Main {
 
     public static void main(String[] args){
 
+        // Access DB locally not within the emulator
+        // Make sure to set db path name to its relative path before accessing
+        setDBPathName("app/src/main/assets/db/SF");
+        TopicManager tm = new TopicManager(true);
+        System.out.println(tm.get_list());
+
     }
 
     public static void setDBPathName(final String name) {
-        try {
-            Class.forName("org.hsqldb.jdbcDriver").newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         dbName = name;
     }
 

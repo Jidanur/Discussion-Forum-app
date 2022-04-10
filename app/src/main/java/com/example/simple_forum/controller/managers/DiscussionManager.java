@@ -43,7 +43,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 JSONObject curr_discussion = discussions.getJSONObject(i);
 
                 // Get the topic object
-                TopicManager t_manager = new TopicManager();
+                TopicManager t_manager = new TopicManager(true);
                 Topic t = t_manager.get(curr_discussion.get("topic").toString());
 
                 // TODO
@@ -141,7 +141,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
         User user = new User();
 
         // Get topic via topic manager
-        TopicManager t_manager = new TopicManager();
+        TopicManager t_manager = new TopicManager(true);
         Topic t = t_manager.get(topic);
 
         // Set the time created
@@ -188,6 +188,19 @@ public class DiscussionManager implements BaseManager, FilterManager {
     @Override
     public Object get(int pos) {
         return discussionList.get(pos);
+    }
+
+    // Get by title
+    public Object get(String title){
+
+        for(int i = 0; i < discussionList.size(); i++){
+
+            Discussion d = discussionList.get(i);
+            if(d.getTitle().equals(title)){
+                return d;
+            }
+        }
+        return null;
     }
 
     @Override

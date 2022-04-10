@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/discussionView_title"
                 android:layout_width="match_parent"
-                android:layout_height="57dp"
+                android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="DISCUSSION TITLE"
                 android:textSize="24sp" />
@@ -85,13 +85,36 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="10dp" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Comment" />
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/comment_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Say something about this post..."
+                android:inputType="textMultiLine"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/post_comment_btn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Post Comment" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comments"
+            android:textSize="24dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comments_list"

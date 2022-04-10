@@ -7,9 +7,6 @@ import java.util.ArrayList;
 // Base manager interface
 public interface BaseManager {
 
-    // Add items via json file
-    public void add_json_file(String filename, Context context);
-
     // Add items via json string
     public void add_json_str(String data);
 
