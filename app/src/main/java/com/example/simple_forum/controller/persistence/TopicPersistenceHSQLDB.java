@@ -87,7 +87,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
 
             if(rs.next()){
                 //TODO
-                // Query for user
+                //Query for user
                 t = new Topic(rs.getString("title"), new User(), "2022-04-01");
             }
 

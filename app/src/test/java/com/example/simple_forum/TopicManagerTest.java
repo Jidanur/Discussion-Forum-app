@@ -17,7 +17,7 @@ public class TopicManagerTest {
 
     @Test
     public void getList_Test(){
-        TopicManager test = new TopicManager();
+        TopicManager test = new TopicManager(true);
 
         //Test if the method return a list.
         assertNotNull(test.get_list());
@@ -29,7 +29,7 @@ public class TopicManagerTest {
     public void test_add_topic(){
 
         // Instantiate a topic manager.
-        TopicManager t_manager = new TopicManager();
+        TopicManager t_manager = new TopicManager(true);
 
         // Create new topic with data
         Topic t_comp = new Topic("Movies", new User(), "2022-02-28T00:22:58.538787Z");
@@ -47,7 +47,7 @@ public class TopicManagerTest {
                 "    \"user\": \"kurt\"}]";
 
         // Instantiate a topic manager
-        TopicManager t_manager = new TopicManager();
+        TopicManager t_manager = new TopicManager(true);
         t_manager.add_json_str(test_data);
 
         // System.out.println(test_data);
@@ -59,7 +59,7 @@ public class TopicManagerTest {
 
     @Test
     public void getTopicByTitle_Test(){
-        TopicManager test = new TopicManager();
+        TopicManager test = new TopicManager(true);
 
         // Clear topic manager first
         test.clear();
@@ -80,7 +80,7 @@ public class TopicManagerTest {
 
     @Test
     public void getTopicByPosition_Test(){
-        TopicManager test = new TopicManager();
+        TopicManager test = new TopicManager(true);
 
         // Clear topic manager first
         test.clear();
@@ -97,7 +97,7 @@ public class TopicManagerTest {
 
     @Test
     public void getSize_Test(){
-        TopicManager test = new TopicManager();
+        TopicManager test = new TopicManager(true);
         Topic testTopic1 = new Topic("Movies",new User(),"2022-02-28T00:22:58.538787Z");
         Topic testTopic2 = new Topic("Car",new User(),"2077-02-27T00:22:58.538787Z");
 

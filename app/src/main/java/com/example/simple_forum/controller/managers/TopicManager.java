@@ -1,15 +1,14 @@
 package com.example.simple_forum.controller.managers;
 
-
-import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.controller.application.Services;
-import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
+import com.example.simple_forum.controller.persistence.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
+import com.example.simple_forum.controller.persistence.TopicPersistenceHTTP;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
@@ -26,55 +25,47 @@ import java.util.ArrayList;
 public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
-    private boolean use_persistence;
-    private static TopicPersistenceHSQLDB tp;
+    private static ITopicPersistence tp;
 
-    public TopicManager() {
+    // Always use local HSQLDB unless specified
+    private boolean use_local = true;
 
-        this.tp = null;
-        use_persistence = false;
-    }
+    // Use local HSQLDB instance for persistence
+//    public TopicManager(boolean use_local) {
+//
+//        // Get local persistence instance
+//        this.tp = PersistenceManager.get_topic_persistence(this.use_local);
+//
+//        // Populate topic list
+//        topic_list = tp.get_all();
+//    }
 
-    public TopicManager(boolean use_persistence){
-        this.use_persistence = use_persistence;
+    // Use HTTP/API for persistence
+    public TopicManager(boolean use_local) {
 
-        if(use_persistence){
-            tp = (TopicPersistenceHSQLDB) Services.getTopicPersistence();
-            topic_list = tp.get_all();
-        }
-    }
+        // Use HTTP/API based persistence
+        this.use_local = use_local;
+        if (!use_local) {
+            tp = (TopicPersistenceHTTP) PersistenceManager.get_topic_persistence(false);
 
+            // If server unavailable
+            if (tp == null) {
 
-    // Add a collection of json entries from a file
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String filename, Context context) {
-
-        // Init JSON parser
-        JSONArray topics = JSONParser.get_json(context, filename);
-
-        // Clear manager first
-        TopicManager t_manager = new TopicManager();
-        t_manager.clear();
-
-        // Iterate through serialized objects and create topic models
-        for (int i = 0; i < topics.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject topic = topics.getJSONObject(i);
-
-                // TODO
-                // Query for user model to create a new entry
-
-                // Create topic model
-                Topic t = new Topic(topic.get("title").toString(), new User(), topic.get("date_created").toString());
-
-                // Add to the list
-                add(t);
-
-            } catch (JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
+                // Switch to local HSQLDB
+                tp = PersistenceManager.get_topic_persistence(true);
+                this.use_local = true;
             }
+
+            // Populate topic list
+            topic_list = tp.get_all();
+        } else {
+
+            // Get local persistence instance
+            this.tp = PersistenceManager.get_topic_persistence(use_local);
+
+            // Populate topic list
+            topic_list = tp.get_all();
+            this.use_local = use_local;
         }
     }
 
@@ -122,12 +113,10 @@ public class TopicManager implements BaseManager {
         if (topic_val.validate() && !exists(t.getTitle())) {
 
             // Add the topic object to the list
-            if (use_persistence) {
-                tp.insert_topic(t);
-                topic_list = tp.get_all();
-            } else {
-                topic_list.add(t);
-            }
+            tp.insert_topic(t);
+
+            // Update topic list
+            topic_list = tp.get_all();
         }
     }
 
@@ -186,8 +175,5 @@ public class TopicManager implements BaseManager {
     @Override
     public void clear() {
         topic_list.clear();
-    }
-
-    public void add_json_file(String filepath) {
     }
 }

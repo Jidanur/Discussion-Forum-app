@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
@@ -29,19 +31,22 @@ public class DiscussionViewActivity extends AppCompatActivity {
         String disc_username = "Username not set";
         String disc_date = "Date not set";
 
+        Discussion disc = null;
+        DiscussionManager disc_manager = new DiscussionManager();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             topic_title = extras.getString("topic title");
             disc_title = extras.getString("discussion title");
-            disc_content = extras.getString("discussion content");
-            disc_username = extras.getString("discussion username");
-            disc_date = extras.getString("discussion date");
+
+            disc = (Discussion) disc_manager.get(disc_title);
         }
 
-        titleTxt.setText(disc_title);
-        contentTxt.setText(disc_content);
-        usernameTxt.setText(disc_username);
-        dateTxt.setText(disc_date);
+        if(disc != null) {
+            titleTxt.setText(disc.getTitle());
+            contentTxt.setText(disc.getContent());
+            usernameTxt.setText(disc.getContent());
+            dateTxt.setText(disc.getDate_created().toString());
+        }
     }
 
     // Clicked back to discussion list
