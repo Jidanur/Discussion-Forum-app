@@ -4,8 +4,6 @@ import com.example.simple_forum.controller.application.Main;
 
 public class PersistenceManager {
 
-    private static String db_name = Main.getDBPathName();
-
     // Persistence
     private static ITopicPersistence tp, dp, cp, up = null;
 
@@ -27,7 +25,7 @@ public class PersistenceManager {
                 db_copied = true;
             }
 
-            tp = new TopicPersistenceHSQLDB(db_name);
+            tp = new TopicPersistenceHSQLDB(Main.getDBPathName());
         } else {
 
             // Use HTTP

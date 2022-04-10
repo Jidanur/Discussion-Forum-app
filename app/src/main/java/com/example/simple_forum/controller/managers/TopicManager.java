@@ -30,15 +30,15 @@ public class TopicManager implements BaseManager {
     // Always use local HSQLDB unless specified
     private boolean use_local = true;
 
-    // Use local HSQLDB instance for persistence
-//    public TopicManager(boolean use_local) {
-//
-//        // Get local persistence instance
-//        this.tp = PersistenceManager.get_topic_persistence(this.use_local);
-//
-//        // Populate topic list
-//        topic_list = tp.get_all();
-//    }
+    // If stub
+    private boolean use_stub = false;
+
+    // Use stub DB
+    public TopicManager() {
+
+        // Use stub
+        use_stub = true;
+    }
 
     // Use HTTP/API for persistence
     public TopicManager(boolean use_local) {
@@ -112,11 +112,15 @@ public class TopicManager implements BaseManager {
 
         if (topic_val.validate() && !exists(t.getTitle())) {
 
-            // Add the topic object to the list
-            tp.insert_topic(t);
+            if(use_stub){
+                topic_list.add(t);
+            } else {
+                // Add the topic object to the list
+                tp.insert_topic(t);
 
-            // Update topic list
-            topic_list = tp.get_all();
+                // Update topic list
+                topic_list = tp.get_all();
+            }
         }
     }
 

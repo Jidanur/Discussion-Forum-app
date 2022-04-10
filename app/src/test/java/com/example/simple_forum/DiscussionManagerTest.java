@@ -35,7 +35,7 @@ public class DiscussionManagerTest {
         tmpTopic = new Topic(topicTitle,tmpUser,date);
 
         // add some topics to add discussions
-        t_manager = new TopicManager(true);
+        t_manager = new TopicManager();
         t_manager.add(tmpTopic);
     }
 
@@ -73,12 +73,5 @@ public class DiscussionManagerTest {
 
 
     }
-
-
-    @Test
-    public void test_json_str(){
-
-        d_manager.add_json_str(test_data);
-        assertEquals(1,d_manager.size());
-    }
+    
 }

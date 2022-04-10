@@ -44,8 +44,8 @@ public class DiscussionViewActivity extends AppCompatActivity {
         if(disc != null) {
             titleTxt.setText(disc.getTitle());
             contentTxt.setText(disc.getContent());
-            usernameTxt.setText(disc.getContent());
-            dateTxt.setText(disc.getDate_created().toString());
+            usernameTxt.setText("PLACEHOLDER USERNAME");
+            dateTxt.setText("PLACEHOLDER UNTIL FIX");
         }
     }
 

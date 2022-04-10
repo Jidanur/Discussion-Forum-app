@@ -5,18 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.example.simple_forum.controller.application.Main;
-import com.example.simple_forum.controller.application.Services;
+
 import com.example.simple_forum.controller.persistence.ITopicPersistence;
 import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class DB_integration_test {
