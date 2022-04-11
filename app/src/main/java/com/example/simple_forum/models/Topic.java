@@ -90,5 +90,7 @@ public class Topic {
     public ArrayList<Discussion> getDiscussions() {
         return discussions;
     }
+
+    // trying something
 }
 
