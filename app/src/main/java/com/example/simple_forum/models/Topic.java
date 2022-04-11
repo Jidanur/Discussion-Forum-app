@@ -54,7 +54,7 @@ public class Topic {
         int i = 0;
         while (i < date.length()) {
 
-            if (i == 10) {
+            if (date.charAt(i) == 'T') {
                 time += " ";
             }
             else {
