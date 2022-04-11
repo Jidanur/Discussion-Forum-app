@@ -25,13 +25,7 @@ public class Comment {
         this.content = content;
         this.user = user;
 
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
-
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            System.out.println("date error");
-        }
+       this.set_date(date);
     }
 
     /*---SETTERS---*/
@@ -47,8 +41,33 @@ public class Comment {
         this.user = user;
     }
 
-    public void set_date(Date date){
-        this.date_created = date;
+    public void setDate_created(Date date_created) {
+        this.date_created = date_created;
+    }
+
+    // takes a string and converts it to SimpleDateFormat
+    public void set_date(String date){
+        //"2022-02-28T00:52:48.769746Z"
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String time = "";
+        int i = 0;
+        while (i < date.length()) {
+
+            if (i == 10) {
+                time += " ";
+            }
+            else {
+                time += date.charAt(i);
+            }
+
+            i++;
+        }
+        try {
+            this.date_created = dtf.parse(time);
+        } catch (ParseException e){
+            System.out.println("date error");
+        }
     }
 
     /*---GETTERS---*/
