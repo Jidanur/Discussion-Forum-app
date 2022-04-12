@@ -45,8 +45,7 @@ public class DiscussionListActivity extends AppCompatActivity {
         topic = intent.getStringExtra("TOPIC_TITLE");
 
         // Create a discussion manager and parse json file for now
-        disc_manager = new DiscussionManager();
-        disc_manager.add_json_file("discussions.json", getApplicationContext());
+        disc_manager = new DiscussionManager(true);
 
         // Set the recycler view
         disc_recycler = findViewById(R.id.discussion_list);

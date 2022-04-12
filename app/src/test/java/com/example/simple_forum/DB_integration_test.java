@@ -6,8 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-import com.example.simple_forum.controller.persistence.ITopicPersistence;
-import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
+import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.HSQLDB.TopicPersistenceHSQLDB;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 

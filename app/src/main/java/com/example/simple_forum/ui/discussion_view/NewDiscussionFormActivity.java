@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.controller.managers.TopicManager;
+import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.User;
 
 public class NewDiscussionFormActivity extends AppCompatActivity {
 
@@ -39,8 +42,9 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
         // Create new discussion
-        DiscussionManager d_manager = new DiscussionManager();
-        d_manager.new_discussion(topic, disc_title, disc_content);
+        DiscussionManager d_manager = new DiscussionManager(true);
+        TopicManager tm = new TopicManager(true);
+        d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
 
         // Navigate back to the discussion list of topic
         Intent nav = new Intent(this, DiscussionListActivity.class);

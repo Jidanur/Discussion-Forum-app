@@ -1,6 +1,7 @@
-package com.example.simple_forum.controller.persistence;
+package com.example.simple_forum.controller.persistence.HSQLDB;
 
 import com.example.simple_forum.controller.managers.TopicManager;
+import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class TopicPersistenceHSQLDB implements ITopicPersistence{
+public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
     private final String db_path;
 
@@ -33,7 +34,6 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
 
         return conn;
     }

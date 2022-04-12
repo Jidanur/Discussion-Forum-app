@@ -1,4 +1,4 @@
-package com.example.simple_forum.controller.persistence;
+package com.example.simple_forum.controller.persistence.interfaces;
 
 import com.example.simple_forum.models.Topic;
 import java.util.ArrayList;
