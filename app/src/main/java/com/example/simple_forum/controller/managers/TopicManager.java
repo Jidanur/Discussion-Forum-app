@@ -1,23 +1,10 @@
 package com.example.simple_forum.controller.managers;
 
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.controller.persistence.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.controller.persistence.PersistenceManager;
-import com.example.simple_forum.controller.persistence.TopicPersistenceHTTP;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
-import com.example.simple_forum.models.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 // Topic manager class for CRUD operations
@@ -26,9 +13,6 @@ public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
     private static ITopicPersistence tp;
-
-    // Always use local HSQLDB unless specified
-    private boolean use_local = true;
 
     // If stub
     private boolean use_stub = false;
@@ -44,57 +28,10 @@ public class TopicManager implements BaseManager {
     public TopicManager(boolean use_local) {
 
         // Use HTTP/API based persistence
-        this.use_local = use_local;
-        if (!use_local) {
-            tp = (TopicPersistenceHTTP) PersistenceManager.get_topic_persistence(false);
+        tp = PersistenceManager.get_topic_persistence(use_local);
 
-            // If server unavailable
-            if (tp == null) {
-
-                // Switch to local HSQLDB
-                tp = PersistenceManager.get_topic_persistence(true);
-                this.use_local = true;
-            }
-
-            // Populate topic list
-            topic_list = tp.get_all();
-        } else {
-
-            // Get local persistence instance
-            this.tp = PersistenceManager.get_topic_persistence(use_local);
-
-            // Populate topic list
-            topic_list = tp.get_all();
-            this.use_local = use_local;
-        }
-    }
-
-    // Add a collection of json entries from a string
-    // Ignore for now until our API is available for use
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_str(String data) {
-        JSONArray topics = JSONParser.get_json(data);
-
-        // Iterate through serialized objects and create topic models
-        for (int i = 0; i < topics.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject topic = topics.getJSONObject(i);
-
-                // TODO
-                // Query for user model to create a new entry
-
-                // Create topic model
-                Topic t = new Topic(topic.get("title").toString(), new User(), topic.get("date_created").toString());
-
-                // Add to the list
-                add(t);
-
-            } catch (JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
-            }
-        }
+        // Update list
+        topic_list = tp.get_all();
     }
 
     // Add a new topic to the list
@@ -115,6 +52,7 @@ public class TopicManager implements BaseManager {
             if(use_stub){
                 topic_list.add(t);
             } else {
+
                 // Add the topic object to the list
                 tp.insert_topic(t);
 
