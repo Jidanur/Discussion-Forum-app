@@ -1,16 +1,14 @@
 package com.example.simple_forum.controller.persistence.HTTP;
 
+import com.example.simple_forum.controller.persistence.interfaces.BaseHTTPInterface;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 
 import java.util.ArrayList;
 
-public class TopicPersistenceHTTP implements ITopicPersistence {
+public class TopicPersistenceHTTP implements ITopicPersistence, BaseHTTPInterface {
 
-    public TopicPersistenceHTTP(){
-
-    }
-
+    @Override
     public boolean check_server_status(){
         // TODO
         // Ping server
@@ -20,12 +18,10 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     // Insert topic via API to server
     @Override
     public void insert_topic(Topic t) {
-
     }
 
     @Override
     public void delete_topic(Topic t) {
-
     }
 
     @Override

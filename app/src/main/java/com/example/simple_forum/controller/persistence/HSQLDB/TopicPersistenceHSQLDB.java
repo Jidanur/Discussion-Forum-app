@@ -51,8 +51,10 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
             statement.setInt(1, tm.size()+1);
             statement.setString(2, t.getTitle() );
+            // TODO
+            // replace placeholder date
             statement.setDate(3, Date.valueOf("2022-04-01"));
-            statement.setInt(4, 1);
+            statement.setInt(4, t.getUser().getId());
 
             statement.executeUpdate();
 

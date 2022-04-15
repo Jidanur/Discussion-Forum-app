@@ -1,6 +1,9 @@
 package com.example.simple_forum.controller.managers;
 
 import java.util.ArrayList;
+
+import com.example.simple_forum.controller.persistence.PersistenceManager;
+import com.example.simple_forum.controller.persistence.interfaces.ICommentPersistence;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.controller.validator.comment_validate;
 import com.example.simple_forum.models.Comment;
@@ -10,24 +13,20 @@ import com.example.simple_forum.models.User;
 public class CommentManager implements BaseManager, FilterManager{
 
     private static ArrayList<Comment> commentList = new ArrayList<>();
+    private static ICommentPersistence cp;
 
-    public CommentManager(){
-    }
+    // If stub
+    private boolean use_stub = false;
 
-    // get commentList of a specific user
-    public ArrayList<Comment> get(User user){
+    public CommentManager(){ use_stub = true; }
 
-        ArrayList<Comment> userCommentList = new ArrayList<>();
+    public CommentManager(boolean use_local){
 
-        for(int i = 0; i < commentList.size(); i++){
+        // Use HTTP/API based persistence
+        cp = PersistenceManager.get_comment_persistence(use_local);
 
-            Comment curr = commentList.get(i);
-            if(curr.getUser() == user){
-                userCommentList.add(curr);
-            }
-        }
-
-        return userCommentList;
+        // Update list
+        commentList = cp.get_all();
     }
 
     // Filter comment query set by discussion title
@@ -60,10 +59,18 @@ public class CommentManager implements BaseManager, FilterManager{
     public void add(Object item) {
 
         Comment c = (Comment) item;
+
         // validation
         Validation comment_val = new comment_validate(c);
         if(comment_val.validate()) {
-            commentList.add(c);
+
+            if(use_stub) {
+                commentList.add(c);
+                c.setId(commentList.size());
+            } else {
+                cp.insert_comment(c);
+                commentList = cp.get_all();
+            }
         }
     }
 
@@ -83,6 +90,18 @@ public class CommentManager implements BaseManager, FilterManager{
             c = commentList.get(index);
         }
         return c;
+    }
+
+    @Override
+    public Object get_id(int id) {
+
+        for(Comment c : commentList){
+            if(c.getId() == id){
+                return c;
+            }
+        }
+
+        return null;
     }
 
     //returns the number of comments

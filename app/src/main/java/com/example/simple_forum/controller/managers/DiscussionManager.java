@@ -86,6 +86,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 dp.insert_disc(d);
                 discussionList = dp.get_all();
             }
+            d.setId(discussionList.size());
         }
     }
 
@@ -118,6 +119,18 @@ public class DiscussionManager implements BaseManager, FilterManager {
             d = discussionList.get(index);
         }
         return d;
+    }
+
+    @Override
+    public Object get_id(int id) {
+
+        for(Discussion d : discussionList){
+            if(d.getId() == id){
+                return d;
+            }
+        }
+
+        return null;
     }
 
     //returns the number of discussions

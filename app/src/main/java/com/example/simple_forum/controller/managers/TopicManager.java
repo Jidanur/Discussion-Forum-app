@@ -59,6 +59,7 @@ public class TopicManager implements BaseManager {
                 // Update topic list
                 topic_list = tp.get_all();
             }
+            t.setId(topic_list.size());
         }
     }
 
@@ -89,6 +90,18 @@ public class TopicManager implements BaseManager {
             t = topic_list.get(index);
         }
         return t;
+    }
+
+    @Override
+    public Object get_id(int id) {
+
+        for(Topic t : topic_list){
+            if(t.getId() == id){
+                return t;
+            }
+        }
+
+        return null;
     }
 
     // Get size
