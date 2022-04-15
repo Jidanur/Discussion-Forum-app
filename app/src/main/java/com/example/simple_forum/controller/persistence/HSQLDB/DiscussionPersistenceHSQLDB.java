@@ -50,6 +50,9 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
             statement.setInt(1, dm.size()+1);
             statement.setString(2, d.getTitle() );
             statement.setString(2, d.getContent() );
+
+            // TODO
+            // Replace placeholder date
             statement.setDate(4, Date.valueOf("2022-04-01"));
             statement.setInt(5, 1);
             statement.setString(6, d.getTopic().getTitle());

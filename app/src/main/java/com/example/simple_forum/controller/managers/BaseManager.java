@@ -16,6 +16,9 @@ public interface BaseManager {
     // Get by object
     public Object get(Object item);
 
+    // Get by id
+    public Object get_id(int id);
+
     // Get size
     public int size();
 

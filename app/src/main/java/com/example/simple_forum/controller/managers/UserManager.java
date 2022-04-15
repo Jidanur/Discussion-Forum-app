@@ -38,6 +38,19 @@ public class UserManager implements BaseManager{
         return u;
     }
 
+    @Override
+    // Get object by ID
+    public Object get_id(int id) {
+
+        for(User u : userList){
+            if(u.getId() == id){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
     // Get size
     public int size(){
         return userList.size();
