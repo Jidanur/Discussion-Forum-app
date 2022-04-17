@@ -11,17 +11,22 @@ import com.example.simple_forum.models.User;
 public class Main {
 
     private static String dbName = "SF";
+    private static String dbPath = "";
 
     public static void main(String[] args){
     }
 
-    public static void setDBPathName(final String name) {
-        dbName = name;
-    }
-
-    public static String getDBPathName() {
+    public static String getDBName() {
         return dbName;
     }
+
+    public static String getDBPath() { return dbPath; }
+
+    public static void setDBPath(final String path) {
+        dbPath = path;
+    }
+
+    public static void setDbName(final String name) { dbName = name; }
 
 }
 

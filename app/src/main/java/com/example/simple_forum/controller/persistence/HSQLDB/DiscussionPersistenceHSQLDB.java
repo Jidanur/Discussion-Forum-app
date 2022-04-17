@@ -49,7 +49,7 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
 
             statement.setInt(1, dm.size()+1);
             statement.setString(2, d.getTitle() );
-            statement.setString(2, d.getContent() );
+            statement.setString(3, d.getContent() );
 
             // TODO
             // Replace placeholder date
@@ -120,7 +120,7 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
 
                 // Stub user and date for now
                 Topic t = tm.get(rs.getString("topic"));
-                queryset.add( new Discussion(t, rs.getString("title"), rs.getString("content"), new User(), "2022-04-01") );
+                queryset.add( new Discussion(rs.getInt("id"), t, rs.getString("title"), rs.getString("content"), new User(), "2022-04-01") );
             }
 
         } catch (SQLException throwables) {

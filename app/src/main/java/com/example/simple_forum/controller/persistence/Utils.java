@@ -70,8 +70,8 @@ public class Utils{
 
             copyAssetsToDirectory(assetNames, dataDirectory);
 
-            Main.setDBPathName(dataDirectory.toString() + "/" + Main.getDBPathName());
-            Log.i("TOPIC LIST DB CREATE", "copyDatabaseToDevice Succeeded: " + dataDirectory.toString() + "/" + Main.getDBPathName() );
+            Main.setDBPath(dataDirectory.toString() + "/" + Main.getDBName());
+            Log.i("TOPIC LIST DB CREATE", "copyDatabaseToDevice Succeeded: " + Main.getDBPath() );
             return true;
 
         } catch (final IOException ioe) {

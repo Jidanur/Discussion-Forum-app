@@ -86,7 +86,6 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 dp.insert_disc(d);
                 discussionList = dp.get_all();
             }
-            d.setId(discussionList.size());
         }
     }
 

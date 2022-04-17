@@ -18,9 +18,6 @@ public class PersistenceManager {
     private static IDiscussionPersistence dp = null;
     private static ICommentPersistence cp = null;
 
-    // DB Copied?
-    private static boolean db_copied = false;
-
     // Get TopicPersistence type
     public static synchronized ITopicPersistence get_topic_persistence(boolean use_local){
 
@@ -31,13 +28,12 @@ public class PersistenceManager {
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context() && !db_copied) {
+            if(u.has_context()) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
-                db_copied = true;
             }
 
-            tp = new TopicPersistenceHSQLDB(Main.getDBPathName());
+            tp = new TopicPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
@@ -56,13 +52,12 @@ public class PersistenceManager {
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context() && !db_copied) {
+            if(u.has_context()) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
-                db_copied = true;
             }
 
-            dp = new DiscussionPersistenceHSQLDB(Main.getDBPathName());
+            dp = new DiscussionPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
@@ -81,13 +76,12 @@ public class PersistenceManager {
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context() && !db_copied) {
+            if(u.has_context()) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
-                db_copied = true;
             }
 
-            cp = new CommentPersistenceHSQLDB(Main.getDBPathName());
+            cp = new CommentPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
