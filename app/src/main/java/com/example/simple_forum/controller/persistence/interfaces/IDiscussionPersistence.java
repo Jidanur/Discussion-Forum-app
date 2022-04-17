@@ -12,9 +12,12 @@ public interface IDiscussionPersistence {
     // Delete a discussion from the db
     public void delete_disc(Discussion d);
 
-    // Get a certain topic
+    // Get a certain discussion
     public Discussion get(String title);
 
-    // Get all topics in the DB
+    // Get all discussions in the DB
     public ArrayList<Discussion> get_all();
+
+    // Get the count of all the rows
+    public int get_count();
 }

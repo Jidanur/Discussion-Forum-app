@@ -2,6 +2,7 @@ package com.example.simple_forum.controller.persistence.HSQLDB;
 
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.TopicManager;
+import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.interfaces.IDiscussionPersistence;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
@@ -41,6 +42,8 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
     public void insert_disc(Discussion d) {
         String query = "INSERT INTO discussion VALUES(?,?,?,?,?,?)";
         DiscussionManager dm = new DiscussionManager(true);
+        UserManager um = new UserManager(true);
+        User user = (User) um.get_username(d.getUser().getUsername());
 
         try{
 
@@ -54,6 +57,9 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
             // TODO
             // Replace placeholder date
             statement.setDate(4, Date.valueOf("2022-04-01"));
+
+            // TODO
+            // Replace user
             statement.setInt(5, 1);
             statement.setString(6, d.getTopic().getTitle());
 
@@ -81,9 +87,10 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
 
     @Override
     public Discussion get(String title) {
-        String query = "SELECT FROM discussion WHERE title = ?";
+        String query = "SELECT id,title,content,user,date_created,user,topic FROM discussion WHERE title = ?";
         Discussion d = null;
         TopicManager tm = new TopicManager(true);
+        UserManager um = new UserManager(true);
 
         try(final Connection c = connection();
 
@@ -91,10 +98,9 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
             ResultSet rs = statement.executeQuery(query)){
 
             if(rs.next()){
-                //TODO
-                //Query for user
+                User u = (User) um.get_id(rs.getInt("user"));
                 Topic t = tm.get(rs.getString("topic"));
-                d = new Discussion(t, rs.getString("title"), rs.getString("content"), new User(), "2022-04-01");
+                d = new Discussion(t, rs.getString("title"), rs.getString("content"), u, rs.getDate("date_created").toString());
             }
 
         } catch (SQLException throwables) {
@@ -127,5 +133,25 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
             throwables.printStackTrace();
         }
         return queryset;
+    }
+
+    @Override
+    public int get_count() {
+        String query = "SELECT COUNT(*) FROM discussion";
+        int count = 0;
+
+        try(final Connection c = connection();
+
+            Statement statement = c.createStatement();
+            ResultSet rs = statement.executeQuery(query)){
+
+            if(rs.next()){
+                count = rs.getRow();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return count;
     }
 }

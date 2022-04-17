@@ -30,4 +30,9 @@ public class CommentPersistenceHTTP implements ICommentPersistence, BaseHTTPInte
     public ArrayList<Comment> get_all() {
         return null;
     }
+
+    @Override
+    public int get_count() {
+        return 0;
+    }
 }

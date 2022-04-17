@@ -33,4 +33,9 @@ public class TopicPersistenceHTTP implements ITopicPersistence, BaseHTTPInterfac
     public ArrayList<Topic> get_all() {
         return null;
     }
+
+    @Override
+    public int get_count() {
+        return 0;
+    }
 }

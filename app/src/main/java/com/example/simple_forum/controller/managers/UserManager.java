@@ -1,12 +1,35 @@
 package com.example.simple_forum.controller.managers;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
+import com.example.simple_forum.controller.persistence.interfaces.IUserPersistence;
 import com.example.simple_forum.models.User;
 import java.util.ArrayList;
 
 public class UserManager implements BaseManager{
 
     private static ArrayList<User> userList= new ArrayList<User>();
+    private static IUserPersistence up;
 
-    public UserManager(){}
+    // Current logged in user
+    private static User logged_in_user = null;
+
+    // Use stub
+    private boolean use_stub = false;
+
+    public UserManager(){ this.use_stub = true; }
+
+    public UserManager(boolean use_local){
+
+        // Get HTTP/SQL
+        up = PersistenceManager.get_user_persistence(use_local, false);
+
+        // Update list
+        userList = up.get_all();
+
+        // TODO
+        // Replace later
+        // For now use the first user in the list
+        logged_in_user = userList.isEmpty() ? null : userList.get(0);
+    }
 
     // Add a new user to the list
     public void add(Object item){
@@ -16,8 +39,21 @@ public class UserManager implements BaseManager{
 
         // Make sure user does not exist already
         if( !exists(u.getUsername()) ){
-            // Add the topic object to the list
-            userList.add(u);
+
+            if(use_stub) {
+                // Add the topic object to the list
+                userList.add(u);
+            } else {
+
+                // Use persistence
+                up.insert_user(u);
+
+                // Update list
+                userList = up.get_all();
+
+                // Update user id
+                u.setId(up.get_count()+1);
+            }
         }
     }
 
@@ -51,6 +87,18 @@ public class UserManager implements BaseManager{
         return null;
     }
 
+    // Get object by username
+    public Object get_username(String username) {
+
+        for(User u : userList){
+            if(u.getUsername().equals(username)){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
     // Get size
     public int size(){
         return userList.size();
@@ -76,6 +124,24 @@ public class UserManager implements BaseManager{
     @Override
     public void clear() {
         userList.clear();
+    }
+
+    // Get/Set logged in user
+    public static User get_logged_in_user() {
+        return logged_in_user;
+    }
+
+    public static void set_logged_in_user(User logged_in_user) {
+        UserManager.logged_in_user = logged_in_user;
+    }
+
+    // Authenticate user
+    public boolean authenticate_user(User u){
+
+        // TODO
+        // AUTH via http
+
+        return false;
     }
 
 }

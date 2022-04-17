@@ -1,6 +1,7 @@
 package com.example.simple_forum.controller.persistence.HSQLDB;
 
 import com.example.simple_forum.controller.managers.TopicManager;
+import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
@@ -58,6 +59,9 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
             statement.executeUpdate();
 
+            // Commit
+            c.commit();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -79,18 +83,18 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
     }
 
     public Topic get(String title){
-        String query = "SELECT FROM topic WHERE title = ?";
+        String query = "SELECT id,title,user,date_created FROM topic WHERE title = ?";
         Topic t = null;
 
         try(final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query)){
 
-            Statement statement = c.createStatement();
-            ResultSet rs = statement.executeQuery(query)){
+            statement.setString(1, title);
+            ResultSet rs = statement.executeQuery();
 
-            if(rs.next()){
-                //TODO
-                //Query for user
-                t = new Topic(rs.getString("title"), new User(), "2022-04-01");
+            if(rs.next()) {
+                User u = (User) (new UserManager(true)).get_id(rs.getInt("user"));
+                t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getDate("date_created").toString());
             }
 
         } catch (SQLException throwables) {
@@ -120,5 +124,25 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
         }
 
         return queryset;
+    }
+
+    @Override
+    public int get_count() {
+        String query = "SELECT COUNT(*) FROM topic";
+        int count = 0;
+
+        try(final Connection c = connection();
+
+            Statement statement = c.createStatement();
+            ResultSet rs = statement.executeQuery(query)){
+
+            if(rs.next()){
+                count = rs.getRow();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return count;
     }
 }

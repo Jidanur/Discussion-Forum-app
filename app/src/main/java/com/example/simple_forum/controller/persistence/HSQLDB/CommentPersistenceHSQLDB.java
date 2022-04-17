@@ -115,4 +115,24 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
 
         return queryset;
     }
+
+    @Override
+    public int get_count() {
+        String query = "SELECT COUNT(*) FROM comment";
+        int count = 0;
+
+        try(final Connection c = connection();
+
+            Statement statement = c.createStatement();
+            ResultSet rs = statement.executeQuery(query)){
+
+            if(rs.next()){
+                count = rs.getRow();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return count;
+    }
 }

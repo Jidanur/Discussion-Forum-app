@@ -3,6 +3,8 @@ package com.example.simple_forum.controller.application;
 import com.example.simple_forum.controller.managers.CommentManager;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.TopicManager;
+import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.controller.persistence.HSQLDB.UserPersistenceHSQLDB;
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
@@ -14,6 +16,12 @@ public class Main {
     private static String dbPath = "";
 
     public static void main(String[] args){
+
+        setDBPath("app/src/main/assets/db/testDB");
+        UserPersistenceHSQLDB up = new UserPersistenceHSQLDB(getDBPath());
+        up.insert_user(new User("test_user", "test_pass123", "test_email@test.com", "test bio"));
+        System.out.println(up.get_count());
+
     }
 
     public static String getDBName() {

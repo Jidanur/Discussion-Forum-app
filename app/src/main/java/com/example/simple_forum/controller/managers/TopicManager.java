@@ -24,10 +24,10 @@ public class TopicManager implements BaseManager {
         use_stub = true;
     }
 
-    // Use HTTP/API for persistence
+    // Use HTTP/SQL for persistence
     public TopicManager(boolean use_local) {
 
-        // Use HTTP/API based persistence
+        // Use HTTP/SQL based persistence
         tp = PersistenceManager.get_topic_persistence(use_local);
 
         // Update list

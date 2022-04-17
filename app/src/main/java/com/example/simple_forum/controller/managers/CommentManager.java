@@ -23,7 +23,7 @@ public class CommentManager implements BaseManager, FilterManager{
     public CommentManager(boolean use_local){
 
         // Use HTTP/API based persistence
-        cp = PersistenceManager.get_comment_persistence(use_local);
+        cp = PersistenceManager.get_comment_persistence(use_local, false);
 
         // Update list
         commentList = cp.get_all();
