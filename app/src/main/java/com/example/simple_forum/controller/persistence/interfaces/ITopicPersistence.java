@@ -1,4 +1,4 @@
-package com.example.simple_forum.controller.persistence;
+package com.example.simple_forum.controller.persistence.interfaces;
 
 import com.example.simple_forum.models.Topic;
 import java.util.ArrayList;
@@ -15,4 +15,7 @@ public interface ITopicPersistence {
 
     // Get all topics in the DB
     public ArrayList<Topic> get_all();
+
+    // Get the count of all the rows
+    public int get_count();
 }

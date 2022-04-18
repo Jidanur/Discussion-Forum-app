@@ -7,9 +7,6 @@ import java.util.ArrayList;
 // Base manager interface
 public interface BaseManager {
 
-    // Add items via json string
-    public void add_json_str(String data);
-
     // Add item
     public void add(Object item);
 
@@ -18,6 +15,9 @@ public interface BaseManager {
 
     // Get by object
     public Object get(Object item);
+
+    // Get by id
+    public Object get_id(int id);
 
     // Get size
     public int size();

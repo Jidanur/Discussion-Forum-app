@@ -35,18 +35,14 @@ public class DiscussionListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discussion_list);
 
-        // TODO
-        // Populate discussion list via json api call
-
         // Get intent
         intent = getIntent();
 
         // Set topic
         topic = intent.getStringExtra("TOPIC_TITLE");
 
-        // Create a discussion manager and parse json file for now
-        disc_manager = new DiscussionManager();
-        disc_manager.add_json_file("discussions.json", getApplicationContext());
+        // Create a discussion manager using local persistence
+        disc_manager = new DiscussionManager(true);
 
         // Set the recycler view
         disc_recycler = findViewById(R.id.discussion_list);

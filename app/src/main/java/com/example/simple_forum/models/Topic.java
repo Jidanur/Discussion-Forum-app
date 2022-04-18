@@ -10,6 +10,7 @@ public class Topic {
     private User user;
     private Date date_created;
     private ArrayList discussions;
+    private int id;
 
     // Default constructor
     public Topic() {
@@ -17,6 +18,7 @@ public class Topic {
         this.user = null;
         this.date_created = null;
         this.discussions = new ArrayList<Discussion>();
+        this.id = 0;
     }
 
     // Custom constructor
@@ -24,7 +26,15 @@ public class Topic {
         this.title = title;
         this.user = user;
         this.discussions = new ArrayList<Discussion>();
+        this.id = 0;
+        this.set_date(date);
+    }
 
+    public Topic (int id, String title, User user, String date){
+        this.title = title;
+        this.user = user;
+        this.discussions = new ArrayList<Discussion>();
+        this.id = id;
         this.set_date(date);
     }
 
@@ -66,7 +76,7 @@ public class Topic {
         try {
             this.date_created = dtf.parse(time);
         } catch (ParseException e){
-            System.out.println("date error");
+            System.out.println("date error " + date);
         }
     }
 
@@ -83,14 +93,21 @@ public class Topic {
         return user;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public String getDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return date_created != null ? dtf.format(date_created) : "";
     }
 
     public ArrayList<Discussion> getDiscussions() {
         return discussions;
     }
 
-    // trying something
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 

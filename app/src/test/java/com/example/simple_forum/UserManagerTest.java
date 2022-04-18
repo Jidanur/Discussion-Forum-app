@@ -36,27 +36,6 @@ public class UserManagerTest {
         assertEquals(1, t_manager.size());
     }
 
-
-    @Test
-    public void add_json_strTest(){
-
-        String test_data = "[ {\"id\": \"2\",\"username\": \"kurt\",\n" +
-                "    \"password\": \"pbkdf2_sha256$320000$rwLAxNTeVHh02hnu0uk58c$4K1Re3cGOwV0GY3z5XC5KgmxxSkm64BQQqYohBuXb/o=\",\"email\":\"kurt@uofm.ca\"}]";
-
-        //initial list
-        UserManager u_manager = new UserManager();
-        u_manager.clear();
-
-        u_manager.add_json_str(test_data);
-
-        assertEquals(1,u_manager.size());
-
-        User u_test = (User) u_manager.get(0);
-        assertEquals("kurt",u_test.getUsername());
-        assertEquals("kurt@uofm.ca",u_test.getEmail());
-
-    }
-
     @Test
     public void getUserByPosition_Test(){
         UserManager test = new UserManager();

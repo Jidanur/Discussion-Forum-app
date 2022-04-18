@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Create User manager and parse json test file
         u_manager = new UserManager();
-        u_manager.add_json_file("users.json", getApplicationContext());
 
         Button button = (Button) findViewById(R.id.login);
         // Make a login click event

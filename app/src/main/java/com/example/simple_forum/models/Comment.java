@@ -10,6 +10,7 @@ public class Comment {
     private String content;
     private User user;
     private Date date_created;
+    private int id;
 
     // Default constructor
     public Comment(){
@@ -17,6 +18,7 @@ public class Comment {
         this.content = "";
         this.user = null;
         this.date_created = null;
+        this.id = 0;
     }
 
     // custom constructor
@@ -24,8 +26,18 @@ public class Comment {
         this.discussion = discussion;
         this.content = content;
         this.user = user;
+        this.id = 0;
 
        this.set_date(date);
+    }
+
+    public Comment(int id, Discussion discussion, String content, User user, String date){
+        this.discussion = discussion;
+        this.content = content;
+        this.user = user;
+        this.id = id;
+
+        this.set_date(date);
     }
 
     /*---SETTERS---*/
@@ -66,7 +78,7 @@ public class Comment {
         try {
             this.date_created = dtf.parse(time);
         } catch (ParseException e){
-            System.out.println("date error");
+            System.out.println("date error" + date);
         }
     }
 
@@ -83,7 +95,16 @@ public class Comment {
         return user;
     }
 
-    public Date getDate() {
-        return date_created;
+    public String getDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return date_created != null ? dtf.format(date_created) : "";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

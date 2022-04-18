@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Utils{
 
@@ -67,8 +70,8 @@ public class Utils{
 
             copyAssetsToDirectory(assetNames, dataDirectory);
 
-            Main.setDBPathName(dataDirectory.toString() + "/" + Main.getDBPathName());
-            Log.i("TOPIC LIST DB CREATE", "copyDatabaseToDevice Succeeded: " + dataDirectory.toString() + "/" + Main.getDBPathName() );
+            Main.setDBPath(dataDirectory.toString() + "/" + Main.getDBName());
+            Log.i("TOPIC LIST DB CREATE", "copyDatabaseToDevice Succeeded: " + Main.getDBPath() );
             return true;
 
         } catch (final IOException ioe) {

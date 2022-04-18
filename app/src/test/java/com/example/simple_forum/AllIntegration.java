@@ -7,7 +7,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    DB_integration_test.class
 
 })
 
