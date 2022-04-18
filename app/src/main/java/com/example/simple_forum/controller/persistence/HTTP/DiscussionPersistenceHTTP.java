@@ -1,14 +1,14 @@
 package com.example.simple_forum.controller.persistence.HTTP;
 
-import com.example.simple_forum.controller.persistence.interfaces.BaseHTTPInterface;
 import com.example.simple_forum.controller.persistence.interfaces.IDiscussionPersistence;
 import com.example.simple_forum.models.Discussion;
 
 import java.util.ArrayList;
 
-public class DiscussionPersistenceHTTP implements IDiscussionPersistence, BaseHTTPInterface {
+public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
+
     @Override
-    public void insert_disc(Discussion t) {
+    public void insert_disc(Discussion d) {
 
     }
 
@@ -30,12 +30,5 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence, BaseHT
     @Override
     public int get_count() {
         return 0;
-    }
-
-    @Override
-    public boolean check_server_status() {
-        // TODO
-        // Check server status
-        return false;
     }
 }

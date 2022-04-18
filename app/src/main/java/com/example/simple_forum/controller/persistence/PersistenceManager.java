@@ -28,7 +28,7 @@ public class PersistenceManager {
         if(tp != null){ return tp; }
 
         // Use local if flag set or if server is down
-        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
@@ -52,7 +52,7 @@ public class PersistenceManager {
         if(dp != null){ return dp; }
 
         // Use local if flag set or if server is down
-        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
@@ -76,7 +76,7 @@ public class PersistenceManager {
         if(cp != null){ return cp; }
 
         // Use local if flag set or if server is down
-        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory ){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
@@ -100,7 +100,7 @@ public class PersistenceManager {
         if(up != null){ return up; }
 
         // Use local if flag set or if server is down or db in memory
-        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory ){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();

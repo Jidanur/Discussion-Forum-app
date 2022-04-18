@@ -1,14 +1,6 @@
 package com.example.simple_forum.controller.application;
-import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.models.Comment;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+import com.example.simple_forum.controller.http_connector.HttpUtils;
+import com.example.simple_forum.controller.http_connector.SF_API;
 
 
 public class Main {
@@ -17,6 +9,9 @@ public class Main {
     private static String dbPath = "";
 
     public static void main(String[] args){
+
+        HttpUtils http = new HttpUtils();
+        http.get(SF_API.DISCUSSIONS);
     }
 
     public static String getDBName() {
