@@ -96,8 +96,8 @@ public class Comment {
     }
 
     public String getDate() {
-        SimpleDateFormat dtf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        return dtf.format(date_created);
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return date_created != null ? dtf.format(date_created) : "";
     }
 
     public int getId() {

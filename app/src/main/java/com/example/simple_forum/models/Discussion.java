@@ -113,7 +113,7 @@ public class Discussion {
 
     public String getDate() {
         SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dtf.format(date_created);
+        return  date_created == null ? "" : dtf.format(date_created);
     }
 
     public ArrayList getComments() {

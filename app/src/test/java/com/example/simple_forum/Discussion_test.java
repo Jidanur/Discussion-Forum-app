@@ -80,7 +80,7 @@ public class Discussion_test {
         Discussion newDiscussion = new Discussion(null, title,content,new User(),date);
 
         // date should be null because of invalid date
-        assertNull(newDiscussion.getDate());
+        assert(newDiscussion.getDate().equals(""));
 
     }
 
