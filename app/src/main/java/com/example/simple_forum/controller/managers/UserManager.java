@@ -41,7 +41,7 @@ public class UserManager implements BaseManager{
         if( !exists(u.getUsername()) ){
 
             if(use_stub) {
-                // Add the topic object to the list
+                // Add the user object to the list
                 userList.add(u);
             } else {
 
@@ -50,9 +50,6 @@ public class UserManager implements BaseManager{
 
                 // Update list
                 userList = up.get_all();
-
-                // Update user id
-                u.setId(up.get_count()+1);
             }
         }
     }
@@ -128,7 +125,8 @@ public class UserManager implements BaseManager{
 
     // Get/Set logged in user
     public static User get_logged_in_user() {
-        return logged_in_user;
+        // Return stub if the logged in user is not set
+        return logged_in_user != null ? logged_in_user : new User();
     }
 
     public static void set_logged_in_user(User logged_in_user) {
@@ -136,10 +134,15 @@ public class UserManager implements BaseManager{
     }
 
     // Authenticate user
-    public boolean authenticate_user(User u){
+    public boolean auth_user(User u){
 
-        // TODO
-        // AUTH via http
+        if(up.auth_user(u)) {
+
+            // Set logged in user
+            UserManager.logged_in_user = u;
+
+            return true;
+        }
 
         return false;
     }

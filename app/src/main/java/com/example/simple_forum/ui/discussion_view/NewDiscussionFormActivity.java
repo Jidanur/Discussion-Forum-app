@@ -45,8 +45,8 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         DiscussionManager d_manager = new DiscussionManager(true);
         TopicManager tm = new TopicManager(true);
 
-        // TODO
-        // Replace user and date
+        // Add the date with the proper fields
+        // everything else i.e user and date will be set within the manager
         d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
 
         // Navigate back to the discussion list of topic

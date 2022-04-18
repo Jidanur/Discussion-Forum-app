@@ -23,21 +23,21 @@ public class PersistenceManager {
     private static IUserPersistence up = null;
 
     // Get TopicPersistence type
-    public static synchronized ITopicPersistence get_topic_persistence(boolean use_local){
+    public static synchronized ITopicPersistence get_topic_persistence(boolean use_local, boolean in_memory){
 
         if(tp != null){ return tp; }
 
         // Use local if flag set or if server is down
-        if(use_local || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context()) {
+            if(u.has_context() && !in_memory) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
             }
 
-            tp = new TopicPersistenceHSQLDB(Main.getDBPath());
+            tp = in_memory ? new TopicPersistenceHSQLDB(Main.getDBName(), true) : new TopicPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
@@ -48,20 +48,20 @@ public class PersistenceManager {
     }
 
     // Get DiscussionPersistence type
-    public static synchronized IDiscussionPersistence get_disc_persistence(boolean use_local){
+    public static synchronized IDiscussionPersistence get_disc_persistence(boolean use_local, boolean in_memory){
         if(dp != null){ return dp; }
 
         // Use local if flag set or if server is down
-        if(use_local || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context()) {
+            if(u.has_context() && !in_memory) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
             }
 
-            dp = new DiscussionPersistenceHSQLDB(Main.getDBPath());
+            dp = in_memory ? new DiscussionPersistenceHSQLDB(Main.getDBName(), true) : new DiscussionPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
@@ -76,16 +76,16 @@ public class PersistenceManager {
         if(cp != null){ return cp; }
 
         // Use local if flag set or if server is down
-        if(use_local || !(new TopicPersistenceHTTP().check_server_status())){
+        if(use_local || in_memory || !(new TopicPersistenceHTTP().check_server_status())){
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context()) {
+            if(u.has_context() && !in_memory) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
             }
 
-            cp = new CommentPersistenceHSQLDB(Main.getDBPath());
+            cp = in_memory ? new CommentPersistenceHSQLDB(Main.getDBName(), in_memory) : new CommentPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP
@@ -104,12 +104,12 @@ public class PersistenceManager {
 
             // Make sure this works outside of the emulator
             Utils u = new Utils();
-            if(u.has_context()) {
+            if(u.has_context() && !in_memory) {
                 // Copy DB instance to the device
                 u.copyDatabaseToDevice();
             }
 
-            up = in_memory ? new UserPersistenceHSQLDB(Main.getDBPath(), true) : new UserPersistenceHSQLDB(Main.getDBPath());
+            up = in_memory ? new UserPersistenceHSQLDB(Main.getDBName(), true) : new UserPersistenceHSQLDB(Main.getDBPath());
         } else {
 
             // Use HTTP

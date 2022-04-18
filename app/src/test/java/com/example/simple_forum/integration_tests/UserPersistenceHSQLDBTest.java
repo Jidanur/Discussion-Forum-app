@@ -17,8 +17,7 @@ public class UserPersistenceHSQLDBTest {
     @Before
     public void init(){
 
-        String db_path = "app/src/main/assets/db/testDB";
-        Main.setDBPath(db_path);
+        Main.setDbName("test_user");
         up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true, true);
     }
 

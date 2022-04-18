@@ -28,7 +28,7 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
                 Connection conn = connection();
                 Statement stmt = conn.createStatement();
 
-                // Populate user table
+                // Create and populate user table
                 stmt.execute("CREATE MEMORY TABLE PUBLIC.USER(ID INTEGER NOT NULL PRIMARY KEY,USERNAME VARCHAR(255) NOT NULL,PASSWORD VARCHAR(255) NOT NULL,EMAIL VARCHAR(255),BIO VARCHAR(2000),UNIQUE(USERNAME))");
                 stmt.execute("INSERT INTO USER VALUES(1,'kurt','kurt123','kurt@uofm.com','This is my bio!')" +
                         "INSERT INTO USER VALUES(2,'paul','paul123','paul@uofm.com','This is my bio!')" +
@@ -160,5 +160,13 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
             throwables.printStackTrace();
         }
         return count;
+    }
+
+    public boolean auth_user(User u){
+
+        // Try to get the user first
+        User user = get(u.getUsername());
+
+        return user != null && u.equals(user);
     }
 }

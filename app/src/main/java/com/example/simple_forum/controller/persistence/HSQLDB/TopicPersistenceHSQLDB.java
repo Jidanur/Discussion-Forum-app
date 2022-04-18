@@ -1,13 +1,11 @@
 package com.example.simple_forum.controller.persistence.HSQLDB;
 
-import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,16 +16,42 @@ import java.util.ArrayList;
 public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
     private final String db_path;
+    private String jdbc_prefix = "jdbc:hsqldb:file:";
 
     public TopicPersistenceHSQLDB(String db_path) {
         this.db_path = db_path;
+    }
+
+    // Use in memory db
+    public TopicPersistenceHSQLDB(String db_path, boolean in_memory){
+        this.db_path = db_path;
+        this.jdbc_prefix = in_memory ? "jdbc:hsqldb:mem" : jdbc_prefix;
+
+        if(in_memory){
+            try{
+                Connection conn = connection();
+                Statement st = conn.createStatement();
+
+                // Create and populate table
+                st.execute("CREATE MEMORY TABLE PUBLIC.TOPIC(ID INTEGER NOT NULL PRIMARY KEY,TITLE VARCHAR(255) NOT NULL,DATE_CREATED VARCHAR(255),USER INTEGER NOT NULL,UNIQUE(TITLE))");
+                st.execute("INSERT INTO TOPIC VALUES(1,'Movies','2022-02-28 00:22:58.000000',1);" +
+                        "INSERT INTO TOPIC VALUES(2,'Video Games','2022-02-28 00:23:33.000000',2);" +
+                        "INSERT INTO TOPIC VALUES(3,'Cars','2022-02-28 00:23:23.000000',3);" +
+                        "INSERT INTO TOPIC VALUES(4,'Popular','2022-02-28 00:23:12.000000',4);" +
+                        "INSERT INTO TOPIC VALUES(5,'Music','2022-02-28 00:22:12.000000',5)");
+
+                conn.commit();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
     }
 
     private Connection connection() throws SQLException{
         Connection conn = null;
         try {
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
-            conn = DriverManager.getConnection("jdbc:hsqldb:file:" + db_path + ";shutdown=true", "SA", "");
+            conn = DriverManager.getConnection(jdbc_prefix + db_path + ";shutdown=true", "SA", "");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -43,18 +67,15 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
     public void insert_topic(Topic t){
 
         String query = "INSERT INTO topic VALUES(?,?,?,?)";
-        TopicManager tm = new TopicManager(true);
 
         try{
 
             final Connection c = connection();
             PreparedStatement statement = c.prepareStatement(query);
 
-            statement.setInt(1, tm.size()+1);
+            statement.setInt(1, get_count()+1);
             statement.setString(2, t.getTitle() );
-            // TODO
-            // replace placeholder date
-            statement.setDate(3, Date.valueOf("2022-04-01"));
+            statement.setString(3, t.getDate());
             statement.setInt(4, t.getUser().getId());
 
             statement.executeUpdate();
@@ -91,10 +112,11 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
             statement.setString(1, title);
             ResultSet rs = statement.executeQuery();
+            UserManager um = new UserManager(true);
 
             if(rs.next()) {
-                User u = (User) (new UserManager(true)).get_id(rs.getInt("user"));
-                t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getDate("date_created").toString());
+                User u = (User) um.get_id(rs.getInt("user"));
+                t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getString("date_created"));
             }
 
         } catch (SQLException throwables) {
@@ -108,6 +130,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
         ArrayList<Topic> queryset = new ArrayList<Topic>();
         String query = "SELECT * FROM topic";
+        UserManager um = new UserManager(true);
 
         try(final Connection c = connection();
 
@@ -115,8 +138,11 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
             ResultSet rs = statement.executeQuery(query)){
 
             while(rs.next()){
-                // Stub user and date for now
-                queryset.add( new Topic(rs.getString("title"), new User(), "2022-04-01") );
+
+                // Get the user
+                User user = (User) um.get_id(rs.getInt("user"));
+
+                queryset.add( new Topic(rs.getInt("id"), rs.getString("title"), user, rs.getString("date_created")) );
             }
 
         } catch (SQLException throwables) {
@@ -128,17 +154,15 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
     @Override
     public int get_count() {
-        String query = "SELECT COUNT(*) FROM topic";
+        String query = "SELECT COUNT(*) AS topic_count FROM topic";
         int count = 0;
 
         try(final Connection c = connection();
 
             Statement statement = c.createStatement();
             ResultSet rs = statement.executeQuery(query)){
-
-            if(rs.next()){
-                count = rs.getRow();
-            }
+            rs.next();
+            count = rs.getInt("topic_count");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

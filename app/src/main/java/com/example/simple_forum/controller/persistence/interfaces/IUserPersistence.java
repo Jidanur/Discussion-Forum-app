@@ -19,4 +19,7 @@ public interface IUserPersistence {
 
     // Get the count of all the rows
     public int get_count();
+
+    // Authenticate user
+    boolean auth_user(User u);
 }

@@ -37,4 +37,9 @@ public class UserPersistenceHTTP implements IUserPersistence, BaseHTTPInterface 
     public int get_count() {
         return 0;
     }
+
+    @Override
+    public boolean auth_user(User u) {
+        return false;
+    }
 }
