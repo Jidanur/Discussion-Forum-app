@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
@@ -26,7 +27,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
     private RecyclerView topic_recycler;
     private TopicRecyclerAdapter topic_adapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +34,19 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
 
         // TODO
         // Populate topic list via json api call
+        // If server unavailable use local persistence instead
 
-        // Create Topic manager and parse json test file
-        t_manager = new TopicManager();
-        t_manager.add_json_file("topics.json", getApplicationContext());
+        // Set utils context first
+        new Utils(this.getApplicationContext());
+
+        // Create Topic manager
+        t_manager = new TopicManager(true);
 
         // Set the recycler
         topic_recycler = findViewById(R.id.topic_list);
 
         // Set the adapter for the recycler
         set_adapter();
-
     }
 
     private void set_adapter() {
@@ -71,9 +73,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         EditText text_input = (EditText) findViewById(R.id.topic_create_input);
         String new_topic = text_input.getText().toString();
 
-        // TODO
-        // Validate input
-
         // Create a new topic object
         Topic t = new Topic(new_topic, new User(), "2022-02-28T00:22:58.538787Z");
 
@@ -82,7 +81,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
 
         // Notify the adapter of the change
         topic_adapter.notifyDataSetChanged();
-
     }
 
     @Override

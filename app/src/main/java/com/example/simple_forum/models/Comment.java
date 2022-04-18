@@ -10,6 +10,7 @@ public class Comment {
     private String content;
     private User user;
     private Date date_created;
+    private int id;
 
     // Default constructor
     public Comment(){
@@ -17,6 +18,7 @@ public class Comment {
         this.content = "";
         this.user = null;
         this.date_created = null;
+        this.id = 0;
     }
 
     // custom constructor
@@ -24,14 +26,18 @@ public class Comment {
         this.discussion = discussion;
         this.content = content;
         this.user = user;
+        this.id = 0;
 
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
+       this.set_date(date);
+    }
 
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            System.out.println("date error");
-        }
+    public Comment(int id, Discussion discussion, String content, User user, String date){
+        this.discussion = discussion;
+        this.content = content;
+        this.user = user;
+        this.id = id;
+
+        this.set_date(date);
     }
 
     /*---SETTERS---*/
@@ -47,8 +53,33 @@ public class Comment {
         this.user = user;
     }
 
-    public void set_date(Date date){
-        this.date_created = date;
+    public void setDate_created(Date date_created) {
+        this.date_created = date_created;
+    }
+
+    // takes a string and converts it to SimpleDateFormat
+    public void set_date(String date){
+        //"2022-02-28T00:52:48.769746Z"
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String time = "";
+        int i = 0;
+        while (i < date.length()) {
+
+            if (date.charAt(i) == 'T') {
+                time += " ";
+            }
+            else {
+                time += date.charAt(i);
+            }
+
+            i++;
+        }
+        try {
+            this.date_created = dtf.parse(time);
+        } catch (ParseException e){
+            System.out.println("date error");
+        }
     }
 
     /*---GETTERS---*/
@@ -66,5 +97,13 @@ public class Comment {
 
     public Date getDate() {
         return date_created;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -28,6 +28,15 @@ public class User {
         this.id = 0;
     }
 
+    public User(int id, String username, String password, String email, String bio){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.bio = bio;
+        this.token = "";
+        this.id = id;
+    }
+
     /*---SETTERS---*/
     public void setUsername(String username) {
         this.username = username;
@@ -66,5 +75,13 @@ public class User {
 
     public String getToken() {
         return token;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

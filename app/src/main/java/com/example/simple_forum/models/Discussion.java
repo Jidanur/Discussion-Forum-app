@@ -11,6 +11,7 @@ public class Discussion {
     private User user;
     private Date date_created;
     private ArrayList<Comment> comments;
+    private int id;
 
     //default constructor
     public Discussion() {
@@ -20,6 +21,8 @@ public class Discussion {
         this.user = null;
         this.date_created = null;
         this.comments = new ArrayList<>();
+        this.id = 0;
+
     }
 
     // custom constructor
@@ -28,16 +31,17 @@ public class Discussion {
         this.title = title;
         this.content = content;
         this.user = user;
-
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
-
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            System.out.println("date error");
-        }
-
         this.comments = new ArrayList<>();
+        this.set_date(date);
+    }
+
+    public Discussion(int id, Topic topic, String title, String content, User user, String date) {
+        this.topic = topic;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+        this.set_date(date);
+        this.id = id;
     }
 
     public void add_comment(Comment new_c) {
@@ -61,8 +65,29 @@ public class Discussion {
         this.user = user;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    // takes a string and converts it to SimpleDateFormat
+    public void set_date(String date){
+        //"2022-02-28T00:52:48.769746Z"
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String time = "";
+        int i = 0;
+        while (i < date.length()) {
+
+            if (date.charAt(i) == 'T') {
+                time += " ";
+            }
+            else {
+                time += date.charAt(i);
+            }
+
+            i++;
+        }
+        try {
+            this.date_created = dtf.parse(time);
+        } catch (ParseException e){
+            System.out.println("date error");
+        }
     }
 
     public void setComment(ArrayList<Comment> comments) {
@@ -92,5 +117,13 @@ public class Discussion {
 
     public ArrayList getComments() {
         return comments;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
