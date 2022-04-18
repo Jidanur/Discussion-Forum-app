@@ -28,6 +28,11 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence, BaseHT
     }
 
     @Override
+    public int get_count() {
+        return 0;
+    }
+
+    @Override
     public boolean check_server_status() {
         // TODO
         // Check server status

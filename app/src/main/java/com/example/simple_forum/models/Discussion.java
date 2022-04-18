@@ -86,7 +86,7 @@ public class Discussion {
         try {
             this.date_created = dtf.parse(time);
         } catch (ParseException e){
-            System.out.println("date error");
+            System.out.println("date error" + date);
         }
     }
 
@@ -111,8 +111,9 @@ public class Discussion {
         return user;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public String getDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dtf.format(date_created);
     }
 
     public ArrayList getComments() {

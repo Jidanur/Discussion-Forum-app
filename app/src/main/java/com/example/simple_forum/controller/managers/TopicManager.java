@@ -5,7 +5,10 @@ import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 // Topic manager class for CRUD operations
 // implements interface BaseManager
@@ -24,11 +27,11 @@ public class TopicManager implements BaseManager {
         use_stub = true;
     }
 
-    // Use HTTP/API for persistence
+    // Use HTTP/SQL for persistence
     public TopicManager(boolean use_local) {
 
-        // Use HTTP/API based persistence
-        tp = PersistenceManager.get_topic_persistence(use_local);
+        // Use HTTP/SQL based persistence
+        tp = PersistenceManager.get_topic_persistence(use_local, false);
 
         // Update list
         topic_list = tp.get_all();
@@ -39,10 +42,11 @@ public class TopicManager implements BaseManager {
 
         // Cast item
         Topic t = (Topic) item;
-        System.out.println(t);
 
-        // TODO
-        // add(t) should return true or false if it was added via api successfully
+        // Set date and user
+        t.setUser(UserManager.get_logged_in_user());
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        t.set_date(dtf.format(new Date()));
 
         // Make sure title does not exist already
         Validation topic_val = new Topic_validate(t);

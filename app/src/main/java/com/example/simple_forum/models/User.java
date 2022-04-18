@@ -84,4 +84,10 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+    public boolean equals(User u){
+
+        return username.equals(u.getUsername()) && password.equals(u.getPassword())
+        && bio.equals(u.getBio()) && email.equals(u.getEmail());
+    }
 }

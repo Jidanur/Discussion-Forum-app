@@ -1,6 +1,8 @@
 package com.example.simple_forum.controller.managers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.persistence.interfaces.ICommentPersistence;
@@ -8,7 +10,6 @@ import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.controller.validator.comment_validate;
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.User;
 
 public class CommentManager implements BaseManager, FilterManager{
 
@@ -23,7 +24,7 @@ public class CommentManager implements BaseManager, FilterManager{
     public CommentManager(boolean use_local){
 
         // Use HTTP/API based persistence
-        cp = PersistenceManager.get_comment_persistence(use_local);
+        cp = PersistenceManager.get_comment_persistence(use_local, false);
 
         // Update list
         commentList = cp.get_all();
@@ -59,6 +60,11 @@ public class CommentManager implements BaseManager, FilterManager{
     public void add(Object item) {
 
         Comment c = (Comment) item;
+
+        // Set user and date
+        c.set_user( UserManager.get_logged_in_user() );
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        c.set_date(dtf.format(new Date()));
 
         // validation
         Validation comment_val = new comment_validate(c);
