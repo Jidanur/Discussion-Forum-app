@@ -1,6 +1,5 @@
 package com.example.simple_forum.controller.persistence.HTTP;
 
-import com.example.simple_forum.controller.persistence.HSQLDB.CommentPersistenceHSQLDB;
 import com.example.simple_forum.controller.persistence.interfaces.BaseHTTPInterface;
 import com.example.simple_forum.controller.persistence.interfaces.ICommentPersistence;
 import com.example.simple_forum.models.Comment;
@@ -18,7 +17,6 @@ public class CommentPersistenceHTTP implements ICommentPersistence, BaseHTTPInte
 
     @Override
     public void insert_comment(Comment c) {
-
     }
 
     @Override
@@ -29,5 +27,10 @@ public class CommentPersistenceHTTP implements ICommentPersistence, BaseHTTPInte
     @Override
     public ArrayList<Comment> get_all() {
         return null;
+    }
+
+    @Override
+    public int get_count() {
+        return 0;
     }
 }

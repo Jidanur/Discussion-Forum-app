@@ -76,7 +76,7 @@ public class Topic {
         try {
             this.date_created = dtf.parse(time);
         } catch (ParseException e){
-            System.out.println("date error");
+            System.out.println("date error " + date);
         }
     }
 
@@ -93,8 +93,9 @@ public class Topic {
         return user;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public String getDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return date_created != null ? dtf.format(date_created) : "";
     }
 
     public ArrayList<Discussion> getDiscussions() {

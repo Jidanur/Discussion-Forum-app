@@ -15,4 +15,7 @@ public interface ITopicPersistence {
 
     // Get all topics in the DB
     public ArrayList<Topic> get_all();
+
+    // Get the count of all the rows
+    public int get_count();
 }

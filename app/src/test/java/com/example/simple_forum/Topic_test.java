@@ -38,7 +38,7 @@ public class Topic_test extends TestCase {
         String date = "No date";
         Topic test_topic = new Topic("Cars", new User(),date);
 
-        assertNull(test_topic.getDate_created());
+        assertNull(test_topic.getDate());
 
     }
 

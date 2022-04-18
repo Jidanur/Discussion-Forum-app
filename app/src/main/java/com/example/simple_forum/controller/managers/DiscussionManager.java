@@ -7,7 +7,10 @@ import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DiscussionManager implements BaseManager, FilterManager {
 
@@ -22,7 +25,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
     public DiscussionManager(boolean use_local) {
 
         // Get a persistence class, either HSQLDB/HTTP
-        dp = PersistenceManager.get_disc_persistence(use_local);
+        dp = PersistenceManager.get_disc_persistence(use_local, false);
 
         // Update list
         discussionList = dp.get_all();
@@ -76,6 +79,11 @@ public class DiscussionManager implements BaseManager, FilterManager {
         // Cast item
         Discussion d = (Discussion) item;
 
+        // Set user and date
+        d.setUser(UserManager.get_logged_in_user());
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        d.set_date(dtf.format(new Date()));
+
         //validation
         Validation discussion_val = new Discussion_validate(d);
         if (discussion_val.validate() && !exists(d.getTitle())) {
@@ -86,7 +94,6 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 dp.insert_disc(d);
                 discussionList = dp.get_all();
             }
-            d.setId(discussionList.size());
         }
     }
 

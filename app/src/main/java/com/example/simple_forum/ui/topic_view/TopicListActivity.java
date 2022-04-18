@@ -74,7 +74,7 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         String new_topic = text_input.getText().toString();
 
         // Create a new topic object
-        Topic t = new Topic(new_topic, new User(), "2022-02-28T00:22:58.538787Z");
+        Topic t = new Topic(new_topic, new User(), "");
 
         // Add the topic to the topic manager
         t_manager.add(t);
