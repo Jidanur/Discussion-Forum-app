@@ -40,7 +40,7 @@ public class InstrumentedHTTPUtilsTest {
         JSONArray content = http.get(SF_API.DISCUSSIONS);
         int size = content.length();
         for(int i = 0; i < size; i++){
-            Log.i(TAG, "test_get: Discussion: " + content.getJSONObject(i));
+            Log.i(TAG, "test_get: Discussion: " + content.getJSONObject(i).toString());
         }
         assertTrue("Content size: " + size, size != 0);
     }
