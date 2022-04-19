@@ -29,7 +29,7 @@ public class DiscussionManagerTest {
         d_manager = new DiscussionManager();
         title = "Good Music";
         content = "Eminem is the best rapper";
-        date = "2022-02-28T00:22:58.538787Z";    // some issues with date
+        date = "2022-02-28T00:22:58.538787Z";
         tmpUser = new User();
         topicTitle = "topic";
         tmpTopic = new Topic(topicTitle,tmpUser,date);
