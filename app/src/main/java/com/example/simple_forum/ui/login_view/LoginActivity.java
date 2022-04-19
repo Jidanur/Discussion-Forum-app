@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.ui.register_view.RegisterActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 
@@ -33,9 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         // Create User manager and parse json test file
         u_manager = new UserManager();
 
-        Button button = (Button) findViewById(R.id.login);
+        Button login = (Button) findViewById(R.id.login);
+        Button register = (Button) findViewById(R.id.newUser);
         // Make a login click event
-        button.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText u_name = (EditText) findViewById(R.id.username);
                 EditText p_word = (EditText) findViewById(R.id.password);
@@ -62,6 +64,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register);
+            }
+        });
+
     }
 
 
