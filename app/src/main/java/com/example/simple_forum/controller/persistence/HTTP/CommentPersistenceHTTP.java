@@ -20,6 +20,11 @@ public class CommentPersistenceHTTP implements ICommentPersistence, BaseHTTPInte
     }
 
     @Override
+    public Comment get(String content) {
+        return null;
+    }
+
+    @Override
     public void delete_comment(Comment c) {
 
     }
