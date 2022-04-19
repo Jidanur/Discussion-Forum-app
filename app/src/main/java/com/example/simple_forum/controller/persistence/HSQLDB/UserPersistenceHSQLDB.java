@@ -93,7 +93,7 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
             PreparedStatement statement = c.prepareStatement(query) ){
 
             statement.setString(1, u.getUsername() );
-            statement.executeQuery();
+            statement.executeUpdate();
 
             c.commit();
 
@@ -112,6 +112,27 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
             PreparedStatement statement = c.prepareStatement(query)){
 
             statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()) {
+                u = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("bio"));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return u;
+    }
+
+    public User get(int id) {
+
+        String query = "SELECT id,username,password,email,bio FROM user WHERE id = ?";
+        User u = null;
+
+        try(final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query)){
+
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
             if(rs.next()) {

@@ -1,15 +1,4 @@
 package com.example.simple_forum.controller.application;
-import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.models.Comment;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 
 public class Main {
 
