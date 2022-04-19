@@ -103,15 +103,17 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
 
     @Override
     public Discussion get(String title) {
-        String query = "SELECT id,title,content,user,date_created,user,topic FROM discussion WHERE title = ?";
+        String query = "SELECT id,title,content,user,date_created,topic FROM discussion WHERE title = ?";
         Discussion d = null;
         TopicManager tm = new TopicManager(true);
         UserManager um = new UserManager(true);
 
         try(final Connection c = connection();
 
-            Statement statement = c.createStatement();
-            ResultSet rs = statement.executeQuery(query)){
+            PreparedStatement statement = c.prepareStatement(query);){
+
+            statement.setString(1, title);
+            ResultSet rs = statement.executeQuery(query);
 
             if(rs.next()){
                 User u = (User) um.get_id(rs.getInt("user"));

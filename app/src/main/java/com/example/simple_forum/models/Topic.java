@@ -1,5 +1,8 @@
 package com.example.simple_forum.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,6 +111,19 @@ public class Topic {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public JSONObject serialize(){
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("title", title);
+            obj.put("user", user.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }
 

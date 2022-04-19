@@ -12,6 +12,11 @@ public class CommentPersistenceHTTP implements ICommentPersistence{
     }
 
     @Override
+    public Comment get(String comment) {
+        return null;
+    }
+
+    @Override
     public void delete_comment(Comment c) {
 
     }

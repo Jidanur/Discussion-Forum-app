@@ -57,7 +57,7 @@ public class UserPersistenceHSQLDBTest {
     public void test_get_user(){
         User u = up.get("kurt");
         User u2 = new User("kurt", "kurt123", "kurt@uofm.com", "This is my bio!");
-        assertTrue(u != null & u.equals(u2));
+        assertTrue(u != null && u.equals(u2));
     }
 
     @Test

@@ -5,5 +5,6 @@ public enum SF_API {
     COMMENTS,
     DISCUSSIONS,
     TOPICS,
-    USERS
+    USERS,
+    USER_PROFILES
 }

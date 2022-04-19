@@ -5,11 +5,11 @@ import org.json.JSONObject;
 
 public interface IHTTPUtils {
 
-    public boolean get_server_status();
+    boolean get_server_status();
 
-    public JSONArray get(SF_API endpoint);
+    JSONArray get(SF_API endpoint);
 
-    public boolean post(SF_API endpoint, JSONObject data);
+    boolean post(SF_API endpoint, JSONObject data);
 
-    public String auth(String username, String password);
+    String auth(String username, String password);
 }

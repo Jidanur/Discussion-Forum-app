@@ -27,9 +27,8 @@ public class HttpUtils implements IHTTPUtils{
         endpoints.put(SF_API.TOPICS, "/forum_api/topics");
         endpoints.put(SF_API.DISCUSSIONS, "/forum_api/discussions");
         endpoints.put(SF_API.COMMENTS, "/forum_api/comments");
-
-        // TODO
-        // Add user endpoint for auth
+        endpoints.put(SF_API.USERS, "/user_profile_api/users");
+        endpoints.put(SF_API.USER_PROFILES, "/user_profile_api/user_profiles");
     }
 
     @Override
@@ -100,7 +99,7 @@ public class HttpUtils implements IHTTPUtils{
 
     @Override
     public String auth(String username, String password) {
-        return null;
+        return "";
     }
 
     private JSONArray get_content(HttpURLConnection con) throws IOException, JSONException {
@@ -115,7 +114,6 @@ public class HttpUtils implements IHTTPUtils{
         reader.close();
 
         // Convert content string to json
-        System.out.println(content.toString());
         return new JSONArray(content.toString());
     }
 }

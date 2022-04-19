@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class InstrumentedHTTPUtilsTest {
+public class HTTPUtilsTest {
 
     HttpUtils http;
     String TAG = "HTTP_UTILS TEST";
@@ -65,6 +65,30 @@ public class InstrumentedHTTPUtilsTest {
         int size = content.length();
         for(int i = 0; i < size; i++){
             Log.i(TAG, "test_get: Comments: " + content.getJSONObject(i).toString());
+        }
+        assertTrue("Content size: " + size, size != 0);
+    }
+
+    @Test
+    public void test_get_users() throws JSONException {
+
+        // Try to get discussions
+        JSONArray content = http.get(SF_API.USERS);
+        int size = content.length();
+        for(int i = 0; i < size; i++){
+            Log.i(TAG, "test_get: Users: " + content.getJSONObject(i).toString());
+        }
+        assertTrue("Content size: " + size, size != 0);
+    }
+
+    @Test
+    public void test_get_user_profiles() throws JSONException {
+
+        // Try to get discussions
+        JSONArray content = http.get(SF_API.USER_PROFILES);
+        int size = content.length();
+        for(int i = 0; i < size; i++){
+            Log.i(TAG, "test_get: USER PROFILES: " + content.getJSONObject(i).toString());
         }
         assertTrue("Content size: " + size, size != 0);
     }

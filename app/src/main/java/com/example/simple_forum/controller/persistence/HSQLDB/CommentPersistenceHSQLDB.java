@@ -83,6 +83,11 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
     }
 
     @Override
+    public Comment get(String comment) {
+        return null;
+    }
+
+    @Override
     public void delete_comment(Comment comment) {
 
         String query = "DELETE FROM comment WHERE id = ?";
