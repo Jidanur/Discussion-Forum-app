@@ -1,5 +1,7 @@
 package com.example.simple_forum.integration_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.example.simple_forum.controller.application.Main;
@@ -92,6 +94,24 @@ public class TopicPersistenceHSQLDBTest {
 
     @Test
     public void test_get_topic(){
+
+        /// trying to get topic which is not in the database
+        Topic t1 = tp.get("topic");
+        assertNull(t1);
+
+
+        // Create a  topic
+        String title = "topic";
+        Topic t = new Topic(title,new User(), "2022-02-28T00:22:58.538787Z");
+
+        /// insert topic
+        tp.insert_topic(t);
+
+        // trying to get newly inserted topic
+        t1 = tp.get(title);
+
+        assertEquals(t1.getTitle(),title);
+
 
     }
 

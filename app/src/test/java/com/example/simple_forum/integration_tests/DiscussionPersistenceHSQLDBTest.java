@@ -82,7 +82,7 @@ public class DiscussionPersistenceHSQLDBTest {
         //ArrayList<Discussion> dList = dp.get_all();
 
         d1 = dp.get(title);
-        //assertEquals(d1.getTitle(), title);
+        assertEquals(d1.getTitle(), title);
 
 
     }

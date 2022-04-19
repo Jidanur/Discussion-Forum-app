@@ -1,6 +1,8 @@
 package com.example.simple_forum;
 
+import com.example.simple_forum.integration_tests.CommentPersistenceHSQLDBTest;
 import com.example.simple_forum.integration_tests.DiscussionPersistenceHSQLDBTest;
+import com.example.simple_forum.integration_tests.TopicPersistenceHSQLDBTest;
 import com.example.simple_forum.integration_tests.UserPersistenceHSQLDBTest;
 
 import org.junit.runner.JUnitCore;
@@ -12,7 +14,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 
         UserPersistenceHSQLDBTest.class,
-        DiscussionPersistenceHSQLDBTest.class
+        DiscussionPersistenceHSQLDBTest.class,
+        TopicPersistenceHSQLDBTest.class,
+        CommentPersistenceHSQLDBTest.class
 
 })
 
