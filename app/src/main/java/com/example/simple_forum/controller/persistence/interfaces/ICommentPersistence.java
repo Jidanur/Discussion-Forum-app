@@ -9,8 +9,8 @@ public interface ICommentPersistence {
     // Insert a discussion into the database
     void insert_comment(Comment c);
 
-    // Get a comment from the database
-    Comment get(String comment);
+    // Get a comment from the DB
+    Comment get(String content);
 
     // Delete a discussion from the db
     void delete_comment(Comment c);
