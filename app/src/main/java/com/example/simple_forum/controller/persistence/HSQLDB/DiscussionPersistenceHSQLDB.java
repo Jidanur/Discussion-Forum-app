@@ -118,7 +118,7 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
 
     @Override
     public Discussion get(String title) {
-        String query = "SELECT id,title,content,user,date_created,topic FROM discussion WHERE title = ?";
+        String query = "SELECT * FROM discussion WHERE title = ?";
         Discussion d = null;
 
         try(final Connection c = connection();
