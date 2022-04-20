@@ -17,20 +17,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.models.User;
 import com.example.simple_forum.ui.login_view.LoginActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class RegisterActivity extends AppCompatActivity{
+    private UserManager u_list = new UserManager(true);
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_view);
 
-        Button button = (Button) findViewById(R.id.register);
+        Button register = (Button) findViewById(R.id.register);
 
         // Make a register click event
-        button.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(completeText()){
+                    u_list.add(makeUser());
                     Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(login);
                 }
@@ -54,7 +58,26 @@ public class RegisterActivity extends AppCompatActivity{
 
         if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(ema) && !TextUtils.isEmpty(bi))
             result = true;
+        else
+            Toast.makeText(getApplicationContext(),"Please complete the register form",Toast.LENGTH_SHORT).show();
 
         return result;
+    }
+
+    // Make a User object based on data that given by user
+    private User makeUser(){
+        EditText u_name = (EditText) findViewById(R.id.registerUname);
+        EditText p_word = (EditText) findViewById(R.id.registerPwd);
+        EditText email = (EditText) findViewById(R.id.emailAddrs);
+        EditText bio = (EditText) findViewById(R.id.bio);
+
+        String name = u_name.getText().toString().trim();
+        String pwd = p_word.getText().toString().trim();
+        String ema = email.getText().toString().trim();
+        String bi = bio.getText().toString().trim();
+
+        User user = new User(name,pwd,ema,bi);
+        return user;
+
     }
 }

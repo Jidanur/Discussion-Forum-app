@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.models.User;
 import com.example.simple_forum.ui.register_view.RegisterActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_view);
 
         // Create User manager and parse json test file
-        u_manager = new UserManager();
+        u_manager = new UserManager(true);
 
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.newUser);
@@ -55,12 +56,21 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Please enter your password",Toast.LENGTH_SHORT).show();
                 }
 
-                // Login user if username and password are not empty
+                // Login user if username and password are correct
                 if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                    Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
-                    topic_list.putExtra("username",name);
-                    startActivity(topic_list);
-                    Toast.makeText(getApplicationContext(),"Welcome, "+name,Toast.LENGTH_SHORT).show();
+                    if((User)getUser() != null) {
+                        if (u_manager.auth_user((User) getUser())) {
+                            u_manager.set_logged_in_user((User) getUser());
+                            Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
+                            topic_list.putExtra("username", name);
+                            startActivity(topic_list);
+                            Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                        }
+                    } else{
+                        Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -71,6 +81,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(register);
             }
         });
+
+    }
+
+    // get the user by username
+    private Object getUser(){
+        EditText u_name = (EditText) findViewById(R.id.username);
+        String name = u_name.getText().toString().trim();
+
+        Object user = u_manager.get_username(name);
+
+        return user;
 
     }
 
