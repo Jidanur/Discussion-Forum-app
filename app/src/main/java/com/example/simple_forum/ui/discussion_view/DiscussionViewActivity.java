@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -15,10 +14,8 @@ import android.widget.TextView;
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.managers.CommentManager;
 import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.adapters.CommentRecyclerAdapter;
-import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
@@ -27,7 +24,6 @@ public class DiscussionViewActivity extends AppCompatActivity {
     private String disc_t;
     private RecyclerView com_recycler;
     private CommentRecyclerAdapter com_adapter;
-    //private CommentRecyclerAdapter.OnCommentListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +68,6 @@ public class DiscussionViewActivity extends AppCompatActivity {
     }
 
     private void set_adapter() {
-        //setOnClickListener();
 
         // Create recycler instance
         com_adapter = new CommentRecyclerAdapter(com_manager, disc_t);
