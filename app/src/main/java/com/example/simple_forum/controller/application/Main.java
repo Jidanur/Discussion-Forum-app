@@ -1,9 +1,13 @@
 package com.example.simple_forum.controller.application;
 
+import com.example.simple_forum.controller.http_connector.HttpUtils;
+
 public class Main {
 
     private static String dbName = "SF";
     private static String dbPath = "";
+
+    // Use HTTP api by default if available
     private static boolean use_local = false;
 
     public static void main(String[] args){
@@ -23,7 +27,6 @@ public class Main {
 
     public static void setDbName(final String name) { dbName = name; }
 
-    public static void set_local_setting(boolean s){ use_local= s; }
-
+    public static void set_local_setting(boolean s){ use_local = s; }
 }
 

@@ -3,11 +3,12 @@ package com.example.simple_forum.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Discussion {
+public class Discussion implements Serializable {
     private Topic topic;
     private String title;
     private String content;

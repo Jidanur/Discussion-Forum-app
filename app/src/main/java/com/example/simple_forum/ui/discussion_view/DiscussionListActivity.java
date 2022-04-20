@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
@@ -19,6 +22,7 @@ import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class DiscussionListActivity extends AppCompatActivity {
@@ -42,14 +46,19 @@ public class DiscussionListActivity extends AppCompatActivity {
         // Set topic
         topic = intent.getStringExtra("TOPIC_TITLE");
 
-        // Create a discussion manager using local persistence
-        disc_manager = new DiscussionManager(Main.get_local_setting());
+        // If we are using local HSQLDB
+        if(Main.get_local_setting()){
+            disc_manager = new DiscussionManager(Main.get_local_setting());
 
-        // Set the recycler view
-        disc_recycler = findViewById(R.id.discussion_list);
+            // Set the recycler view
+            disc_recycler = findViewById(R.id.discussion_list);
 
-        // Set adapter
-        set_adapter();
+            // Set adapter
+            set_adapter();
+        } else {
+            // Exec async for HTTP
+            new AsyncCaller().execute();
+        }
 
         // Set the topic title text of the view
         TextView topic_title = (TextView) findViewById(R.id.discussion_topic_title);
@@ -74,24 +83,21 @@ public class DiscussionListActivity extends AppCompatActivity {
     }
 
     private void setOnClickListener() {
-        listener = new DiscussionRecyclerAdapter.OnDiscussionListener() {
-            @Override
-            public void onDiscussionClick(View v, int position) {
-                Intent intent = new Intent(getApplicationContext(), DiscussionViewActivity.class);
-                ArrayList<Discussion> queryset = disc_manager.filter(topic);
-                Discussion disc_holder = queryset.get(position);
+        listener = (v, position) -> {
+            Intent intent = new Intent(getApplicationContext(), DiscussionViewActivity.class);
+            ArrayList<Discussion> queryset = disc_manager.filter(topic);
+            Discussion disc_holder = queryset.get(position);
 
-                if (disc_holder != null){
-                    intent.putExtra("topic title", topic);
-                    intent.putExtra("discussion title", disc_holder.getTitle());
-                }
-                startActivity(intent);
+            if (disc_holder != null) {
+                intent.putExtra("topic title", topic);
+                intent.putExtra("discussion", disc_holder);
             }
+            startActivity(intent);
         };
     }
 
     // Clicked new discussion button
-    public void new_discussion(View view){
+    public void new_discussion(View view) {
 
         // Open new discussion form
         Intent intent = new Intent(this, NewDiscussionFormActivity.class);
@@ -104,10 +110,41 @@ public class DiscussionListActivity extends AppCompatActivity {
     }
 
     // Clicked back to topics
-    public void back_to_topics(View view){
+    public void back_to_topics(View view) {
 
         // Start intent
         Intent topics_list = new Intent(this, TopicListActivity.class);
         startActivity(topics_list);
+    }
+
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Notify
+            Toast.makeText(getApplicationContext(), "Getting data from server", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Create a discussion manager using local persistence
+            disc_manager = new DiscussionManager(Main.get_local_setting());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Set the recycler view
+            disc_recycler = findViewById(R.id.discussion_list);
+
+            // Set adapter
+            set_adapter();
+            Toast.makeText(getApplicationContext(), "Data retrieved", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,6 +1,9 @@
 package com.example.simple_forum.controller.persistence.HTTP;
 
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.http_connector.HttpUtils;
+import com.example.simple_forum.controller.http_connector.HttpUtilsAsync;
+import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 
 public class TopicPersistenceHTTP implements ITopicPersistence {
 
-    private static HttpUtils http;
+    private static IHTTPUtils http;
     private static SF_API endpoint = SF_API.TOPICS;
 
     private static UserPersistenceHTTP up;

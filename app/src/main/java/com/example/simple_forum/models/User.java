@@ -3,7 +3,9 @@ package com.example.simple_forum.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String username;
     private String password;
     private String email;

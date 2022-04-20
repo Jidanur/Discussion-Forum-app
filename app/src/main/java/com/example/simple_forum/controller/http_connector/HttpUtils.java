@@ -16,9 +16,10 @@ import java.util.Map;
 public class HttpUtils implements IHTTPUtils{
 
 
-    private static Map<SF_API, String> endpoints = new HashMap<SF_API, String>();
+    private static final Map<SF_API, String> endpoints = new HashMap<SF_API, String>();
     private final static String base_url = "http://group15simpleforum.pythonanywhere.com";
     private final static String json_tag = "/?format=json";
+    private final static int TIMEOUT = 500;
 
     public HttpUtils(){
 
@@ -40,12 +41,12 @@ public class HttpUtils implements IHTTPUtils{
     @Override
     public boolean get_endpoint_status(SF_API ep) {
         try {
-            // Try a get request to the admin endpoint from the server
+            // Try a get request to the endpoint from the server
             String spec = base_url + endpoints.get(ep);
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setConnectTimeout(5000);
+            con.setConnectTimeout(TIMEOUT);
 
             // Get the response code
             int status = con.getResponseCode();
@@ -78,13 +79,13 @@ public class HttpUtils implements IHTTPUtils{
             String spec = base_url + endpoints.get(endpoint) + json_tag;
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5000);
-            con.setReadTimeout(5000);
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Read content if status code is ok
             int status = con.getResponseCode();
             if(status == HttpURLConnection.HTTP_OK){
-                data = get_content(con);
+                data = IHTTPUtils.get_content(con);
                 con.disconnect();
             }
         } catch (MalformedURLException e) {
@@ -103,22 +104,7 @@ public class HttpUtils implements IHTTPUtils{
     }
 
     @Override
-    public String auth(String username, String password) {
-        return "";
-    }
-
-    private JSONArray get_content(HttpURLConnection con) throws IOException, JSONException {
-
-        // Get content header
-        String line = "";
-        StringBuilder content = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        while( (line = reader.readLine()) != null ){
-            content.append(line);
-        }
-        reader.close();
-
-        // Convert content string to json
-        return new JSONArray(content.toString());
+    public boolean auth(String username, String password) {
+        return false;
     }
 }

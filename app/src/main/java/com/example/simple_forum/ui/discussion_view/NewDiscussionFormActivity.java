@@ -42,13 +42,18 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         String disc_title = ((EditText) findViewById(R.id.discussion_title_entry)).getText().toString();
         String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
-        // Create new discussion
-        DiscussionManager d_manager = new DiscussionManager(Main.get_local_setting());
-        TopicManager tm = new TopicManager(Main.get_local_setting());
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                // Create new discussion
+                DiscussionManager d_manager = new DiscussionManager(Main.get_local_setting());
+                TopicManager tm = new TopicManager(Main.get_local_setting());
 
-        // Add the date with the proper fields
-        // everything else i.e user and date will be set within the manager
-        d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
+                // Add the date with the proper fields
+                // everything else i.e user and date will be set within the manager
+                d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
+            }
+        });
 
         // Navigate back to the discussion list of topic
         Intent nav = new Intent(this, DiscussionListActivity.class);
