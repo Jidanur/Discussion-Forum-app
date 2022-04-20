@@ -74,7 +74,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
     }
 
     @Override
-    public void add(Object item) {
+    public boolean add(Object item) {
 
         // Cast item
         Discussion d = (Discussion) item;
@@ -95,6 +95,7 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 discussionList = dp.get_all();
             }
         }
+        return exists(d.getTitle());
     }
 
     @Override

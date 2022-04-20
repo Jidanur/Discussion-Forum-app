@@ -1,6 +1,5 @@
 package com.example.simple_forum.controller.persistence.HSQLDB;
 
-import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
@@ -130,12 +129,33 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
         return t;
     }
 
+    @Override
+    public Topic get(int id) {
+        String query = "SELECT * FROM topic WHERE id = ?";
+        Topic t = null;
+
+        try(final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query)){
+
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()) {
+                User u = up.get(rs.getInt("user"));
+                t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getString("date_created"));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return t;
+    }
+
     // Get all topics in the DB
     public ArrayList<Topic> get_all(){
 
         ArrayList<Topic> queryset = new ArrayList<Topic>();
         String query = "SELECT * FROM topic";
-        UserManager um = new UserManager(true);
 
         try(final Connection c = connection();
 

@@ -124,6 +124,7 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
         return u;
     }
 
+    @Override
     public User get(int id) {
 
         String query = "SELECT id,username,password,email,bio FROM user WHERE id = ?";

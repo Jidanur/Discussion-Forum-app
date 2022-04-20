@@ -1,6 +1,11 @@
 package com.example.simple_forum.models;
 
-public class User {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String username;
     private String password;
     private String email;
@@ -89,5 +94,18 @@ public class User {
 
         return username.equals(u.getUsername()) && password.equals(u.getPassword())
         && bio.equals(u.getBio()) && email.equals(u.getEmail());
+    }
+
+    public JSONObject serialize(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("username", username);
+            obj.put("password", password);
+            obj.put("email", email);
+            obj.put("bio", bio);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 }

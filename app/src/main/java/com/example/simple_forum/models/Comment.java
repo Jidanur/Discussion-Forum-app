@@ -1,11 +1,14 @@
 package com.example.simple_forum.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-public class Comment {
+public class Comment implements Serializable {
     private Discussion discussion;
     private String content;
     private User user;
@@ -106,5 +109,19 @@ public class Comment {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public JSONObject serialize(){
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("discussion", discussion.getId());
+            obj.put("content", content);
+            obj.put("user", user.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }

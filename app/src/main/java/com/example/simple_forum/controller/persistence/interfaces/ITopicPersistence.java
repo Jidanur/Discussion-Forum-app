@@ -5,17 +5,18 @@ import java.util.ArrayList;
 
 public interface ITopicPersistence {
     // Insert a topic into the database
-    public void insert_topic(Topic t);
+    void insert_topic(Topic t);
 
     // Delete a topic from the db
-    public void delete_topic(Topic t);
+    void delete_topic(Topic t);
 
     // Get a certain topic
-    public Topic get(String title);
+    Topic get(String title);
+    Topic get(int id);
 
     // Get all topics in the DB
-    public ArrayList<Topic> get_all();
+    ArrayList<Topic> get_all();
 
     // Get the count of all the rows
-    public int get_count();
+    int get_count();
 }

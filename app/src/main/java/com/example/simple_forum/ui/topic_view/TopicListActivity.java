@@ -7,13 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
+import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
@@ -32,21 +36,18 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_list);
 
-        // TODO
-        // Populate topic list via json api call
-        // If server unavailable use local persistence instead
+        // If we are using local
+        if(Main.get_local_setting()){
+            t_manager = new TopicManager(Main.get_local_setting());
 
-        // Set utils context first
-        new Utils(this.getApplicationContext());
+            topic_recycler = findViewById(R.id.topic_list);
 
-        // Create Topic manager
-        t_manager = new TopicManager(true);
+            set_adapter();
+        } else {
+            // Use HTTP async calls
+            new AsyncCaller().execute();
+        }
 
-        // Set the recycler
-        topic_recycler = findViewById(R.id.topic_list);
-
-        // Set the adapter for the recycler
-        set_adapter();
     }
 
     private void set_adapter() {
@@ -76,8 +77,13 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         // Create a new topic object
         Topic t = new Topic(new_topic, new User(), "");
 
-        // Add the topic to the topic manager
-        t_manager.add(t);
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                // Add the topic to the topic manager
+                t_manager.add(t);
+            }
+        });
 
         // Notify the adapter of the change
         topic_adapter.notifyDataSetChanged();
@@ -94,5 +100,36 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         Log.d("TOPIC_LIST", "onTopicClick: " + t);
         discussion_list.putExtra("TOPIC_TITLE", t);
         startActivity(discussion_list);
+    }
+
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Getting data from server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Start the manager
+            t_manager = new TopicManager(Main.get_local_setting());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Set the recycler
+            topic_recycler = findViewById(R.id.topic_list);
+
+            // Set the adapter for the recycler
+            set_adapter();
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        }
     }
 }

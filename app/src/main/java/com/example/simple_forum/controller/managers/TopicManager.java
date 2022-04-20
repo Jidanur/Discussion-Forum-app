@@ -38,7 +38,7 @@ public class TopicManager implements BaseManager {
     }
 
     // Add a new topic to the list
-    public void add(Object item) {
+    public boolean add(Object item) {
 
         // Cast item
         Topic t = (Topic) item;
@@ -65,6 +65,7 @@ public class TopicManager implements BaseManager {
             }
             t.setId(topic_list.size());
         }
+        return exists(t.getTitle());
     }
 
     // Get a topic by title
