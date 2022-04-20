@@ -57,7 +57,7 @@ public class CommentManager implements BaseManager, FilterManager{
         return querySet;
     }
     @Override
-    public void add(Object item) {
+    public boolean add(Object item) {
 
         Comment c = (Comment) item;
 
@@ -78,6 +78,8 @@ public class CommentManager implements BaseManager, FilterManager{
                 commentList = cp.get_all();
             }
         }
+
+        return exists(c.getContent());
     }
 
     @Override

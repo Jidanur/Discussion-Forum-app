@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Discussion;
@@ -30,7 +31,7 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         intent = getIntent();
 
         // Set topic
-        topic = intent.getStringExtra("TOPIC_TITLE").toString();
+        topic = intent.getStringExtra("TOPIC_TITLE");
         ( (TextView) findViewById(R.id.topic_detail)).setText(topic);
     }
 
@@ -41,13 +42,18 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         String disc_title = ((EditText) findViewById(R.id.discussion_title_entry)).getText().toString();
         String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
-        // Create new discussion
-        DiscussionManager d_manager = new DiscussionManager(true);
-        TopicManager tm = new TopicManager(true);
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                // Create new discussion
+                DiscussionManager d_manager = new DiscussionManager(Main.get_local_setting());
+                TopicManager tm = new TopicManager(Main.get_local_setting());
 
-        // Add the date with the proper fields
-        // everything else i.e user and date will be set within the manager
-        d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
+                // Add the date with the proper fields
+                // everything else i.e user and date will be set within the manager
+                d_manager.add( new Discussion(tm.get(topic), disc_title, disc_content, new User(), "2022-04-1") );
+            }
+        });
 
         // Navigate back to the discussion list of topic
         Intent nav = new Intent(this, DiscussionListActivity.class);

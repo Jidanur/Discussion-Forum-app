@@ -3,8 +3,10 @@ package com.example.simple_forum.ui.login_view;
 import androidx.annotation.RequiresApi;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -16,11 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.models.User;
 import com.example.simple_forum.ui.register_view.RegisterActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,8 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_view);
 
-        // Create User manager and parse json test file
-        u_manager = new UserManager(true);
+        // If we are using local HSQLDB
+        if(Main.get_local_setting()){
+            u_manager = new UserManager(Main.get_local_setting());
+        } else {
+            // Exec async for HTTP
+            new AsyncCaller().execute();
+        }
+
+        // Exec async caller
+        new AsyncCaller().execute();
 
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.newUser);
@@ -95,8 +105,25 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // Create User manager
+            u_manager = new UserManager(Main.get_local_setting());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
+    }
 }
 
 

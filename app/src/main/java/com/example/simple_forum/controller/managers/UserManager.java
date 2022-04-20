@@ -32,7 +32,7 @@ public class UserManager implements BaseManager{
     }
 
     // Add a new user to the list
-    public void add(Object item){
+    public boolean add(Object item){
 
         // Cast item
         User u = (User) item;
@@ -52,6 +52,7 @@ public class UserManager implements BaseManager{
                 userList = up.get_all();
             }
         }
+        return exists(u.getUsername());
     }
 
     // Get a user by position
@@ -110,10 +111,10 @@ public class UserManager implements BaseManager{
     }
 
     @Override
-    public Boolean exists(String text) {
+    public Boolean exists(String username) {
         // Iterate through array list
         for(int i = 0; i < userList.size(); i++){
-            if(userList.get(i).getUsername().equals(text)){
+            if(userList.get(i).getUsername().equals(username)){
                 return true;
             }
         }
