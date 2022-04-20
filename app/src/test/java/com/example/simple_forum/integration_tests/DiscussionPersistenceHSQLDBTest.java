@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.persistence.HSQLDB.DiscussionPersistenceHSQLDB;
+import com.example.simple_forum.controller.persistence.HSQLDB.TopicPersistenceHSQLDB;
+import com.example.simple_forum.controller.persistence.HSQLDB.UserPersistenceHSQLDB;
 import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
@@ -19,13 +21,25 @@ import java.util.ArrayList;
 
 public class DiscussionPersistenceHSQLDBTest {
 
-
     DiscussionPersistenceHSQLDB dp;
+    UserPersistenceHSQLDB up;
+    TopicPersistenceHSQLDB tp;
+
+    // Stub values
+    String stub_date = "2022-02-28T00:22:58.538787Z";
+    User stub_user;
+    Topic stub_topic;
 
     @Before
     public void init(){
         Main.setDbName("test_discussion");
         dp = (DiscussionPersistenceHSQLDB) PersistenceManager.get_disc_persistence(true,true);
+        up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true,true);
+        tp = (TopicPersistenceHSQLDB) PersistenceManager.get_topic_persistence(true,true);
+
+        // Fill stub values with real entries from the in memory db
+        stub_user = up.get(1);
+        stub_topic = tp.get("Movies");
     }
 
     @Test
@@ -49,8 +63,7 @@ public class DiscussionPersistenceHSQLDBTest {
         int old_count = dp.get_count();
 
         // Create a Discussion with topic
-        Topic t = new Topic("topic",new User(), "2022-02-28T00:22:58.538787Z");
-        Discussion d = new Discussion(t,"new Discussion","nothing",new User(),"2022-02-28T00:22:58.538787Z");
+        Discussion d = new Discussion(stub_topic,"new Discussion","nothing",stub_user,stub_date);
 
         // Insert the user
         dp.insert_disc(d);
@@ -72,9 +85,8 @@ public class DiscussionPersistenceHSQLDBTest {
         /// add and get discussion
 
         // Create a Discussion with topic
-        String title = "new Discussion";
-        Topic t = new Topic("topic",new User(), "2022-02-28T00:22:58.538787Z");
-        Discussion d = new Discussion(t,title,"nothing",new User(),"2022-02-28T00:22:58.538787Z");
+        String title = "new Discussion 2";
+        Discussion d = new Discussion(stub_topic,title,"nothing",stub_user,stub_date);
 
         // Insert the user
         dp.insert_disc(d);
@@ -83,8 +95,6 @@ public class DiscussionPersistenceHSQLDBTest {
 
         d1 = dp.get(title);
         assertEquals(d1.getTitle(), title);
-
-
     }
 
     @Test
@@ -94,9 +104,8 @@ public class DiscussionPersistenceHSQLDBTest {
         int old_count = dp.get_count();
 
         // Create a Discussion with topic
-        String title = "new Discussion";
-        Topic t = new Topic("topic",new User(), "2022-02-28T00:22:58.538787Z");
-        Discussion d = new Discussion(t,title,"nothing",new User(),"2022-02-28T00:22:58.538787Z");
+        String title = "new Discussion 3";
+        Discussion d = new Discussion(stub_topic,title,"nothing",stub_user,stub_date);
 
         /// insert
         dp.insert_disc(d);
@@ -107,6 +116,9 @@ public class DiscussionPersistenceHSQLDBTest {
         // new count should be greater than old count by only 1
         assertTrue( old_count < new_count && new_count < old_count + 2 );
 
+        // Get the inserted discussion with an id
+        d = dp.get(title);
+
         /// delete discussion
         dp.delete_disc(d);
 
@@ -114,11 +126,5 @@ public class DiscussionPersistenceHSQLDBTest {
 
         /// new count should same as old
         assertTrue(old_count == new_count);
-
-
-
     }
-
-
-
 }
