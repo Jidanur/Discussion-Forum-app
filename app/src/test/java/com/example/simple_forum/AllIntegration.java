@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
         TopicPersistenceHSQLDBTest.class,
         CommentPersistenceHSQLDBTest.class
 
+
 })
 
 public class AllIntegration {
