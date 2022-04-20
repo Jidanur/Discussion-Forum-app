@@ -25,6 +25,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.login_view.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".ui.register_view.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="stateHidden" />
