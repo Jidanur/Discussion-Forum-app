@@ -27,9 +27,6 @@ public class DiscussionViewActivity extends AppCompatActivity {
         TextView dateTxt = findViewById(R.id.discussionView_date);
 
         String disc_title = "Title not set";
-        String disc_content = "Content not set";
-        String disc_username = "Username not set";
-        String disc_date = "Date not set";
 
         Discussion disc = null;
         DiscussionManager disc_manager = new DiscussionManager();
@@ -44,8 +41,8 @@ public class DiscussionViewActivity extends AppCompatActivity {
         if(disc != null) {
             titleTxt.setText(disc.getTitle());
             contentTxt.setText(disc.getContent());
-            usernameTxt.setText("PLACEHOLDER USERNAME");
-            dateTxt.setText("PLACEHOLDER UNTIL FIX");
+            usernameTxt.setText(disc.getUser().getUsername());
+            dateTxt.setText(disc.getDate());
         }
     }
 

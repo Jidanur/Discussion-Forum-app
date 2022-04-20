@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Discussion;
@@ -30,7 +31,7 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         intent = getIntent();
 
         // Set topic
-        topic = intent.getStringExtra("TOPIC_TITLE").toString();
+        topic = intent.getStringExtra("TOPIC_TITLE");
         ( (TextView) findViewById(R.id.topic_detail)).setText(topic);
     }
 
@@ -42,8 +43,8 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
         // Create new discussion
-        DiscussionManager d_manager = new DiscussionManager(true);
-        TopicManager tm = new TopicManager(true);
+        DiscussionManager d_manager = new DiscussionManager(Main.get_local_setting());
+        TopicManager tm = new TopicManager(Main.get_local_setting());
 
         // Add the date with the proper fields
         // everything else i.e user and date will be set within the manager

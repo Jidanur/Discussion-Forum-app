@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
@@ -40,7 +41,7 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         new Utils(this.getApplicationContext());
 
         // Create Topic manager
-        t_manager = new TopicManager(true);
+        t_manager = new TopicManager(Main.get_local_setting());
 
         // Set the recycler
         topic_recycler = findViewById(R.id.topic_list);

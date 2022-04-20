@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
@@ -42,7 +43,7 @@ public class DiscussionListActivity extends AppCompatActivity {
         topic = intent.getStringExtra("TOPIC_TITLE");
 
         // Create a discussion manager using local persistence
-        disc_manager = new DiscussionManager(true);
+        disc_manager = new DiscussionManager(Main.get_local_setting());
 
         // Set the recycler view
         disc_recycler = findViewById(R.id.discussion_list);
