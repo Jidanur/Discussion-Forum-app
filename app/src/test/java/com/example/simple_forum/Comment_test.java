@@ -50,7 +50,7 @@ public class Comment_test {
 
         Comment test_comment = new Comment(discussion, "good topic", new User(), date);
 
-        assertNull(test_comment.getDate());
+        assertEquals(test_comment.getDate(),"");
 
 
     }
