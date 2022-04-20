@@ -34,7 +34,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     @NonNull
     @Override
     public CommentRecyclerAdapter.CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View item_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_list_items, parent, false);
+        View item_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_view, parent, false);
 
         return new CommentViewHolder(item_view);
     }
@@ -47,7 +47,12 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
         // Set the comment title
         String comment_text = com.getContent();
+        String comment_user = com.getUser().getUsername();
+        String comment_date = com.getDate();
+
         holder.comment_text.setText(comment_text);
+        holder.username_text.setText(comment_user);
+        holder.date_text.setText(comment_date);
     }
 
     @Override
@@ -59,10 +64,14 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     public class CommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView comment_text;
+        private TextView username_text;
+        private TextView date_text;
 
         private CommentViewHolder(final View view){
             super(view);
-            comment_text = view.findViewById(R.id.comment_text);
+            comment_text = view.findViewById(R.id.com_content);
+            username_text = view.findViewById(R.id.com_username);
+            date_text = view.findViewById(R.id.com_date);
         }
 
         @Override
