@@ -4,9 +4,12 @@ public class Main {
 
     private static String dbName = "SF";
     private static String dbPath = "";
+    private static boolean use_local = false;
 
     public static void main(String[] args){
     }
+
+    public static boolean get_local_setting(){ return use_local; }
 
     public static String getDBName() {
         return dbName;
@@ -19,6 +22,8 @@ public class Main {
     }
 
     public static void setDbName(final String name) { dbName = name; }
+
+    public static void set_local_setting(boolean s){ use_local= s; }
 
 }
 
