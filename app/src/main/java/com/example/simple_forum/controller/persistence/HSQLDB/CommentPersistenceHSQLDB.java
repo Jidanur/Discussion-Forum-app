@@ -153,7 +153,7 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
                 // Get user and discussion
                 User u = up.get(rs.getInt("user"));
                 Discussion d = dp.get(rs.getInt("discussion"));
-                String date = String.valueOf(rs.getDate("date_created"));
+                String date = String.valueOf(rs.getString("date_created"));
 
                 queryset.add( new Comment(rs.getInt("id"), d, rs.getString("content"), u, date) );
             }
@@ -167,7 +167,7 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
 
     @Override
     public int get_count() {
-        String query = "SELECT COUNT(*) FROM comment";
+        String query = "SELECT COUNT(*) as comment_count FROM comment";
         int count = 0;
 
         try(final Connection c = connection();
@@ -176,7 +176,7 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
             ResultSet rs = statement.executeQuery(query)){
 
             if(rs.next()){
-                count = rs.getRow();
+                count = rs.getInt("comment_count");
             }
 
         } catch (SQLException throwables) {

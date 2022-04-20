@@ -34,6 +34,15 @@ public class HTTPUtilsTest {
     }
 
     @Test
+    public void test_connect_all_endpoints(){
+
+        // Try to get a response from every single endpoint available
+        for(SF_API ep : SF_API.values()){
+            assertTrue("Endpoint not available: " + ep.toString(), http.get_endpoint_status(ep));
+        }
+    }
+
+    @Test
     public void test_get_discussions() throws JSONException {
 
         // Try to get discussions

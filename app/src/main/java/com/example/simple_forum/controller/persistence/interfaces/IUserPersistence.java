@@ -6,19 +6,20 @@ import java.util.ArrayList;
 public interface IUserPersistence {
 
     // Insert a User into the database
-    public void insert_user(User u);
+    void insert_user(User u);
 
     // Delete a user from the db
-    public void delete_user(User u);
+    void delete_user(User u);
 
     // Get a certain user
-    public User get(String username);
+    User get(String username);
+    User get(int id);
 
     // Get all users in the DB
-    public ArrayList<User> get_all();
+    ArrayList<User> get_all();
 
     // Get the count of all the rows
-    public int get_count();
+    int get_count();
 
     // Authenticate user
     boolean auth_user(User u);

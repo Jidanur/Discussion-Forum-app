@@ -34,9 +34,14 @@ public class HttpUtils implements IHTTPUtils{
     @Override
     public boolean get_server_status() {
 
+        return get_endpoint_status(SF_API.ADMIN);
+    }
+
+    @Override
+    public boolean get_endpoint_status(SF_API ep) {
         try {
             // Try a get request to the admin endpoint from the server
-            String spec = base_url + endpoints.get(SF_API.ADMIN);
+            String spec = base_url + endpoints.get(ep);
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");

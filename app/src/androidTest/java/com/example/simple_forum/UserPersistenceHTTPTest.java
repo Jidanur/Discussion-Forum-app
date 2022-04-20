@@ -53,6 +53,33 @@ public class UserPersistenceHTTPTest {
     }
 
     @Test
+    public void test_get_single_id() throws JSONException {
+
+        // Get an entry from api manually, both users and user profiles
+        JSONObject user = http.get(SF_API.USERS).getJSONObject(0);
+        JSONObject user_profile = http.get(SF_API.USER_PROFILES).getJSONObject(0);
+
+        // Build a user model
+        int id = user.getInt("id");
+        String username = user.getString("username");
+        String password = user.getString("password");
+        String email = user.getString("email");
+        String bio = user_profile.getString("bio");
+
+        // Build the user object
+        User u = new User(id, username, password, email, bio);
+
+        // Get a user from the user persistence using id
+        User u2 = up.get(id);
+
+        // Compare serialized data
+        String serial_1 = u.serialize().toString();
+        String serial_2 = u2.serialize().toString();
+
+        assertTrue("U1: " + serial_1 + " | U2: " + serial_2, serial_1.equals(serial_2));
+    }
+
+    @Test
     public void test_get_single() throws JSONException {
 
         // Get an entry from api manually, both users and user profiles

@@ -39,9 +39,21 @@ public class UserPersistenceHTTP implements IUserPersistence {
                 return u;
             }
         }
-
         return null;
     }
+
+    @Override
+    public User get(int id) {
+
+        // Find user
+        for(User u : get_all()){
+            if(u.getId() == id){
+                return u;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public ArrayList<User> get_all() {
@@ -88,10 +100,7 @@ public class UserPersistenceHTTP implements IUserPersistence {
 
     @Override
     public int get_count() {
-        // Get all items from the endpoint
-        JSONArray users = http.get(endpoint);
-
-        return users.length();
+        return http.get(endpoint).length();
     }
 
     @Override

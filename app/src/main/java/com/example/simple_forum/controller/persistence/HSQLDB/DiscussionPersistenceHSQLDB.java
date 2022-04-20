@@ -1,8 +1,5 @@
 package com.example.simple_forum.controller.persistence.HSQLDB;
 
-import com.example.simple_forum.controller.application.Main;
-import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.persistence.interfaces.IDiscussionPersistence;
 import com.example.simple_forum.models.Discussion;

@@ -52,6 +52,33 @@ public class TopicPersistenceHTTPTest {
     }
 
     @Test
+    public void test_get_single_id() throws JSONException {
+
+        // Get an entry from the API manually
+        JSONArray topics = http.get(SF_API.TOPICS);
+        JSONObject topic = topics.getJSONObject(0);
+
+        // Build topic obj
+        // Set users as the controlled stub user instead of from the
+        // User manager
+        int id = topic.getInt("id");
+        String title = topic.getString("title");
+        String date_created = topic.getString("date_created");
+        stub_user.setId(topic.getInt("user"));
+        Topic t1 = new Topic(id, title, stub_user, date_created);
+
+        // Get the same entry from the topic persistence using id
+        Topic t2 = tp.get(id);
+        t2.setUser(stub_user);
+
+        // Compare serialized data
+        // Both should be the same
+        String t1_ser = t1.serialize().toString();
+        String t2_ser = t2.serialize().toString();
+        assertTrue("T1: " + t1_ser + " | T2: " + t2_ser, t1_ser.equals(t2_ser));
+    }
+
+    @Test
     public void test_get_single() throws JSONException {
 
         // Get an entry from the API manually

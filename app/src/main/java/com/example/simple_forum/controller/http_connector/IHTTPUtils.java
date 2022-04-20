@@ -7,6 +7,8 @@ public interface IHTTPUtils {
 
     boolean get_server_status();
 
+    boolean get_endpoint_status(SF_API ep);
+
     JSONArray get(SF_API endpoint);
 
     boolean post(SF_API endpoint, JSONObject data);

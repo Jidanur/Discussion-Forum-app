@@ -7,17 +7,18 @@ import java.util.ArrayList;
 public interface IDiscussionPersistence {
 
     // Insert a discussion into the database
-    public void insert_disc(Discussion d);
+    void insert_disc(Discussion d);
 
     // Delete a discussion from the db
-    public void delete_disc(Discussion d);
+    void delete_disc(Discussion d);
 
     // Get a certain discussion
-    public Discussion get(String title);
+    Discussion get(String title);
+    Discussion get(int id);
 
     // Get all discussions in the DB
-    public ArrayList<Discussion> get_all();
+    ArrayList<Discussion> get_all();
 
     // Get the count of all the rows
-    public int get_count();
+    int get_count();
 }

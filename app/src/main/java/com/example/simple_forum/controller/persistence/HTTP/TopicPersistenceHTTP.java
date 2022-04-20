@@ -2,7 +2,6 @@ package com.example.simple_forum.controller.persistence.HTTP;
 
 import com.example.simple_forum.controller.http_connector.HttpUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
-import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
@@ -17,8 +16,11 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     private static HttpUtils http;
     private static SF_API endpoint = SF_API.TOPICS;
 
+    private static UserPersistenceHTTP up;
+
     public TopicPersistenceHTTP(){
         http = new HttpUtils();
+        up = new UserPersistenceHTTP();
     }
 
     // Insert topic via API to server
@@ -48,14 +50,21 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     }
 
     @Override
+    public Topic get(int id) {
+        // Iterate and find
+        for(Topic t : get_all()){
+            if(t.getId() == id){
+                return t;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Topic> get_all() {
 
         // Result list
         ArrayList<Topic> topic_list = new ArrayList<>();
-
-        // User manager to query for the user model
-        // use_local set to false
-        UserManager um = new UserManager(false);
 
         // Get all items as json from the endpoint
         JSONArray topics = http.get(endpoint);
@@ -69,7 +78,7 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
                 int id = obj.getInt("id");
                 String title = obj.getString("title");
                 String date_created = obj.getString("date_created");
-                User u = (User) um.get_id(obj.getInt("user"));
+                User u = up.get(obj.getInt("user"));
 
                 // Build and add new topic
                 Topic t = new Topic(id, title, u, date_created);
@@ -83,9 +92,6 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
 
     @Override
     public int get_count() {
-        // Get all items as json from the endpoint
-        JSONArray topics = http.get(endpoint);
-
-        return topics.length();
+        return http.get(endpoint).length();
     }
 }
