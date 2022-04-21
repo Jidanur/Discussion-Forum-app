@@ -72,7 +72,7 @@ public class CommentPersistenceHTTP implements ICommentPersistence{
                 String content = obj.getString("content");
                 String date_created = obj.getString("date_created");
                 User u = up.get(obj.getInt("user"));
-                Discussion d = dp.get(obj.getInt("discussion"));
+                Discussion d = new Discussion(obj.getInt("discussion"), null, "","", null, "2022-04-12 00:00:00.000000");
 
                 // Build and add new comment
                 Comment c = new Comment(id, d, content, u, date_created);
