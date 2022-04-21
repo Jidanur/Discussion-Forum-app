@@ -92,6 +92,9 @@ public class UserManager implements BaseManager{
             if(u.getUsername().equals(username)){
                 return u;
             }
+            else{
+                return null;
+            }
         }
 
         return null;

@@ -9,6 +9,7 @@ import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.login_view.LoginActivity;
+import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class StartUpActivity extends AppCompatActivity {
 
@@ -27,10 +28,11 @@ public class StartUpActivity extends AppCompatActivity {
         new Utils(getApplicationContext());
 
         // Set local to false
-        Main.set_local_setting(true);
+        Main.set_local_setting(false);
 
+        // TODO redirect to login once auth has been fixed 
         // Go to login page
-        Intent login_page = new Intent(StartUpActivity.this, LoginActivity.class);
+        Intent login_page = new Intent(StartUpActivity.this, TopicListActivity.class);
         startActivity(login_page);
     }
 }

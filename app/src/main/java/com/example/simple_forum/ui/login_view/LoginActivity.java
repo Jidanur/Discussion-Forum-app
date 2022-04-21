@@ -19,11 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
-import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
+import com.example.simple_forum.models.User;
+import com.example.simple_forum.ui.register_view.RegisterActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,9 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         // Exec async caller
         new AsyncCaller().execute();
 
-        Button button = (Button) findViewById(R.id.login);
+        Button login = (Button) findViewById(R.id.login);
+        Button register = (Button) findViewById(R.id.newUser);
         // Make a login click event
-        button.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 EditText u_name = (EditText) findViewById(R.id.username);
                 EditText p_word = (EditText) findViewById(R.id.password);
@@ -66,15 +66,43 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Please enter your password",Toast.LENGTH_SHORT).show();
                 }
 
-                // Login user if username and password are not empty
+                // Login user if username and password are correct
                 if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                    Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
-                    topic_list.putExtra("username",name);
-                    startActivity(topic_list);
-                    Toast.makeText(getApplicationContext(),"Welcome, "+name,Toast.LENGTH_SHORT).show();
+                    if((User)getUser() != null) {
+                        if (u_manager.auth_user((User) getUser())) {
+                            u_manager.set_logged_in_user((User) getUser());
+                            Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
+                            topic_list.putExtra("username", name);
+                            startActivity(topic_list);
+                            Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                        }
+                    } else{
+                        Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register);
+            }
+        });
+
+    }
+
+    // get the user by username
+    private Object getUser(){
+        EditText u_name = (EditText) findViewById(R.id.username);
+        String name = u_name.getText().toString().trim();
+
+        Object user = u_manager.get_username(name);
+
+        return user;
+
     }
 
     protected class AsyncCaller extends AsyncTask<Void, Void, Void> {

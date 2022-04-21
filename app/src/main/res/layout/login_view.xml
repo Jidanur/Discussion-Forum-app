@@ -47,9 +47,7 @@
         android:id="@+id/login"
         android:layout_width="113dp"
         android:layout_height="61dp"
-        android:layout_marginStart="243dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="246dp"
         android:text="Sign in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,5 +62,15 @@
         android:textSize="20sp"
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/newUser"
+        android:layout_width="300dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="100dp"
+        android:text="If you are new, please register at here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
