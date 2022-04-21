@@ -94,7 +94,7 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
     public void onTopicClick(int position) {
 
         // Start a new intent and pass in the Topic object
-        Intent discussion_list = new Intent(this, DiscussionListActivity.class);
+        Intent discussion_list = new Intent(TopicListActivity.this, DiscussionListActivity.class);
 
         // Pass the topic title as an extra arg to the activity
         Topic t = t_manager.get(position);
