@@ -50,6 +50,8 @@ public class HttpUtils implements IHTTPUtils{
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Get the response code
             int status = con.getResponseCode();
@@ -83,6 +85,8 @@ public class HttpUtils implements IHTTPUtils{
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Read content if status code is ok
             int status = con.getResponseCode();
@@ -113,6 +117,8 @@ public class HttpUtils implements IHTTPUtils{
             con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
             con.setUseCaches(false);
             con.setDoOutput(true);
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Write the output stream
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -154,6 +160,8 @@ public class HttpUtils implements IHTTPUtils{
             con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
             con.setUseCaches(false);
             con.setDoOutput(true);
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Write the output stream
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());

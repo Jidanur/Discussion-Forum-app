@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.CommentManager;
+import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.ui.adapters.CommentRecyclerAdapter;
@@ -31,10 +34,21 @@ public class DiscussionViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discussion_view);
 
-        //Get comment entries for this discussion
-        com_manager = new CommentManager(Main.get_local_setting());
+        // Use local DB
+        if(Main.get_local_setting()){
 
-        com_recycler = findViewById(R.id.comments_list);
+            com_manager = new CommentManager(Main.get_local_setting());
+
+            // Set recycler
+            com_recycler = findViewById(R.id.comments_list);
+
+            // Set adapter
+            set_adapter();
+
+        } else {
+            // Exec async http calls
+            new AsyncCaller().execute();
+        }
 
         TextView titleTxt = findViewById(R.id.discussionView_title);
         TextView contentTxt = findViewById(R.id.discussionView_content);
@@ -53,10 +67,10 @@ public class DiscussionViewActivity extends AppCompatActivity {
             usernameTxt.setText(disc.getUser().getUsername());
             dateTxt.setText(disc.getDate());
         }
-        
-        // Set adapter
-        set_adapter();
     }
+
+    // Create comment
+
 
     private void set_adapter() {
 
@@ -77,9 +91,39 @@ public class DiscussionViewActivity extends AppCompatActivity {
     // Clicked back to discussion list
     public void back_to_disc_list(View view){
 
-        // Start intent
-        Intent disc_list = new Intent(this, DiscussionListActivity.class);
-        disc_list.putExtra("topic", disc.getTopic());
+        Intent disc_list = new Intent(DiscussionViewActivity.this, DiscussionListActivity.class);
+        disc_list.putExtra("topic", topic);
         startActivity(disc_list);
+    }
+
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Notify
+            Toast.makeText(getApplicationContext(), "Getting data from server", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            //Get comment entries for this discussion
+            com_manager = new CommentManager(Main.get_local_setting());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Set recycler
+            com_recycler = findViewById(R.id.comments_list);
+
+            // Set adapter
+            set_adapter();
+        }
     }
 }
