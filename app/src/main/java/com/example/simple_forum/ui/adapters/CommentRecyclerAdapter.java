@@ -20,11 +20,11 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     private CommentManager com_manager;
     private ArrayList<Comment> queryset;
 
-    public CommentRecyclerAdapter(CommentManager c_manager, String disc_title){//, OnCommentListener newListener){
+    public CommentRecyclerAdapter(CommentManager c_manager, int disc_id){//, OnCommentListener newListener){
         com_manager = c_manager;
 
         // Set com_manager queryset based on discussion
-        queryset = com_manager.filter(disc_title);
+        queryset = com_manager.filter(disc_id);
     }
 
     @NonNull

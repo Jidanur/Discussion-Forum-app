@@ -94,7 +94,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
     private void set_adapter() {
 
         // Create recycler instance
-        com_adapter = new CommentRecyclerAdapter(com_manager, disc.getTitle());
+        com_adapter = new CommentRecyclerAdapter(com_manager, disc.getId());
 
         // Create linear layout manger
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -139,8 +139,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             // Notify
-            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getTitle());
-            com_recycler.setAdapter(com_adapter);
+            set_adapter();
 
             Toast.makeText(getApplicationContext(), "Comments loaded", Toast.LENGTH_SHORT).show();
         }
@@ -174,7 +173,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             // Notify adapter change
-            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getTitle());
+            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getId());
             com_recycler.setAdapter(com_adapter);
 
             Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();

@@ -25,7 +25,7 @@ import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
 
 public class TopicListActivity extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
-    private static TopicManager t_manager;
+    private static TopicManager t_manager = new TopicManager();
     private RecyclerView topic_recycler;
     private TopicRecyclerAdapter topic_adapter;
 
@@ -34,17 +34,19 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_list);
 
+        topic_recycler = findViewById(R.id.topic_list);
+
         // If we are using local
         if(Main.get_local_setting()){
             t_manager = new TopicManager(Main.get_local_setting());
-
-            topic_recycler = findViewById(R.id.topic_list);
 
             set_adapter();
         } else {
             // Use HTTP async calls
             new AsyncCaller().execute();
         }
+
+        set_adapter();
     }
 
     private void set_adapter() {
@@ -120,9 +122,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-            // Set the recycler
-            topic_recycler = findViewById(R.id.topic_list);
 
             // Set the adapter for the recycler
             set_adapter();

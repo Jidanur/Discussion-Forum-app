@@ -48,12 +48,11 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
         String disc_title = ((EditText) findViewById(R.id.discussion_title_entry)).getText().toString();
         String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
-        d_manager = new DiscussionManager(Main.get_local_setting());
-
         // If we are using local
         if(Main.get_local_setting()){
 
             // Create new discussion
+            d_manager = new DiscussionManager(Main.get_local_setting());
             d_manager.add(new Discussion(topic, disc_title, disc_content, new User(), ""));
 
             // Navigate back to the discussion list of topic
@@ -82,6 +81,7 @@ public class NewDiscussionFormActivity extends AppCompatActivity {
             String disc_content = ((EditText) findViewById(R.id.discussion_content_entry)).getText().toString();
 
             // Create a new discussion object
+            d_manager = new DiscussionManager(Main.get_local_setting());
             Discussion d = new Discussion(topic, disc_title, disc_content, new User(), "");
 
             // Add the discussion to the discussion manager
