@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
@@ -15,6 +16,7 @@ import com.example.simple_forum.ui.topic_view.TopicListActivity;
 public class DiscussionViewActivity extends AppCompatActivity {
 
     private String topic_title;
+    private Discussion disc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,26 +28,17 @@ public class DiscussionViewActivity extends AppCompatActivity {
         TextView usernameTxt = findViewById(R.id.discussionView_username);
         TextView dateTxt = findViewById(R.id.discussionView_date);
 
-        String disc_title = "Title not set";
-        String disc_content = "Content not set";
-        String disc_username = "Username not set";
-        String disc_date = "Date not set";
-
-        Discussion disc = null;
-        DiscussionManager disc_manager = new DiscussionManager();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             topic_title = extras.getString("topic title");
-            disc_title = extras.getString("discussion title");
-
-            disc = (Discussion) disc_manager.get(disc_title);
+            disc = (Discussion) extras.get("discussion");
         }
 
         if(disc != null) {
             titleTxt.setText(disc.getTitle());
             contentTxt.setText(disc.getContent());
-            usernameTxt.setText("PLACEHOLDER USERNAME");
-            dateTxt.setText("PLACEHOLDER UNTIL FIX");
+            usernameTxt.setText(disc.getUser().getUsername());
+            dateTxt.setText(disc.getDate());
         }
     }
 

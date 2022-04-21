@@ -1,6 +1,6 @@
 package com.example.simple_forum.controller.persistence.HSQLDB;
 
-import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
@@ -17,9 +17,12 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
     private final String db_path;
     private String jdbc_prefix = "jdbc:hsqldb:file:";
+    private static UserPersistenceHSQLDB up;
 
     public TopicPersistenceHSQLDB(String db_path) {
+
         this.db_path = db_path;
+        up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true,true);
     }
 
     // Use in memory db
@@ -29,11 +32,13 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
         if(in_memory){
             try{
+                up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true,true);
+
                 Connection conn = connection();
                 Statement st = conn.createStatement();
 
                 // Create and populate table
-                st.execute("CREATE MEMORY TABLE PUBLIC.TOPIC(ID INTEGER NOT NULL PRIMARY KEY,TITLE VARCHAR(255) NOT NULL,DATE_CREATED VARCHAR(255),USER INTEGER NOT NULL,UNIQUE(TITLE))");
+                st.execute("CREATE MEMORY TABLE PUBLIC.TOPIC(ID INTEGER NOT NULL PRIMARY KEY,TITLE VARCHAR(255) NOT NULL,DATE_CREATED VARCHAR(255),USER INTEGER NOT NULL,UNIQUE(TITLE));");
                 st.execute("INSERT INTO TOPIC VALUES(1,'Movies','2022-02-28 00:22:58.000000',1);" +
                         "INSERT INTO TOPIC VALUES(2,'Video Games','2022-02-28 00:23:33.000000',2);" +
                         "INSERT INTO TOPIC VALUES(3,'Cars','2022-02-28 00:23:23.000000',3);" +
@@ -104,7 +109,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
     }
 
     public Topic get(String title){
-        String query = "SELECT id,title,user,date_created FROM topic WHERE title = ?";
+        String query = "SELECT * FROM topic WHERE title = ?";
         Topic t = null;
 
         try(final Connection c = connection();
@@ -112,10 +117,31 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
             statement.setString(1, title);
             ResultSet rs = statement.executeQuery();
-            UserManager um = new UserManager(true);
 
             if(rs.next()) {
-                User u = (User) um.get_id(rs.getInt("user"));
+                User u = up.get(rs.getInt("user"));
+                t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getString("date_created"));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return t;
+    }
+
+    @Override
+    public Topic get(int id) {
+        String query = "SELECT * FROM topic WHERE id = ?";
+        Topic t = null;
+
+        try(final Connection c = connection();
+            PreparedStatement statement = c.prepareStatement(query)){
+
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()) {
+                User u = up.get(rs.getInt("user"));
                 t = new Topic(rs.getInt("id"), rs.getString("title"), u, rs.getString("date_created"));
             }
 
@@ -130,7 +156,6 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
 
         ArrayList<Topic> queryset = new ArrayList<Topic>();
         String query = "SELECT * FROM topic";
-        UserManager um = new UserManager(true);
 
         try(final Connection c = connection();
 
@@ -140,7 +165,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
             while(rs.next()){
 
                 // Get the user
-                User user = (User) um.get_id(rs.getInt("user"));
+                User user = up.get(rs.getInt("user"));
 
                 queryset.add( new Topic(rs.getInt("id"), rs.getString("title"), user, rs.getString("date_created")) );
             }

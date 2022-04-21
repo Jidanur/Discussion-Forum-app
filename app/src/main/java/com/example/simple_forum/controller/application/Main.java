@@ -1,23 +1,19 @@
 package com.example.simple_forum.controller.application;
-import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.controller.managers.TopicManager;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.models.Comment;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-
+import com.example.simple_forum.controller.http_connector.HttpUtils;
 
 public class Main {
 
     private static String dbName = "SF";
     private static String dbPath = "";
 
+    // Use HTTP api by default if available
+    private static boolean use_local = false;
+
     public static void main(String[] args){
     }
+
+    public static boolean get_local_setting(){ return use_local; }
 
     public static String getDBName() {
         return dbName;
@@ -31,5 +27,6 @@ public class Main {
 
     public static void setDbName(final String name) { dbName = name; }
 
+    public static void set_local_setting(boolean s){ use_local = s; }
 }
 

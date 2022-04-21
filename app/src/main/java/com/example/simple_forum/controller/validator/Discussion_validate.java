@@ -14,7 +14,7 @@ public class Discussion_validate implements Validation{
 
     @Override
     public boolean validate() {
-        boolean valid = checkTitle() && checkContent() && checkUser() && checkTopic();
+        boolean valid = checkTitle() && checkContent() && checkTopic();
 
         return valid;
     }
@@ -49,8 +49,6 @@ public class Discussion_validate implements Validation{
     }
 
 
-
-
     public boolean checkTitle() {
         boolean valid = false;
         String title = discussion_obj.getTitle();
@@ -64,15 +62,6 @@ public class Discussion_validate implements Validation{
         return valid;
     }
 
-    @Override
-    public boolean checkUser() {
-        boolean valid = discussion_obj.getUser() != null;
-
-        /// todo
-        ///run thro user validator
-
-        return valid;
-    }
 
 
 }

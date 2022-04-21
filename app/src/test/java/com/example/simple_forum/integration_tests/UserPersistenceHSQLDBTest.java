@@ -57,7 +57,7 @@ public class UserPersistenceHSQLDBTest {
     public void test_get_user(){
         User u = up.get("kurt");
         User u2 = new User("kurt", "kurt123", "kurt@uofm.com", "This is my bio!");
-        assertTrue(u != null & u.equals(u2));
+        assertTrue(u != null && u.equals(u2));
     }
 
     @Test
@@ -76,9 +76,14 @@ public class UserPersistenceHSQLDBTest {
         int new_count = up.get_count();
 
         // new count should be greater than old count by only 1
-        assertTrue( old_count < new_count && new_count < old_count + 2 );
+        assertTrue( "OLD: " + old_count + " | NEW COUNT: " + new_count, old_count < new_count && new_count < old_count + 2 );
 
         // Delete the user
         up.delete_user(u);
+
+        new_count = up.get_count();
+
+        // new count should be the same as the old count
+        assertTrue("OLD: " + old_count + " | NEW COUNT: " + new_count, old_count == new_count);
     }
 }
