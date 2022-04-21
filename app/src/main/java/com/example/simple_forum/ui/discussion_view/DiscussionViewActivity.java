@@ -11,11 +11,12 @@ import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
-    private String topic_title;
+    private Topic topic;
     private Discussion disc = null;
 
     @Override
@@ -30,7 +31,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            topic_title = extras.getString("topic title");
+            topic = (Topic) extras.get("topic");
             disc = (Discussion) extras.get("discussion");
         }
 
@@ -47,7 +48,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
 
         // Start intent
         Intent disc_list = new Intent(this, DiscussionListActivity.class);
-        disc_list.putExtra("TOPIC_TITLE", topic_title);
+        disc_list.putExtra("topic", topic);
         startActivity(disc_list);
     }
 }
