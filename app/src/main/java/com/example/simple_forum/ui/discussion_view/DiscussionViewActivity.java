@@ -1,6 +1,4 @@
 package com.example.simple_forum.ui.discussion_view;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,20 +8,21 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.CommentManager;
-import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.ui.adapters.CommentRecyclerAdapter;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
-    private CommentManager com_manager;
+    private CommentManager com_manager = new CommentManager();
     private Topic topic;
     private RecyclerView com_recycler;
     private CommentRecyclerAdapter com_adapter;
@@ -33,22 +32,6 @@ public class DiscussionViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discussion_view);
-
-        // Use local DB
-        if(Main.get_local_setting()){
-
-            com_manager = new CommentManager(Main.get_local_setting());
-
-            // Set recycler
-            com_recycler = findViewById(R.id.comments_list);
-
-            // Set adapter
-            set_adapter();
-
-        } else {
-            // Exec async http calls
-            new AsyncCaller().execute();
-        }
 
         TextView titleTxt = findViewById(R.id.discussionView_title);
         TextView contentTxt = findViewById(R.id.discussionView_content);
@@ -67,10 +50,46 @@ public class DiscussionViewActivity extends AppCompatActivity {
             usernameTxt.setText(disc.getUser().getUsername());
             dateTxt.setText(disc.getDate());
         }
+
+        // Set recycler
+        com_recycler = findViewById(R.id.comments_list);
+
+        // Use local DB
+        if(Main.get_local_setting()){
+
+            com_manager = new CommentManager(Main.get_local_setting());
+
+        } else {
+            // Exec async http calls
+            new AsyncCaller().execute();
+        }
+
+        // Set adapter
+        set_adapter();
     }
 
     // Create comment
+    public void create_comment(View view){
 
+        // Use local DB to insert
+        if(Main.get_local_setting()){
+            // Grab the comment text from the field
+            String comment_content = ((EditText) findViewById(R.id.comment_text_edit)).getText().toString();
+
+            // Create the comment
+            Comment c = new Comment(disc, comment_content, null, "");
+
+            // Add it
+            com_manager.add(c);
+
+            // Notify adapter change
+            com_adapter.notifyDataSetChanged();
+        } else {
+            // Exec async http calls
+            new AsyncPOSTCaller().execute();
+        }
+
+    }
 
     private void set_adapter() {
 
@@ -103,7 +122,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
             super.onPreExecute();
 
             // Notify
-            Toast.makeText(getApplicationContext(), "Getting data from server", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Loading comments", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -119,11 +138,46 @@ public class DiscussionViewActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            // Set recycler
-            com_recycler = findViewById(R.id.comments_list);
+            // Notify
+            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getTitle());
+            com_recycler.setAdapter(com_adapter);
 
-            // Set adapter
-            set_adapter();
+            Toast.makeText(getApplicationContext(), "Comments loaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected class AsyncPOSTCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Sending data to server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Grab the comment text from the field
+            String comment_content = ((EditText) findViewById(R.id.comment_text_edit)).getText().toString();
+
+            // Create the comment
+            Comment c = new Comment(disc, comment_content, null, "");
+
+            // Add it
+            com_manager.add(c);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Notify adapter change
+            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getTitle());
+            com_recycler.setAdapter(com_adapter);
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
@@ -47,7 +45,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
             // Use HTTP async calls
             new AsyncCaller().execute();
         }
-
     }
 
     private void set_adapter() {
