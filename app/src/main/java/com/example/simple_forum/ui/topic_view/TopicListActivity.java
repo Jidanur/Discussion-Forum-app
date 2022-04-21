@@ -27,7 +27,7 @@ import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
 
 public class TopicListActivity extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
-    private TopicManager t_manager;
+    private static TopicManager t_manager;
     private RecyclerView topic_recycler;
     private TopicRecyclerAdapter topic_adapter;
 
@@ -70,23 +70,24 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void create_topic(View view){
 
-        // Get the text from the input field
-        EditText text_input = (EditText) findViewById(R.id.topic_create_input);
-        String new_topic = text_input.getText().toString();
+        // If we are using local
+        if(Main.get_local_setting()){
 
-        // Create a new topic object
-        Topic t = new Topic(new_topic, new User(), "");
+            // Get the text from the input field
+            EditText text_input = (EditText) findViewById(R.id.topic_create_input);
+            String new_topic = text_input.getText().toString();
 
-        runOnUiThread(new Runnable(){
-            @Override
-            public void run() {
-                // Add the topic to the topic manager
-                t_manager.add(t);
-            }
-        });
+            // Create a new topic object
+            Topic t = new Topic(new_topic, new User(), "");
+            t_manager.add(t);
 
-        // Notify the adapter of the change
-        topic_adapter.notifyDataSetChanged();
+            // Notify the adapter of the change
+            topic_adapter.notifyDataSetChanged();
+        } else {
+            // Use HTTP async calls
+            new AsyncPOSTCaller().execute();
+        }
+
     }
 
     @Override
@@ -96,9 +97,9 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         Intent discussion_list = new Intent(this, DiscussionListActivity.class);
 
         // Pass the topic title as an extra arg to the activity
-        String t = t_manager.get(position).getTitle();
-        Log.d("TOPIC_LIST", "onTopicClick: " + t);
-        discussion_list.putExtra("TOPIC_TITLE", t);
+        Topic t = t_manager.get(position);
+        Log.d("TOPIC_LIST", "onTopicClick: " + t.getTitle());
+        discussion_list.putExtra("topic", t);
         startActivity(discussion_list);
     }
 
@@ -128,6 +129,41 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
 
             // Set the adapter for the recycler
             set_adapter();
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected class AsyncPOSTCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Sending data to server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Get the text from the input field
+            EditText text_input = (EditText) findViewById(R.id.topic_create_input);
+            String new_topic = text_input.getText().toString();
+
+            // Create a new topic object
+            Topic t = new Topic(new_topic, new User(), "");
+
+            // Add the topic to the topic manager
+            t_manager.add(t);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Notify the adapter of the change
+            topic_adapter.notifyDataSetChanged();
 
             Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
         }

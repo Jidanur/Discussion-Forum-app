@@ -28,8 +28,6 @@ public class DiscussionViewActivity extends AppCompatActivity {
         TextView usernameTxt = findViewById(R.id.discussionView_username);
         TextView dateTxt = findViewById(R.id.discussionView_date);
 
-        String disc_title = "Title not set";
-
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             topic_title = extras.getString("topic title");

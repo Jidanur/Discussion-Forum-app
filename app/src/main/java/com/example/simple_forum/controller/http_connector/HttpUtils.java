@@ -5,8 +5,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,7 +22,7 @@ public class HttpUtils implements IHTTPUtils{
     private static final Map<SF_API, String> endpoints = new HashMap<SF_API, String>();
     private final static String base_url = "http://group15simpleforum.pythonanywhere.com";
     private final static String json_tag = "/?format=json";
-    private final static int TIMEOUT = 500;
+    private final static int TIMEOUT = 5000;
 
     public HttpUtils(){
 
@@ -30,6 +33,7 @@ public class HttpUtils implements IHTTPUtils{
         endpoints.put(SF_API.COMMENTS, "/forum_api/comments");
         endpoints.put(SF_API.USERS, "/user_profile_api/users");
         endpoints.put(SF_API.USER_PROFILES, "/user_profile_api/user_profiles");
+        endpoints.put(SF_API.TOKEN_AUTH, "/api_token_auth");
     }
 
     @Override
@@ -46,7 +50,6 @@ public class HttpUtils implements IHTTPUtils{
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setConnectTimeout(TIMEOUT);
 
             // Get the response code
             int status = con.getResponseCode();
@@ -79,8 +82,7 @@ public class HttpUtils implements IHTTPUtils{
             String spec = base_url + endpoints.get(endpoint) + json_tag;
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(TIMEOUT);
-            con.setReadTimeout(TIMEOUT);
+            con.setRequestMethod("GET");
 
             // Read content if status code is ok
             int status = con.getResponseCode();
@@ -100,11 +102,81 @@ public class HttpUtils implements IHTTPUtils{
 
     @Override
     public boolean post(SF_API endpoint, JSONObject data) {
+
+        try{
+            // Connection set up
+            String spec = base_url + endpoints.get(endpoint) + json_tag;
+            URL url = new URL(spec);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+
+            // Write the output stream
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(data.toString());
+            wr.close();
+
+            // Read content if status code is ok
+            int status = con.getResponseCode();
+            if(status == HttpURLConnection.HTTP_OK || status == HttpURLConnection.HTTP_CREATED){
+                System.out.println("GOT RESPONSE: " + status);
+                con.disconnect();
+                return true;
+            } else {
+                System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + endpoint.toString() + " " + status);
+                System.out.println("REQUEST BODY: " + data);
+                con.disconnect();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
     @Override
     public boolean auth(String username, String password) {
+        try{
+            // Connection set up
+            JSONObject data = new JSONObject();
+            data.put("username", username);
+            data.put("password", password);
+            String spec = base_url + endpoints.get(SF_API.TOKEN_AUTH) + json_tag;
+            URL url = new URL(spec);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+
+            // Write the output stream
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(data.toString());
+            wr.close();
+
+            // Read content if status code is ok
+            int status = con.getResponseCode();
+            if(status == HttpURLConnection.HTTP_OK){
+                con.disconnect();
+                return true;
+            } else {
+                System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + SF_API.TOKEN_AUTH.name() + " " + status);
+                con.disconnect();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 }

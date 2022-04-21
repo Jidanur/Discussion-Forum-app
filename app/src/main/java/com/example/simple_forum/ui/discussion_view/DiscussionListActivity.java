@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.ui.adapters.DiscussionRecyclerAdapter;
 import com.example.simple_forum.controller.managers.DiscussionManager;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class DiscussionListActivity extends AppCompatActivity {
 
     private DiscussionManager disc_manager;
-    private String topic;
+    private Topic topic;
     private RecyclerView disc_recycler;
     private DiscussionRecyclerAdapter disc_adapter;
     private Intent intent;
@@ -42,9 +43,14 @@ public class DiscussionListActivity extends AppCompatActivity {
 
         // Get intent
         intent = getIntent();
+        Bundle extras = intent.getExtras();
 
         // Set topic
-        topic = intent.getStringExtra("TOPIC_TITLE");
+        topic = (Topic) extras.get("topic");
+
+        // Set the topic title text of the view
+        TextView topic_title = (TextView) findViewById(R.id.discussion_topic_title);
+        topic_title.setText(topic.getTitle());
 
         // If we are using local HSQLDB
         if(Main.get_local_setting()){
@@ -59,17 +65,13 @@ public class DiscussionListActivity extends AppCompatActivity {
             // Exec async for HTTP
             new AsyncCaller().execute();
         }
-
-        // Set the topic title text of the view
-        TextView topic_title = (TextView) findViewById(R.id.discussion_topic_title);
-        topic_title.setText(topic);
     }
 
     private void set_adapter() {
         setOnClickListener();
 
         // Create recycler instance
-        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic, listener);
+        disc_adapter = new DiscussionRecyclerAdapter(disc_manager, topic.getTitle(), listener);
 
         // Create linear layout manger
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
@@ -85,11 +87,11 @@ public class DiscussionListActivity extends AppCompatActivity {
     private void setOnClickListener() {
         listener = (v, position) -> {
             Intent intent = new Intent(getApplicationContext(), DiscussionViewActivity.class);
-            ArrayList<Discussion> queryset = disc_manager.filter(topic);
+            ArrayList<Discussion> queryset = disc_manager.filter(topic.getTitle());
             Discussion disc_holder = queryset.get(position);
 
             if (disc_holder != null) {
-                intent.putExtra("topic title", topic);
+                intent.putExtra("topic", topic);
                 intent.putExtra("discussion", disc_holder);
             }
             startActivity(intent);
@@ -103,7 +105,7 @@ public class DiscussionListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewDiscussionFormActivity.class);
 
         // Pass extra data
-        intent.putExtra("TOPIC_TITLE", topic);
+        intent.putExtra("topic", topic);
 
         // Start activity
         startActivity(intent);

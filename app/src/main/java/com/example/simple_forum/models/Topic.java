@@ -42,6 +42,14 @@ public class Topic implements Serializable {
         this.set_date(date);
     }
 
+    public Topic (int id, String title, String date){
+        this.title = title;
+        this.user = null;
+        this.discussions = new ArrayList<Discussion>();
+        this.id = id;
+        this.set_date(date);
+    }
+
     public void add_discussion(Discussion new_d) {
         discussions.add(new_d);
     }

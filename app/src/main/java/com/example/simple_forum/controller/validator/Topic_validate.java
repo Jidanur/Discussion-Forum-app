@@ -12,11 +12,10 @@ public class Topic_validate implements Validation{
 
     @Override
     public boolean validate() {
-        boolean valid = checkTitle() && checkUser();
+        boolean valid = checkTitle();
 
         return valid;
     }
-
 
 
     public boolean checkTitle() {
@@ -32,14 +31,5 @@ public class Topic_validate implements Validation{
         return valid;
     }
 
-    @Override
-    public boolean checkUser() {
-        boolean valid = topic_obj.getUser() != null;
-
-        /// todo
-        ///run thro user validator
-
-        return valid;
-    }
 
 }

@@ -38,8 +38,11 @@ public class HttpUtilsAsyncTests {
     public void test_connect_all_endpoints(){
 
         // Try to get a response from every single endpoint available
+        // exclude the api token auth
         for(SF_API ep : SF_API.values()){
-            assertTrue("Endpoint not available: " + ep.toString(), http.get_endpoint_status(ep));
+            if(!ep.equals(SF_API.TOKEN_AUTH)) {
+                assertTrue("Endpoint not available: " + ep.toString(), http.get_endpoint_status(ep));
+            }
         }
     }
 

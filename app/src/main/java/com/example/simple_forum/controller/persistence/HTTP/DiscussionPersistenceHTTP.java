@@ -1,11 +1,8 @@
 package com.example.simple_forum.controller.persistence.HTTP;
 
-import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.http_connector.HttpUtils;
-import com.example.simple_forum.controller.http_connector.HttpUtilsAsync;
 import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
-import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.controller.persistence.interfaces.IDiscussionPersistence;
 import com.example.simple_forum.models.Discussion;
 import com.example.simple_forum.models.Topic;
@@ -34,6 +31,7 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
     @Override
     public void insert_disc(Discussion d) {
         // Serialize data before sending
+        System.out.println("Executing POST on: " + d.serialize());
         http.post(endpoint, d.serialize());
     }
 
@@ -71,9 +69,6 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
 
         // Result list
         ArrayList<Discussion> disc_list = new ArrayList<>();
-
-        // HTTP managers --set false for local to use HTTP
-        UserManager um = new UserManager(false);
 
         // Get all the items from the endpoint as json objects
         JSONArray discs = http.get(endpoint);

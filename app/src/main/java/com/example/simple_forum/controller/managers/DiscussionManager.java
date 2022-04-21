@@ -94,6 +94,8 @@ public class DiscussionManager implements BaseManager, FilterManager {
                 dp.insert_disc(d);
                 discussionList = dp.get_all();
             }
+        } else {
+            System.out.println("VALIDATION FAILED FOR: " + d.serialize());
         }
         return exists(d.getTitle());
     }

@@ -81,10 +81,10 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
                 int id = obj.getInt("id");
                 String title = obj.getString("title");
                 String date_created = obj.getString("date_created");
-                User u = up.get(obj.getInt("user"));
 
                 // Build and add new topic
-                Topic t = new Topic(id, title, u, date_created);
+                // We can skip user here as it is not needed
+                Topic t = new Topic(id, title, date_created);
                 topic_list.add(t);
             } catch (JSONException e) {
                 e.printStackTrace();

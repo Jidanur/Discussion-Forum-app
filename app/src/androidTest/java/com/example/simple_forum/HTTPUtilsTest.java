@@ -4,7 +4,14 @@ package com.example.simple_forum;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.simple_forum.controller.http_connector.HttpUtils;
+import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
+import com.example.simple_forum.controller.managers.DiscussionManager;
+import com.example.simple_forum.controller.managers.UserManager;
+import com.example.simple_forum.controller.persistence.HTTP.UserPersistenceHTTP;
+import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
+import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
 import static org.junit.Assert.*;
@@ -22,6 +29,7 @@ public class HTTPUtilsTest {
 
     @Before
     public void init(){
+
         http = new HttpUtils();
     }
 
@@ -37,9 +45,19 @@ public class HTTPUtilsTest {
     public void test_connect_all_endpoints(){
 
         // Try to get a response from every single endpoint available
+        // exclude the api token auth
         for(SF_API ep : SF_API.values()){
-            assertTrue("Endpoint not available: " + ep.toString(), http.get_endpoint_status(ep));
+            if(!ep.equals(SF_API.TOKEN_AUTH)) {
+                assertTrue("Endpoint not available: " + ep, http.get_endpoint_status(ep));
+            }
         }
+    }
+
+    @Test
+    public void test_auth_user(){
+       User u = new User("kurt", "kurt123", "","");
+
+       assertTrue(http.auth(u.getUsername(), u.getPassword()));
     }
 
     @Test
@@ -81,7 +99,7 @@ public class HTTPUtilsTest {
     @Test
     public void test_get_users() throws JSONException {
 
-        // Try to get discussions
+        // Try to get users
         JSONArray content = http.get(SF_API.USERS);
         int size = content.length();
         for(int i = 0; i < size; i++){
