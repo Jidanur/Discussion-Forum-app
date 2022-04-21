@@ -48,6 +48,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
 
         // Start intent
         Intent disc_list = new Intent(DiscussionViewActivity.this, DiscussionListActivity.class);
+
         disc_list.putExtra("topic", topic);
         startActivity(disc_list);
     }

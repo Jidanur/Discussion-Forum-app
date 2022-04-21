@@ -139,7 +139,7 @@ public class UserManager implements BaseManager{
 
             // Set logged in user
             User l_user = (User) new UserManager().get_username(u.getUsername());
-            UserManager.set_logged_in_user(l_user);
+            logged_in_user = l_user;
 
             return true;
         }
