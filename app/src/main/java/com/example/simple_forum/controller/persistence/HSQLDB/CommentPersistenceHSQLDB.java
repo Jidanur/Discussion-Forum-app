@@ -167,7 +167,7 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
 
     @Override
     public int get_count() {
-        String query = "SELECT COUNT(*) as count FROM comment";
+        String query = "SELECT COUNT(*) as comment_count FROM comment";
         int count = 0;
 
         try(final Connection c = connection();
@@ -176,7 +176,7 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
             ResultSet rs = statement.executeQuery(query)){
 
             if(rs.next()){
-                count = rs.getInt("count");
+                count = rs.getInt("comment_count");
             }
 
         } catch (SQLException throwables) {
