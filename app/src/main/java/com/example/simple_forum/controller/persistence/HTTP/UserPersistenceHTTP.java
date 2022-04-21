@@ -26,8 +26,19 @@ public class UserPersistenceHTTP implements IUserPersistence {
     @Override
     public void insert_user(User u) {
 
-        // Serialize data before sending
+        // Send base user to the users endpoint
         http.post(endpoint, u.serialize());
+
+        // Send bio to profiles endpoint
+        JSONObject user_p = new JSONObject();
+        int id = get(u.getUsername()).getId();
+        try {
+            user_p.put("user", id);
+            user_p.put("bio", u.getBio());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        http.post(SF_API.USER_PROFILES, user_p);
     }
 
     @Override
@@ -86,11 +97,14 @@ public class UserPersistenceHTTP implements IUserPersistence {
                 User u = new User(id, username, password, email, bio);
 
                 // Get the user profile if possible
-                JSONObject u_profile = user_profiles.getJSONObject(i);
-                if(id == u_profile.getInt("user")){
-                    u.setBio( u_profile.getString("bio") );
-                } else {
-                    System.out.println("ID mismatch in user profile sync");
+                if(i < user_profiles.length()) {
+
+                    JSONObject u_profile = user_profiles.getJSONObject(i);
+                    if (id == u_profile.getInt("user")) {
+                        u.setBio(u_profile.getString("bio"));
+                    } else {
+                        System.out.println("ID mismatch in user profile sync");
+                    }
                 }
 
                 // Add the user to the list
@@ -110,6 +124,6 @@ public class UserPersistenceHTTP implements IUserPersistence {
 
     @Override
     public boolean auth_user(User u) {
-        return false;
+        return http.auth(u.getUsername(), u.getPassword());
     }
 }

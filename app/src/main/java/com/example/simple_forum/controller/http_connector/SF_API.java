@@ -6,5 +6,6 @@ public enum SF_API {
     DISCUSSIONS,
     TOPICS,
     USERS,
-    USER_PROFILES
+    USER_PROFILES,
+    TOKEN_AUTH
 }

@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_view);
 
         // If we are using local HSQLDB
-        if(Main.get_local_setting()){
+        if (Main.get_local_setting()) {
             u_manager = new UserManager(Main.get_local_setting());
         } else {
             // Exec async for HTTP
@@ -57,51 +57,37 @@ public class LoginActivity extends AppCompatActivity {
                 String pwd = p_word.getText().toString().trim();
 
                 // Check if username is empty
-                if(TextUtils.isEmpty(name)){
-                    Toast.makeText(getApplicationContext(),"Please enter your username",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(name)) {
+                    Toast.makeText(getApplicationContext(), "Please enter your username", Toast.LENGTH_SHORT).show();
                 }
 
                 // Check if password is empty
-                if(TextUtils.isEmpty(pwd)){
-                    Toast.makeText(getApplicationContext(),"Please enter your password",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(pwd)) {
+                    Toast.makeText(getApplicationContext(), "Please enter your password", Toast.LENGTH_SHORT).show();
                 }
 
                 // Login user if username and password are correct
-                if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
-                    if((User)getUser() != null) {
-                        if (u_manager.auth_user((User) getUser())) {
-                            u_manager.set_logged_in_user((User) getUser());
-                            Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
-                            topic_list.putExtra("username", name);
-                            startActivity(topic_list);
-                            Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
-                        }
-                    } else{
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
+
+                    if (u_manager.auth_user(new User(name, pwd, "", ""))) {
+
+                        Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
+                        topic_list.putExtra("username", name);
+                        startActivity(topic_list);
+                        Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
+                    } else {
                         Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        register.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(register);
-            }
+        register.setOnClickListener(v -> {
+            Intent register1 = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(register1);
         });
-
-    }
-
-    // get the user by username
-    private Object getUser(){
-        EditText u_name = (EditText) findViewById(R.id.username);
-        String name = u_name.getText().toString().trim();
-
-        Object user = u_manager.get_username(name);
-
-        return user;
 
     }
 

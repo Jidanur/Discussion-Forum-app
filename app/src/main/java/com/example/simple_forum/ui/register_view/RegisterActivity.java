@@ -3,6 +3,7 @@ package com.example.simple_forum.ui.register_view;
 import androidx.annotation.RequiresApi;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,13 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.managers.UserManager;
 import com.example.simple_forum.models.User;
 import com.example.simple_forum.ui.login_view.LoginActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class RegisterActivity extends AppCompatActivity{
-    private UserManager u_list = new UserManager(true);
+
+    private static UserManager u_manager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +33,20 @@ public class RegisterActivity extends AppCompatActivity{
 
         Button register = (Button) findViewById(R.id.register);
 
+        // If we are using local HSQLDB
+        if (Main.get_local_setting()) {
+            u_manager = new UserManager(Main.get_local_setting());
+        } else {
+            // Exec async for HTTP
+            new AsyncCaller().execute();
+        }
+
         // Make a register click event
-        register.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if(completeText()){
-                    u_list.add(makeUser());
-                    Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(login);
-                }
+        register.setOnClickListener(view -> {
+            if(completeText()){
+                u_manager.add(makeUser());
+                Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(login);
             }
         });
     }
@@ -78,6 +87,25 @@ public class RegisterActivity extends AppCompatActivity{
 
         User user = new User(name,pwd,ema,bi);
         return user;
+    }
 
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // Create User manager
+            u_manager = new UserManager(Main.get_local_setting());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
     }
 }

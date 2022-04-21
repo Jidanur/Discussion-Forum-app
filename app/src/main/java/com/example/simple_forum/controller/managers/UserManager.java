@@ -10,7 +10,7 @@ public class UserManager implements BaseManager{
     private static IUserPersistence up;
 
     // Current logged in user
-    private static User logged_in_user = null;
+    private static User logged_in_user;
 
     // Use stub
     private boolean use_stub = false;
@@ -24,11 +24,6 @@ public class UserManager implements BaseManager{
 
         // Update list
         userList = up.get_all();
-
-        // TODO
-        // Replace later
-        // For now use the first user in the list
-        logged_in_user = userList.isEmpty() ? null : userList.get(0);
     }
 
     // Add a new user to the list
@@ -143,7 +138,8 @@ public class UserManager implements BaseManager{
         if(up.auth_user(u)) {
 
             // Set logged in user
-            UserManager.logged_in_user = u;
+            User l_user = (User) new UserManager().get_username(u.getUsername());
+            UserManager.set_logged_in_user(l_user);
 
             return true;
         }
