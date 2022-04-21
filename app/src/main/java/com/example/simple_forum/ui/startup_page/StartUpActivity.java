@@ -30,7 +30,7 @@ public class StartUpActivity extends AppCompatActivity {
         // Set local to false
         Main.set_local_setting(false);
 
-        // TODO once auth set up
+        // TODO redirect to login once auth has been fixed 
         // Go to login page
         Intent login_page = new Intent(StartUpActivity.this, TopicListActivity.class);
         startActivity(login_page);
