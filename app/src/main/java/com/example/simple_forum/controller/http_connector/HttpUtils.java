@@ -170,12 +170,12 @@ public class HttpUtils implements IHTTPUtils{
 
             // Read content if status code is ok
             int status = con.getResponseCode();
+            System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + SF_API.TOKEN_AUTH.name() + " " + status);
             if(status == HttpURLConnection.HTTP_OK){
                 con.disconnect();
                 return true;
             } else {
-                System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + SF_API.TOKEN_AUTH.name() + " " + status);
-                con.disconnect();
+               con.disconnect();
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();

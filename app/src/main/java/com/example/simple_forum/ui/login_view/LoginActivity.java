@@ -45,39 +45,37 @@ public class LoginActivity extends AppCompatActivity {
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.newUser);
         // Make a login click event
-        login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                EditText u_name = (EditText) findViewById(R.id.username);
-                EditText p_word = (EditText) findViewById(R.id.password);
+        login.setOnClickListener(v -> {
+            EditText u_name = (EditText) findViewById(R.id.username);
+            EditText p_word = (EditText) findViewById(R.id.password);
 
-                String name = u_name.getText().toString().trim();
-                String pwd = p_word.getText().toString().trim();
+            String name = u_name.getText().toString().trim();
+            String pwd = p_word.getText().toString().trim();
 
-                // Check if username is empty
-                if (TextUtils.isEmpty(name)) {
-                    Toast.makeText(getApplicationContext(), "Please enter your username", Toast.LENGTH_SHORT).show();
-                }
+            // Check if username is empty
+            if (TextUtils.isEmpty(name)) {
+                Toast.makeText(getApplicationContext(), "Please enter your username", Toast.LENGTH_SHORT).show();
+            }
 
-                // Check if password is empty
-                if (TextUtils.isEmpty(pwd)) {
-                    Toast.makeText(getApplicationContext(), "Please enter your password", Toast.LENGTH_SHORT).show();
-                }
+            // Check if password is empty
+            if (TextUtils.isEmpty(pwd)) {
+                Toast.makeText(getApplicationContext(), "Please enter your password", Toast.LENGTH_SHORT).show();
+            }
 
-                // Login user if username and password are correct
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
+            // Login user if username and password are correct
+            if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(pwd)) {
 
-                    if (u_manager.auth_user(new User(name, pwd, "", ""))) {
+                if (u_manager.auth_user(new User(name, pwd, "", ""))) {
 
-                        Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
-                        topic_list.putExtra("username", UserManager.get_logged_in_user().getUsername());
-                        startActivity(topic_list);
-                        Toast.makeText(getApplicationContext(), "Welcome, " + UserManager.get_logged_in_user().getUsername(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
-                    }
+                    Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
+                    topic_list.putExtra("username", UserManager.get_logged_in_user().getUsername());
+                    startActivity(topic_list);
+                    Toast.makeText(getApplicationContext(), "Welcome, " + UserManager.get_logged_in_user().getUsername(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
             }
         });
 
