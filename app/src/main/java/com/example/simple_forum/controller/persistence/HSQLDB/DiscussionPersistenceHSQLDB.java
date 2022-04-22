@@ -151,7 +151,7 @@ public class DiscussionPersistenceHSQLDB implements IDiscussionPersistence {
             if(rs.next()){
                 User u = up.get(rs.getInt("user"));
                 Topic t = tp.get(rs.getString("topic"));
-                d = new Discussion(t, rs.getString("title"), rs.getString("content"), u, rs.getString("date_created"));
+                d = new Discussion(id, t, rs.getString("title"), rs.getString("content"), u, rs.getString("date_created"));
             }
 
         } catch (SQLException throwables) {

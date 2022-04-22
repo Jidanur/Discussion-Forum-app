@@ -22,7 +22,7 @@ public class TopicPersistenceHSQLDB implements ITopicPersistence {
     public TopicPersistenceHSQLDB(String db_path) {
 
         this.db_path = db_path;
-        up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true,true);
+        up = (UserPersistenceHSQLDB) PersistenceManager.get_user_persistence(true,false);
     }
 
     // Use in memory db

@@ -105,7 +105,7 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
     @Override
     public User get(String username) {
 
-        String query = "SELECT id,username,password,email,bio FROM user WHERE username = ?";
+        String query = "SELECT * FROM user WHERE username = ?";
         User u = null;
 
         try(final Connection c = connection();
@@ -188,7 +188,8 @@ public class UserPersistenceHSQLDB implements IUserPersistence {
 
         // Try to get the user first
         User user = get(u.getUsername());
+        boolean cond = user != null && u.getUsername().equals(user.getUsername()) && u.getPassword().equals(user.getPassword());
 
-        return user != null && u.equals(user);
+        return cond;
     }
 }
