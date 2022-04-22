@@ -90,10 +90,12 @@ public class HttpUtils implements IHTTPUtils{
 
             // Read content if status code is ok
             int status = con.getResponseCode();
+            System.out.println("GOT RESPONSE CODE FROM ENDPOINT " + endpoint.name() + " " + status);
             if(status == HttpURLConnection.HTTP_OK){
                 data = IHTTPUtils.get_content(con);
                 con.disconnect();
             }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
