@@ -42,9 +42,6 @@ public class LoginActivity extends AppCompatActivity {
             new AsyncCaller().execute();
         }
 
-        // Exec async caller
-        new AsyncCaller().execute();
-
         Button login = (Button) findViewById(R.id.login);
         Button register = (Button) findViewById(R.id.newUser);
         // Make a login click event
