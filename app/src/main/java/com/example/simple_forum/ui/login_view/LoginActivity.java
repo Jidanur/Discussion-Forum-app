@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
                     if (u_manager.auth_user(new User(name, pwd, "", ""))) {
 
                         Intent topic_list = new Intent(LoginActivity.this, TopicListActivity.class);
-                        topic_list.putExtra("username", name);
+                        topic_list.putExtra("username", UserManager.get_logged_in_user().getUsername());
                         startActivity(topic_list);
-                        Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Welcome, " + UserManager.get_logged_in_user().getUsername(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "Incorrect username or password", Toast.LENGTH_SHORT).show();
                     }
