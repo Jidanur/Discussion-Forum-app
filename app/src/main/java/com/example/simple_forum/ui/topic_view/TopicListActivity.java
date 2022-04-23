@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.adapters.TopicRecyclerAdapter;
 import com.example.simple_forum.controller.managers.TopicManager;
 import com.example.simple_forum.models.Topic;
@@ -27,7 +25,7 @@ import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
 
 public class TopicListActivity extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
-    private static TopicManager t_manager;
+    private static TopicManager t_manager = new TopicManager();
     private RecyclerView topic_recycler;
     private TopicRecyclerAdapter topic_adapter;
 
@@ -36,11 +34,11 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_list);
 
+        topic_recycler = findViewById(R.id.topic_list);
+
         // If we are using local
         if(Main.get_local_setting()){
             t_manager = new TopicManager(Main.get_local_setting());
-
-            topic_recycler = findViewById(R.id.topic_list);
 
             set_adapter();
         } else {
@@ -48,6 +46,7 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
             new AsyncCaller().execute();
         }
 
+        set_adapter();
     }
 
     private void set_adapter() {
@@ -94,7 +93,7 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
     public void onTopicClick(int position) {
 
         // Start a new intent and pass in the Topic object
-        Intent discussion_list = new Intent(this, DiscussionListActivity.class);
+        Intent discussion_list = new Intent(TopicListActivity.this, DiscussionListActivity.class);
 
         // Pass the topic title as an extra arg to the activity
         Topic t = t_manager.get(position);
@@ -123,9 +122,6 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-            // Set the recycler
-            topic_recycler = findViewById(R.id.topic_list);
 
             // Set the adapter for the recycler
             set_adapter();

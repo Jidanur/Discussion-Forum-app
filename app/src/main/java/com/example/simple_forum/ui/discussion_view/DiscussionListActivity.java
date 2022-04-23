@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class DiscussionListActivity extends AppCompatActivity {
 
-    private DiscussionManager disc_manager;
+    private DiscussionManager disc_manager = new DiscussionManager();
     private Topic topic;
     private RecyclerView disc_recycler;
     private DiscussionRecyclerAdapter disc_adapter;
@@ -52,19 +52,19 @@ public class DiscussionListActivity extends AppCompatActivity {
         TextView topic_title = (TextView) findViewById(R.id.discussion_topic_title);
         topic_title.setText(topic.getTitle());
 
+        // Set the recycler view
+        disc_recycler = findViewById(R.id.discussion_list);
+
         // If we are using local HSQLDB
         if(Main.get_local_setting()){
             disc_manager = new DiscussionManager(Main.get_local_setting());
 
-            // Set the recycler view
-            disc_recycler = findViewById(R.id.discussion_list);
-
-            // Set adapter
-            set_adapter();
         } else {
             // Exec async for HTTP
             new AsyncCaller().execute();
         }
+
+        set_adapter();
     }
 
     private void set_adapter() {
@@ -141,11 +141,9 @@ public class DiscussionListActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            // Set the recycler view
-            disc_recycler = findViewById(R.id.discussion_list);
-
-            // Set adapter
+            //Notify
             set_adapter();
+
             Toast.makeText(getApplicationContext(), "Data retrieved", Toast.LENGTH_SHORT).show();
         }
     }

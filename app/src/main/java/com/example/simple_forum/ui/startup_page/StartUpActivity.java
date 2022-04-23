@@ -7,6 +7,8 @@ import android.os.StrictMode;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
+import com.example.simple_forum.controller.http_connector.HttpUtils;
+import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.login_view.LoginActivity;
 import com.example.simple_forum.ui.topic_view.TopicListActivity;
@@ -27,10 +29,15 @@ public class StartUpActivity extends AppCompatActivity {
         // Set utils app context
         new Utils(getApplicationContext());
 
-        // Set local to false
-        Main.set_local_setting(false);
+        // Set local to true if server is unavailable
+        if( !new HttpUtils().get_server_status() ) {
+            Main.set_local_setting(true);
+            System.out.println("USING HSQLDB BASED PERSISTENCE");
+        } else{
+            Main.set_local_setting(false);
+            System.out.println("USING HTTP BASED PERSISTENCE");
+        }
 
-        // TODO redirect to login once auth has been fixed
         // Go to login page
         Intent login_page = new Intent(StartUpActivity.this, LoginActivity.class);
         startActivity(login_page);

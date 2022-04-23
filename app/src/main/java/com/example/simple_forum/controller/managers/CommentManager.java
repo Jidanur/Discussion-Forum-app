@@ -56,6 +56,31 @@ public class CommentManager implements BaseManager, FilterManager{
 
         return querySet;
     }
+
+    public ArrayList filter(int id) {
+
+        ArrayList<Comment> querySet = new ArrayList<>();
+
+        // If blank string, filter for all
+        if (id == -1) {
+            querySet = commentList;
+        } else {
+
+            // Get any comment items from commentList that are a part of discussion_title
+            // and add them to the query set
+            for(int i = 0; i < commentList.size(); i++){
+                Comment c = commentList.get(i);
+                Discussion c_discussion = c.getDiscussion();
+
+                if(c_discussion != null && c_discussion.getId() == id && !querySet.contains(c)){
+                    querySet.add(c);
+                }
+            }
+        }
+
+        return querySet;
+    }
+
     @Override
     public boolean add(Object item) {
 

@@ -106,6 +106,7 @@
                 android:id="@+id/post_comment_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:onClick="create_comment"
                 android:text="Post Comment" />
         </LinearLayout>
 

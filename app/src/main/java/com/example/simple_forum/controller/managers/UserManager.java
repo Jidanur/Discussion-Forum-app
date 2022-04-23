@@ -87,9 +87,6 @@ public class UserManager implements BaseManager{
             if(u.getUsername().equals(username)){
                 return u;
             }
-            else{
-                return null;
-            }
         }
 
         return null;
@@ -138,8 +135,9 @@ public class UserManager implements BaseManager{
         if(up.auth_user(u)) {
 
             // Set logged in user
-            User l_user = (User) new UserManager().get_username(u.getUsername());
-            UserManager.set_logged_in_user(l_user);
+            User l_user = (User) get_username(u.getUsername());
+            System.out.println("SETTING LOGGED IN USER: " + " | " + l_user.getId() + " | " + l_user.serialize());
+            logged_in_user = l_user;
 
             return true;
         }

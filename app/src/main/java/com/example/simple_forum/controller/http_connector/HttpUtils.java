@@ -50,6 +50,8 @@ public class HttpUtils implements IHTTPUtils{
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Get the response code
             int status = con.getResponseCode();
@@ -83,13 +85,17 @@ public class HttpUtils implements IHTTPUtils{
             URL url = new URL(spec);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Read content if status code is ok
             int status = con.getResponseCode();
+            System.out.println("GOT RESPONSE CODE FROM ENDPOINT " + endpoint.name() + " " + status);
             if(status == HttpURLConnection.HTTP_OK){
                 data = IHTTPUtils.get_content(con);
                 con.disconnect();
             }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -113,6 +119,8 @@ public class HttpUtils implements IHTTPUtils{
             con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
             con.setUseCaches(false);
             con.setDoOutput(true);
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Write the output stream
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -154,6 +162,8 @@ public class HttpUtils implements IHTTPUtils{
             con.setRequestProperty("Content-Length", Integer.toString(data.toString().getBytes().length));
             con.setUseCaches(false);
             con.setDoOutput(true);
+            con.setConnectTimeout(TIMEOUT);
+            con.setReadTimeout(TIMEOUT);
 
             // Write the output stream
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -162,12 +172,12 @@ public class HttpUtils implements IHTTPUtils{
 
             // Read content if status code is ok
             int status = con.getResponseCode();
+            System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + SF_API.TOKEN_AUTH.name() + " " + status);
             if(status == HttpURLConnection.HTTP_OK){
                 con.disconnect();
                 return true;
             } else {
-                System.out.println("RECIEVED STATUS CODE FROM ENDPOINT " + SF_API.TOKEN_AUTH.name() + " " + status);
-                con.disconnect();
+               con.disconnect();
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();

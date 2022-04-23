@@ -154,8 +154,9 @@ public class CommentPersistenceHSQLDB implements ICommentPersistence {
                 User u = up.get(rs.getInt("user"));
                 Discussion d = dp.get(rs.getInt("discussion"));
                 String date = String.valueOf(rs.getString("date_created"));
-
-                queryset.add( new Comment(rs.getInt("id"), d, rs.getString("content"), u, date) );
+                Comment com = new Comment(rs.getInt("id"), d, rs.getString("content"), u, date);
+                queryset.add(com);
+                System.out.println(com.serialize());
             }
 
         } catch (SQLException throwables) {
