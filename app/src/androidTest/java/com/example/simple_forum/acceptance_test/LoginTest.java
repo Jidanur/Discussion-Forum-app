@@ -1,6 +1,6 @@
-package com.example.simple_forum.ui.startup_page;
+package com.example.simple_forum.acceptance_test;
 
-
+import android.content.Intent;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -15,6 +15,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 
 import com.example.simple_forum.R;
+import com.example.simple_forum.ui.login_view.LoginActivity;
+import com.example.simple_forum.ui.startup_page.StartUpActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -34,10 +36,18 @@ import static org.hamcrest.Matchers.allOf;
 public class LoginTest {
 
     @Rule
-    public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class);
+    // Set launch activity to false
+    public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class, true, false);
 
     @Before
     public void init() throws Throwable {
+
+        // Set a new intent with test mode on
+        Intent intent = new Intent();
+        intent.putExtra("TEST_MODE", true);
+
+        // Launch activity
+        mActivityTestRule.launchActivity(intent);
     }
 
     @Test
