@@ -2,12 +2,11 @@
 
 package com.example.simple_forum;
 
-import com.example.simple_forum.ui.startup_page.LoginTest;
+import com.example.simple_forum.acceptance_test.LoginTest;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
-import org.junit.runners.AllTests;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
