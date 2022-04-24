@@ -1,26 +1,18 @@
 package com.example.simple_forum.ui.startup_page;
 
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.assertion.ViewAssertions.*;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
 
 import com.example.simple_forum.R;
 
@@ -28,19 +20,26 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.hamcrest.Matchers.allOf;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LogInActivityTest {
+public class LoginTest {
 
     @Rule
     public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class);
 
+    @Before
+    public void init() throws Throwable {
+    }
+
     @Test
-    public void logInActivityTest() {
+    public void loginTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.username),
                         childAtPosition(
@@ -59,7 +58,7 @@ public class LogInActivityTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("testname"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("kurt"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.password),
@@ -69,9 +68,7 @@ public class LogInActivityTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("testpass123"), closeSoftKeyboard());
-
-        pressBack();
+        appCompatEditText3.perform(replaceText("kurt123"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.login), withText("Sign in"),
@@ -85,7 +82,7 @@ public class LogInActivityTest {
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.topic_title), withText("TOPICS"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.View.class))),
                         isDisplayed()));
         textView.check(matches(withText("TOPICS")));
     }
