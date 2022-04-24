@@ -39,6 +39,10 @@ public class StartUpActivity extends AppCompatActivity {
             }
         }
 
+        Main.set_local_setting(true);
+        Main.setDbName("TEST_DB");
+
+
         // Set local to true if server is unavailable
         if( !new HttpUtils().get_server_status() || Main.get_local_setting() ) {
             Main.set_local_setting(true);
