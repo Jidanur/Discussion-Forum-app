@@ -2,7 +2,8 @@ package com.example.simple_forum;
 
 
 import static org.junit.Assert.*;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import android.support.test.runner.AndroidJUnit4;
 
 import com.example.simple_forum.controller.http_connector.HttpUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
