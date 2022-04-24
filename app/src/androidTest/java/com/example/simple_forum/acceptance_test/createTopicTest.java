@@ -13,9 +13,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.contrib.RecyclerViewActions.*;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.ui.login_view.LoginActivity;
 import com.example.simple_forum.ui.startup_page.StartUpActivity;
 
 import org.hamcrest.Description;
@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
 public class createTopicTest {
 
     @Rule
-    public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class);
+    public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class, true, false);
 
     @Before
     public void init() throws Throwable {
@@ -128,8 +128,6 @@ public class createTopicTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-
-
         ViewInteraction textView = onView(
                 allOf(withId(R.id.topic_title), withText("testtopic"),
                         withParent(withParent(withId(R.id.topic_list))),
@@ -141,6 +139,7 @@ public class createTopicTest {
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 3)));
+
         recyclerView.perform(actionOnItemAtPosition(5, click()));
 
         ViewInteraction textView2 = onView(

@@ -27,7 +27,7 @@ public class StartUpActivity extends AppCompatActivity {
         new Utils(getApplicationContext());
         
         // Check if intent exitst
-        if(getIntent() != null){
+        if(getIntent().hasExtra("TEST_MODE")){
             boolean test_mode = getIntent().getExtras().getBoolean("TEST_MODE");
             
             // Set local if test mode is true and change the db name
