@@ -140,7 +140,7 @@ public class createTopicTest {
                                 withClassName(is("android.widget.LinearLayout")),
                                 3)));
 
-        onView(withId(R.id.topic_list)).check(matches(hasDescendant(withText("testtopic"))));
+        recyclerView.check(matches(hasDescendant(withText("testtopic"))));
     }
 
     private static Matcher<View> childAtPosition(
