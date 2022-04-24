@@ -47,7 +47,7 @@
         <activity
             android:name=".ui.topic_view.TopicListActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

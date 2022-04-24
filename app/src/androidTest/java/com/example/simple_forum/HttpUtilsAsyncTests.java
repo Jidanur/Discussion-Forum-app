@@ -2,8 +2,9 @@ package com.example.simple_forum;
 
 import static org.junit.Assert.assertTrue;
 
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.simple_forum.controller.http_connector.HttpUtilsAsync;
 import com.example.simple_forum.controller.http_connector.SF_API;
