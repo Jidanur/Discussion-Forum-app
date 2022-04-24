@@ -28,9 +28,6 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.allOf;
 
 
-////////////
-
-
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
