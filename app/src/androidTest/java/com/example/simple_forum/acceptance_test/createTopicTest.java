@@ -140,13 +140,7 @@ public class createTopicTest {
                                 withClassName(is("android.widget.LinearLayout")),
                                 3)));
 
-        recyclerView.perform(actionOnItemAtPosition(5, click()));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.discussion_topic_title), withText("testtopic"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-                        isDisplayed()));
-        textView2.check(matches(withText("testtopic")));
+        onView(withId(R.id.topic_list)).check(matches(hasDescendant(withText("testtopic"))));
     }
 
     private static Matcher<View> childAtPosition(
