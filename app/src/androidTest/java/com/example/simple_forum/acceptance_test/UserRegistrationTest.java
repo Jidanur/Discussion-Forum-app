@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class userRegistrationTest {
+public class UserRegistrationTest {
 
     @Rule
     public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class, true, false);
