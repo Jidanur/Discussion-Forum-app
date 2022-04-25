@@ -2,6 +2,7 @@
 
 package com.example.simple_forum;
 
+import com.example.simple_forum.acceptance_test.CreateCommentTest;
 import com.example.simple_forum.acceptance_test.CreateDiscussionTest;
 import com.example.simple_forum.acceptance_test.CreateNewTopicTest;
 import com.example.simple_forum.acceptance_test.LoginTest;
@@ -19,7 +20,8 @@ import org.junit.runners.Suite;
         UserRegisterTest.class,
         CreateNewTopicTest.class,
         CreateDiscussionTest.class,
-        TopicAndDiscussionViewTest.class
+        TopicAndDiscussionViewTest.class,
+        CreateCommentTest.class
 })
 public class AllAcceptance {
     public static void main(String[] args){

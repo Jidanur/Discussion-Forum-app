@@ -252,7 +252,6 @@ public class CreateCommentTest {
 
         recyclerView3.perform(scrollToPosition(0))
                 .check(matches(hasDescendant(withText("testcomment"))));
-
     }
 
     private static Matcher<View> childAtPosition(
