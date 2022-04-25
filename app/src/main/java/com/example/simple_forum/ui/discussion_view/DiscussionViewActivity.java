@@ -83,7 +83,7 @@ public class DiscussionViewActivity extends AppCompatActivity {
             com_manager.add(c);
 
             // Notify adapter change
-            com_adapter.notifyDataSetChanged();
+            set_adapter();
         } else {
             // Exec async http calls
             new AsyncPOSTCaller().execute();

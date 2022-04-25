@@ -40,8 +40,11 @@ public class StartUpActivity extends AppCompatActivity {
             }
         }
 
+        Main.set_local_setting(true);
+        Main.setDbName("TEST_DB");
+
         // Set local to true if server is unavailable
-        if( !new HttpUtils().get_server_status() || Main.get_local_setting() ) {
+        if( Main.get_local_setting() || !new HttpUtils().get_server_status() ) {
             Main.set_local_setting(true);
             System.out.println("USING HSQLDB BASED PERSISTENCE");
         } else{

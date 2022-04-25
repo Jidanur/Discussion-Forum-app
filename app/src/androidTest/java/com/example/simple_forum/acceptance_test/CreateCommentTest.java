@@ -1,14 +1,17 @@
 package com.example.simple_forum.acceptance_test;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
@@ -58,7 +61,7 @@ public class CreateCommentTest {
     }
 
     @Test
-    public void commentT() {
+    public void commentT() throws InterruptedException {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.username),
                         childAtPosition(
@@ -153,7 +156,8 @@ public class CreateCommentTest {
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 3)));
-        recyclerView.perform(actionOnItemAtPosition(11, click()));
+
+        recyclerView.perform(actionOnItem(withChild(withText("testtopic")), click()));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.discussion_topic_title), withText("testtopic"),
@@ -201,8 +205,6 @@ public class CreateCommentTest {
                         isDisplayed()));
         appCompatEditText9.perform(replaceText("testing"), closeSoftKeyboard());
 
-        pressBack();
-
         ViewInteraction materialButton4 = onView(
                 allOf(withId(R.id.create_btn), withText("Create"),
                         childAtPosition(
@@ -246,43 +248,11 @@ public class CreateCommentTest {
                         isDisplayed()));
         materialButton5.perform(click());
 
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.textView4), withText("Comments"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-                        isDisplayed()));
-        textView4.check(matches(withText("Comments")));
+        ViewInteraction recyclerView3 = onView(withId(R.id.comments_list));
 
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.com_content), withText("testcomment"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-                        isDisplayed()));
-        textView5.check(matches(withText("testcomment")));
+        recyclerView3.perform(scrollToPosition(0))
+                .check(matches(hasDescendant(withText("testcomment"))));
 
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.com_username), withText("kurt"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class))),
-                        isDisplayed()));
-        textView6.check(matches(withText("kurt")));
-
-        ViewInteraction materialButton6 = onView(
-                allOf(withId(R.id.back_to_discussions), withText("BACK TO DISCUSSIONS"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        materialButton6.perform(click());
-
-        ViewInteraction materialButton7 = onView(
-                allOf(withId(R.id.button), withText("BACK TO TOPICS"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        materialButton7.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
