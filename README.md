@@ -14,8 +14,8 @@ Once you've opened the repository in Android studio, simply click the 'build' bu
 
 Here are links to some important documents:
 
-architecture.md
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/architecture.md
 
-VISION.md
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/VISION.md
 
-i3_worksheet.md
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/i3_worksheet.md
