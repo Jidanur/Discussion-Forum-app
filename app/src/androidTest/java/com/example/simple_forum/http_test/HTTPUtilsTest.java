@@ -1,21 +1,17 @@
-package com.example.simple_forum;
+package com.example.simple_forum.http_test;
 
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.simple_forum.controller.http_connector.HttpUtils;
-import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.http_connector.SF_API;
-import com.example.simple_forum.controller.managers.DiscussionManager;
-import com.example.simple_forum.controller.managers.UserManager;
-import com.example.simple_forum.controller.persistence.HTTP.UserPersistenceHTTP;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 
 import org.json.JSONArray;
 import static org.junit.Assert.*;
+
 import android.util.Log;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;

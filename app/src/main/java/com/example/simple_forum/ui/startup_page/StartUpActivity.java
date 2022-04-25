@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
 import com.example.simple_forum.controller.http_connector.HttpUtils;
-import com.example.simple_forum.controller.http_connector.IHTTPUtils;
 import com.example.simple_forum.controller.persistence.Utils;
 import com.example.simple_forum.ui.login_view.LoginActivity;
-import com.example.simple_forum.ui.topic_view.TopicListActivity;
 
 public class StartUpActivity extends AppCompatActivity {
 
@@ -28,9 +25,23 @@ public class StartUpActivity extends AppCompatActivity {
 
         // Set utils app context
         new Utils(getApplicationContext());
+        
+        // Check if intent exists for testing
+        if(getIntent().hasExtra("TEST_MODE")){
+            boolean test_mode = getIntent().getExtras().getBoolean("TEST_MODE");
+            
+            // Set local if test mode is true and change the db name
+            if (test_mode) {
+                Main.set_local_setting(true);
+                Main.setDbName("TEST_DB");
+                System.out.println("NOW RUNNING TEST MODE");
+            } else {
+                Main.set_local_setting(false);
+            }
+        }
 
         // Set local to true if server is unavailable
-        if( !new HttpUtils().get_server_status() || Main.get_local_setting() ) {
+        if( Main.get_local_setting() || !new HttpUtils().get_server_status() ) {
             Main.set_local_setting(true);
             System.out.println("USING HSQLDB BASED PERSISTENCE");
         } else{
