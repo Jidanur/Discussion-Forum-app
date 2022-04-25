@@ -12,6 +12,7 @@ https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/merge_reque
 https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/merge_requests/52
 
 
+
 What technical debt did you leave?
 ==================================
 
@@ -26,12 +27,8 @@ We reprioritized most of the POST/CREATE requests to our persistence models and 
 
 
 
-
 Acceptance test/end-to-end
 ==========================
-
-Write a discussion about an end-to-end test that you wrote. What did you test,
-How did you set up the test so it was not flaky? Provide a link to that test.
 
 “As a user, I should be able to comment on any discussion available.”
 We created tests for each step:
@@ -46,27 +43,28 @@ https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/tree/test_b
 
 **The acceptance tests can be ran under the android tests folder as AllAcceptance 
 
+
+
 Acceptance test, untestable
 ===============
-
-What challenges did you face when creating acceptance tests? What was difficult
-or impossible to test?
 
 We took some time figuring out how to use Expresso. We had to consider the compatibility of androidx and android.support libraries. We started the test using android.support, only to find out later on that we had to use androidx. We also had a few issues with having to figure out how to switch to our local test db instead of writing acceptance tests that push test data onto our main database. 
 
 The tests were challenging at the start, but went only pretty smoothly, once we got the hang of it.
 
+
+
 Velocity/teamwork
 =================
-
-Did your estimates get better or worse through the course? Show some
-evidence of the estimates/actuals from tasks.
 
 Over each iteration our time estimates for features improved substantially. During the first iteration it was extremely hard to gauge how much time would be needed for each feature as none of us had experience working in android studio. Without previous experience, we were left to almost guess how much time each feature would take. We ended up assigning way too much work for milestone 1 and had to push a lot of it back into milestone 2.
 
 Here is some evidence of our estimates improving over time: 
 
-Issue #4 which was completed in iteration 1 had an estimate of 6 days when it actually took 3
+![alt text](time_est_example.png)
+
+Issue #4 which was completed in iteration 1 had an estimate of 6 days when it actually took 3.
 
 In milestone 3 most estimates were spot on if not fairly close to the actual time spent, whereas in milestone 2, estimates were quite far off from how much time the tasks actually took. See the chart below:
 
+![alt text](project_velocities.png)
