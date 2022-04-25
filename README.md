@@ -8,7 +8,11 @@ Our project is a forum app which allows users to discuss with one another inside
 How to run our project
 ==============
 
-Once you've opened the repository in Android studio, simply click the 'build' button, then click the 'run' button (shaped like a play icon). Once the app is open you'll have to create a new account or login to an existing one to use the app.
+Open the project in adnroid studio and sync with the gradle build. After that you should be able to run the app on a fresh emulator. You are not provided with login details. It is up to you to fill out the registration form. The data does not have to be valid, i.e the email can be fake. The registration form follows the standards of most forms, i.e 8 character password, and no whitespace usernames, etc.
+
+To run the tests:
+We have regular JUNIT tests located in the test folder with its corresponding AllTests and AllIntegration test files. 
+We also have instrumented tests for our acceptance tests in espresso and our HTTP utils tests. These can be found under the androidTest folder with its corresponding AllHTTPTest and AllAcceptance test files.
 
 
 
