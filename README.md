@@ -8,7 +8,9 @@ Our project is a forum app which allows users to discuss with one another inside
 How to run our project
 ==============
 
-Open the project in adnroid studio and sync with the gradle build. After that you should be able to run the app on a fresh emulator. You are not provided with login details. It is up to you to fill out the registration form. The data does not have to be valid, i.e the email can be fake. The registration form follows the standards of most forms, i.e 8 character password, and no whitespace usernames, etc.
+Open the project in adnroid studio and sync with the gradle build. After that you should be able to run the app on a fresh emulator. You are not provided with login details. It is up to you to fill out the registration form. The data does not have to be valid, i.e the email can be fake. The registration form follows the standards of most forms, i.e 8 character password, and no whitespace usernames, etc. Although if for whatever reason you cannot register, we have default login details as:
+user: kurt
+pass: kurt123
 
 To run the tests:
 We have regular JUNIT tests located in the test folder with its corresponding AllTests and AllIntegration test files. 
