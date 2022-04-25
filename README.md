@@ -18,4 +18,8 @@ https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/a
 
 https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/VISION.md
 
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/i1_worksheet.md
+
+https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/i2_worksheet.md
+
 https://code.cs.umanitoba.ca/winter-2022-a02/group-15/simple-forum/-/blob/main/i3_worksheet.md
