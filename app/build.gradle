@@ -56,15 +56,6 @@ dependencies {
     testImplementation 'org.json:json:20140107'
     implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
 
-    //androidTestImplementation("com.android.support.test.espresso:espresso-contrib:3.0.2")
-    //androidTestImplementation (group: 'com.android.support.test.espresso', name: 'espresso-core', version: '3.0.2') {
-    //    exclude group: 'com.android.support', module: 'support-annotations'
-    //}
-    //androidTestImplementation 'com.android.support:support-annotations:28.0.0'
-    //androidTestImplementation ('com.android.support.test:rules:1.0.2'){
-    //    exclude group: 'com.android.support', module: 'support-annotations'
-    //}
-
     androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
