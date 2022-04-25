@@ -29,7 +29,7 @@ public class DiscussionManagerTest {
         d_manager = new DiscussionManager();
         title = "Good Music";
         content = "Eminem is the best rapper";
-        date = "2022-02-28T00:22:58.538787Z";    // some issues with date
+        date = "2022-02-28T00:22:58.538787Z";
         tmpUser = new User();
         topicTitle = "topic";
         tmpTopic = new Topic(topicTitle,tmpUser,date);
@@ -61,12 +61,14 @@ public class DiscussionManagerTest {
 
         Discussion d1 = new Discussion();//discussion with nothing
         Discussion d2 =  new Discussion(null,title,content,tmpUser,date); // discussion with no topic
-        Discussion d3 =  new Discussion(tmpTopic,title,content,null,date); // discussion with no user
         Discussion d4 =  new Discussion(tmpTopic,null,content,tmpUser,date); // discussion with no title
         Discussion d5 =  new Discussion(tmpTopic,title,null,tmpUser,date); // discussion with no content
 
+
+
         // trying to add them
-        d_manager.add(d1);d_manager.add(d2);d_manager.add(d3);d_manager.add(d4);d_manager.add(d5);
+        d_manager.add(d1);d_manager.add(d2);d_manager.add(d4);d_manager.add(d5);
+
 
         //should not add and list should be 0
         assertEquals(0,d_manager.size());
@@ -74,11 +76,4 @@ public class DiscussionManagerTest {
 
     }
 
-
-    @Test
-    public void test_json_str(){
-
-        d_manager.add_json_str(test_data);
-        assertEquals(1,d_manager.size());
-    }
 }

@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/com_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="USERNAME"
@@ -26,13 +26,13 @@
             android:layout_height="10dp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/com_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue." />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/com_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DATE CREATED" />

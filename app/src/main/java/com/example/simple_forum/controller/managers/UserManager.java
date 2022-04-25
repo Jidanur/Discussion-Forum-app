@@ -1,98 +1,53 @@
 package com.example.simple_forum.controller.managers;
-
-import android.content.Context;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.models.Comment;
-import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.Topic;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
+import com.example.simple_forum.controller.persistence.interfaces.IUserPersistence;
 import com.example.simple_forum.models.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class UserManager implements BaseManager{
 
     private static ArrayList<User> userList= new ArrayList<User>();
+    private static IUserPersistence up;
 
-    public UserManager(){}
+    // Current logged in user
+    private static User logged_in_user;
 
-    // Add a collection of json entries from a file
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String fileName, Context context){
+    // Use stub
+    private boolean use_stub = false;
 
-        JSONArray users = JSONParser.get_json(context,fileName);
+    public UserManager(){ this.use_stub = true; }
 
-        for(int i = 0; i < users.length(); i++){
-            try{
+    public UserManager(boolean use_local){
 
-                // Get json object
-                JSONObject curr_user = users.getJSONObject(i);
+        // Get HTTP/SQL
+        up = PersistenceManager.get_user_persistence(use_local, false);
 
-                // Create user model
-                User newUser = new User(curr_user.get("username").toString(), curr_user.get("password").toString(), curr_user.get("email").toString(),"");
-
-                add(newUser);
-
-
-            } catch (JSONException e){
-                Log.i("User_list_error", e.getMessage());
-            }
-        }
-    }
-
-
-    // Add a collection of json entries from a string
-    // Ignore for now until our API is available for use
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_str(String data){
-        JSONArray users = JSONParser.get_json(data);
-
-        // Iterate through serialized objects and create user models
-        for(int i = 0; i < users.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject user = users.getJSONObject(i);
-
-
-                // Create user model
-                User u = new User(user.get("username").toString(), user.get("password").toString(), user.get("email").toString(),"");
-
-                // Add to the list
-                add(u);
-
-            } catch (JSONException e) {
-                Log.i("USER_LIST", e.getMessage());
-            }
-        }
+        // Update list
+        userList = up.get_all();
     }
 
     // Add a new user to the list
-    public void add(Object item){
+    public boolean add(Object item){
 
         // Cast item
         User u = (User) item;
 
-        // TODO
-        // Validate
-
-        // TODO
-        // add(u) should return true or false if it was added via api successfully
-
         // Make sure user does not exist already
         if( !exists(u.getUsername()) ){
-            // Add the topic object to the list
-            userList.add(u);
-        }
 
+            if(use_stub) {
+                // Add the user object to the list
+                userList.add(u);
+            } else {
+
+                // Use persistence
+                up.insert_user(u);
+
+                // Update list
+                userList = up.get_all();
+            }
+        }
+        return exists(u.getUsername());
     }
 
     // Get a user by position
@@ -112,6 +67,31 @@ public class UserManager implements BaseManager{
         return u;
     }
 
+    @Override
+    // Get object by ID
+    public Object get_id(int id) {
+
+        for(User u : userList){
+            if(u.getId() == id){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
+    // Get object by username
+    public Object get_username(String username) {
+
+        for(User u : userList){
+            if(u.getUsername().equals(username)){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
     // Get size
     public int size(){
         return userList.size();
@@ -123,10 +103,10 @@ public class UserManager implements BaseManager{
     }
 
     @Override
-    public Boolean exists(String text) {
+    public Boolean exists(String username) {
         // Iterate through array list
         for(int i = 0; i < userList.size(); i++){
-            if(userList.get(i).getUsername().equals(text)){
+            if(userList.get(i).getUsername().equals(username)){
                 return true;
             }
         }
@@ -139,5 +119,30 @@ public class UserManager implements BaseManager{
         userList.clear();
     }
 
+    // Get/Set logged in user
+    public static User get_logged_in_user() {
+        // Return stub if the logged in user is not set
+        return logged_in_user != null ? logged_in_user : new User();
+    }
+
+    public static void set_logged_in_user(User logged_in_user) {
+        UserManager.logged_in_user = logged_in_user;
+    }
+
+    // Authenticate user
+    public boolean auth_user(User u){
+
+        if(up.auth_user(u)) {
+
+            // Set logged in user
+            User l_user = (User) get_username(u.getUsername());
+            System.out.println("SETTING LOGGED IN USER: " + " | " + l_user.getId() + " | " + l_user.serialize());
+            logged_in_user = l_user;
+
+            return true;
+        }
+
+        return false;
+    }
 
 }

@@ -1,15 +1,20 @@
 package com.example.simple_forum.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Topic {
+public class Topic implements Serializable {
     private String title;
     private User user;
     private Date date_created;
     private ArrayList discussions;
+    private int id;
 
     // Default constructor
     public Topic() {
@@ -17,20 +22,32 @@ public class Topic {
         this.user = null;
         this.date_created = null;
         this.discussions = new ArrayList<Discussion>();
+        this.id = 0;
     }
 
     // Custom constructor
     public Topic (String title, User user, String date){
         this.title = title;
         this.user = user;
-        SimpleDateFormat dtf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss a");
         this.discussions = new ArrayList<Discussion>();
+        this.id = 0;
+        this.set_date(date);
+    }
 
-        try {
-            this.date_created = dtf.parse(date);
-        } catch (ParseException e){
-            System.out.println("date error");
-        }
+    public Topic (int id, String title, User user, String date){
+        this.title = title;
+        this.user = user;
+        this.discussions = new ArrayList<Discussion>();
+        this.id = id;
+        this.set_date(date);
+    }
+
+    public Topic (int id, String title, String date){
+        this.title = title;
+        this.user = null;
+        this.discussions = new ArrayList<Discussion>();
+        this.id = id;
+        this.set_date(date);
     }
 
     public void add_discussion(Discussion new_d) {
@@ -50,6 +67,31 @@ public class Topic {
         this.date_created = date_created;
     }
 
+    // takes a string and converts it to SimpleDateFormat
+    public void set_date(String date){
+        //"2022-02-28T00:52:48.769746Z"
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String time = "";
+        int i = 0;
+        while (i < date.length()) {
+
+            if (date.charAt(i) == 'T') {
+                time += " ";
+            }
+            else {
+                time += date.charAt(i);
+            }
+
+            i++;
+        }
+        try {
+            this.date_created = dtf.parse(time);
+        } catch (ParseException e){
+            System.out.println("date error " + date);
+        }
+    }
+
     public void setDiscussion(ArrayList<Discussion> discussions) {
         this.discussions = discussions;
     }
@@ -63,12 +105,34 @@ public class Topic {
         return user;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public String getDate() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return date_created != null ? dtf.format(date_created) : "";
     }
 
     public ArrayList<Discussion> getDiscussions() {
         return discussions;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public JSONObject serialize(){
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("title", title);
+            obj.put("user", user.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }
 

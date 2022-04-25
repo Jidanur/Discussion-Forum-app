@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.controller.application.Main;
@@ -23,40 +23,30 @@ import com.example.simple_forum.models.Topic;
 import com.example.simple_forum.models.User;
 import com.example.simple_forum.ui.discussion_view.DiscussionListActivity;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import javax.security.auth.login.LoginException;
-
 public class TopicListActivity extends AppCompatActivity implements TopicRecyclerAdapter.OnTopicListener {
 
-    private TopicManager t_manager;
+    private static TopicManager t_manager = new TopicManager();
     private RecyclerView topic_recycler;
     private TopicRecyclerAdapter topic_adapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_list);
 
-        // TODO
-        // Populate topic list via json api call
-
-        // Create Topic manager and parse json test file
-        copyDatabaseToDevice();
-        t_manager = new TopicManager(true);
-        //t_manager.add_json_file("topics.json", getApplicationContext());
-
-        // Set the recycler
         topic_recycler = findViewById(R.id.topic_list);
 
-        // Set the adapter for the recycler
+        // If we are using local
+        if(Main.get_local_setting()){
+            t_manager = new TopicManager(Main.get_local_setting());
+
+            set_adapter();
+        } else {
+            // Use HTTP async calls
+            new AsyncCaller().execute();
+        }
+
         set_adapter();
-
-
     }
 
     private void set_adapter() {
@@ -79,87 +69,99 @@ public class TopicListActivity extends AppCompatActivity implements TopicRecycle
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void create_topic(View view){
 
-        // Get the text from the input field
-        EditText text_input = (EditText) findViewById(R.id.topic_create_input);
-        String new_topic = text_input.getText().toString();
+        // If we are using local
+        if(Main.get_local_setting()){
 
-        // TODO
-        // Validate input
+            // Get the text from the input field
+            EditText text_input = (EditText) findViewById(R.id.topic_create_input);
+            String new_topic = text_input.getText().toString();
 
-        // Create a new topic object
-        Topic t = new Topic(new_topic, new User(), "2022-02-28T00:22:58.538787Z");
+            // Create a new topic object
+            Topic t = new Topic(new_topic, new User(), "");
+            t_manager.add(t);
 
-        // Add the topic to the topic manager
-        t_manager.add(t);
-
-        // Notify the adapter of the change
-        topic_adapter.notifyDataSetChanged();
-
-    }
-
-    public void copyAssetsToDirectory(String[] assets, File directory) throws IOException {
-        AssetManager assetManager = getAssets();
-
-        for (String asset : assets) {
-            String[] components = asset.split("/");
-            String copyPath = directory.toString() + "/" + components[components.length - 1];
-
-            char[] buffer = new char[1024];
-            int count;
-
-            File outFile = new File(copyPath);
-
-            if (!outFile.exists()) {
-                InputStreamReader in = new InputStreamReader(assetManager.open(asset));
-                FileWriter out = new FileWriter(outFile);
-
-                count = in.read(buffer);
-                while (count != -1) {
-                    out.write(buffer, 0, count);
-                    count = in.read(buffer);
-                }
-
-                out.close();
-                in.close();
-            }
+            // Notify the adapter of the change
+            topic_adapter.notifyDataSetChanged();
+        } else {
+            // Use HTTP async calls
+            new AsyncPOSTCaller().execute();
         }
-    }
 
-    private void copyDatabaseToDevice() {
-        final String DB_PATH = "db";
-
-        String[] assetNames;
-        Context context = getApplicationContext();
-        File dataDirectory = context.getDir(DB_PATH, Context.MODE_PRIVATE);
-        AssetManager assetManager = getAssets();
-
-        try {
-
-            assetNames = assetManager.list(DB_PATH);
-            for (int i = 0; i < assetNames.length; i++) {
-                assetNames[i] = DB_PATH + "/" + assetNames[i];
-            }
-
-            copyAssetsToDirectory(assetNames, dataDirectory);
-
-            Main.setDBPathName(dataDirectory.toString() + "/" + Main.getDBPathName());
-            Log.e("TOPIC LIST DB CREATE", "copyDatabaseToDevice: " + dataDirectory.toString() + "/" + Main.getDBPathName() );
-
-        } catch (final IOException ioe) {
-            Log.e("TOPIC LIST DB CREATE", "copyDatabaseToDevice: something has gone wrong", ioe);
-        }
     }
 
     @Override
     public void onTopicClick(int position) {
 
         // Start a new intent and pass in the Topic object
-        Intent discussion_list = new Intent(this, DiscussionListActivity.class);
+        Intent discussion_list = new Intent(TopicListActivity.this, DiscussionListActivity.class);
 
         // Pass the topic title as an extra arg to the activity
-        String t = t_manager.get(position).getTitle();
-        Log.d("TOPIC_LIST", "onTopicClick: " + t);
-        discussion_list.putExtra("TOPIC_TITLE", t);
+        Topic t = t_manager.get(position);
+        Log.d("TOPIC_LIST", "onTopicClick: " + t.getTitle());
+        discussion_list.putExtra("topic", t);
         startActivity(discussion_list);
+    }
+
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Getting data from server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Start the manager
+            t_manager = new TopicManager(Main.get_local_setting());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Set the adapter for the recycler
+            set_adapter();
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected class AsyncPOSTCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Sending data to server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Get the text from the input field
+            EditText text_input = (EditText) findViewById(R.id.topic_create_input);
+            String new_topic = text_input.getText().toString();
+
+            // Create a new topic object
+            Topic t = new Topic(new_topic, new User(), "");
+
+            // Add the topic to the topic manager
+            t_manager.add(t);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Notify the adapter of the change
+            topic_adapter.notifyDataSetChanged();
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        }
     }
 }

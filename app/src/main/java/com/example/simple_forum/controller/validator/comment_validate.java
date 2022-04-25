@@ -13,7 +13,7 @@ public class comment_validate implements Validation{
     }
 
     public boolean validate(){
-        boolean valid =  checkContent()  && checkUser() && checkDiscussion();
+        boolean valid =  checkContent() && checkDiscussion();
 
         return valid;
     }
@@ -42,19 +42,6 @@ public class comment_validate implements Validation{
                 valid = true;
             }
         }
-
-        return valid;
-    }
-
-
-
-
-    @Override
-    public boolean checkUser() {
-        boolean valid = comment_obj.getUser() != null;
-
-        /// todo
-        ///run thro user validator
 
         return valid;
     }

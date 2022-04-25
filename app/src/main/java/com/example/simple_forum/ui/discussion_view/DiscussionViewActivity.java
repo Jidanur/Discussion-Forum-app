@@ -1,18 +1,32 @@
 package com.example.simple_forum.ui.discussion_view;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.simple_forum.R;
-import com.example.simple_forum.ui.topic_view.TopicListActivity;
+import com.example.simple_forum.controller.application.Main;
+import com.example.simple_forum.controller.managers.CommentManager;
+import com.example.simple_forum.models.Comment;
+import com.example.simple_forum.models.Discussion;
+import com.example.simple_forum.models.Topic;
+import com.example.simple_forum.ui.adapters.CommentRecyclerAdapter;
 
 public class DiscussionViewActivity extends AppCompatActivity {
 
-    private String topic_title;
+    private CommentManager com_manager = new CommentManager();
+    private Topic topic;
+    private RecyclerView com_recycler;
+    private CommentRecyclerAdapter com_adapter;
+    private Discussion disc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,32 +38,145 @@ public class DiscussionViewActivity extends AppCompatActivity {
         TextView usernameTxt = findViewById(R.id.discussionView_username);
         TextView dateTxt = findViewById(R.id.discussionView_date);
 
-        String disc_title = "Title not set";
-        String disc_content = "Content not set";
-        String disc_username = "Username not set";
-        String disc_date = "Date not set";
-
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            topic_title = extras.getString("topic title");
-            disc_title = extras.getString("discussion title");
-            disc_content = extras.getString("discussion content");
-            disc_username = extras.getString("discussion username");
-            disc_date = extras.getString("discussion date");
+            topic = (Topic) extras.get("topic");
+            disc = (Discussion) extras.get("discussion");
         }
 
-        titleTxt.setText(disc_title);
-        contentTxt.setText(disc_content);
-        usernameTxt.setText(disc_username);
-        dateTxt.setText(disc_date);
+        if(disc != null) {
+            titleTxt.setText(disc.getTitle());
+            contentTxt.setText(disc.getContent());
+            usernameTxt.setText(disc.getUser().getUsername());
+            dateTxt.setText(disc.getDate());
+        }
+
+        // Set recycler
+        com_recycler = findViewById(R.id.comments_list);
+
+        // Use local DB
+        if(Main.get_local_setting()){
+
+            com_manager = new CommentManager(Main.get_local_setting());
+
+        } else {
+            // Exec async http calls
+            new AsyncCaller().execute();
+        }
+
+        // Set adapter
+        set_adapter();
+    }
+
+    // Create comment
+    public void create_comment(View view){
+
+        // Use local DB to insert
+        if(Main.get_local_setting()){
+            // Grab the comment text from the field
+            String comment_content = ((EditText) findViewById(R.id.comment_text_edit)).getText().toString();
+
+            // Create the comment
+            Comment c = new Comment(disc, comment_content, null, "");
+
+            // Add it
+            com_manager.add(c);
+
+            // Notify adapter change
+            com_adapter.notifyDataSetChanged();
+        } else {
+            // Exec async http calls
+            new AsyncPOSTCaller().execute();
+        }
+
+    }
+
+    private void set_adapter() {
+
+        // Create recycler instance
+        com_adapter = new CommentRecyclerAdapter(com_manager, disc.getId());
+
+        // Create linear layout manger
+        RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(getApplicationContext());
+
+        // Set recyclers layout and default animator
+        com_recycler.setLayoutManager(layout_manager);
+        com_recycler.setItemAnimator(new DefaultItemAnimator());
+
+        // Set the topic recyclers adapter
+        com_recycler.setAdapter(com_adapter);
     }
 
     // Clicked back to discussion list
     public void back_to_disc_list(View view){
 
-        // Start intent
-        Intent disc_list = new Intent(this, DiscussionListActivity.class);
-        disc_list.putExtra("TOPIC_TITLE", topic_title);
+        Intent disc_list = new Intent(DiscussionViewActivity.this, DiscussionListActivity.class);
+        disc_list.putExtra("topic", topic);
         startActivity(disc_list);
+    }
+
+    protected class AsyncCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Notify
+            Toast.makeText(getApplicationContext(), "Loading comments", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            //Get comment entries for this discussion
+            com_manager = new CommentManager(Main.get_local_setting());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Notify
+            set_adapter();
+
+            Toast.makeText(getApplicationContext(), "Comments loaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected class AsyncPOSTCaller extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(),"Sending data to server",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            // Grab the comment text from the field
+            String comment_content = ((EditText) findViewById(R.id.comment_text_edit)).getText().toString();
+
+            // Create the comment
+            Comment c = new Comment(disc, comment_content, null, "");
+
+            // Add it
+            com_manager.add(c);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Notify adapter change
+            com_adapter = new CommentRecyclerAdapter(com_manager, disc.getId());
+            com_recycler.setAdapter(com_adapter);
+
+            Toast.makeText(getApplicationContext(),"Data retrieved",Toast.LENGTH_SHORT).show();
+        }
     }
 }

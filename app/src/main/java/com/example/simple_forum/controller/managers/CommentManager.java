@@ -1,110 +1,33 @@
 package com.example.simple_forum.controller.managers;
 
-import android.content.Context;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-import com.example.simple_forum.controller.JSONParser;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
+import com.example.simple_forum.controller.persistence.interfaces.ICommentPersistence;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.controller.validator.comment_validate;
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;
-import com.example.simple_forum.models.User;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class CommentManager implements BaseManager, FilterManager{
 
     private static ArrayList<Comment> commentList = new ArrayList<>();
+    private static ICommentPersistence cp;
 
-    public CommentManager(){
-    }
+    // If stub
+    private boolean use_stub = false;
 
-    // Add a collection of json entries from a file
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String fileName, Context context){
+    public CommentManager(){ use_stub = true; }
 
-        JSONArray comments = JSONParser.get_json(context,fileName);
+    public CommentManager(boolean use_local){
 
-        for(int i = 0; i < comments.length(); i++){
-            try{
+        // Use HTTP/API based persistence
+        cp = PersistenceManager.get_comment_persistence(use_local, false);
 
-                // Get json object
-                JSONObject curr_comment = comments.getJSONObject(i);
-
-                // Get the discussion object
-                DiscussionManager d_manager = new DiscussionManager();
-                Discussion d = (Discussion) d_manager.get(curr_comment.get("discussion").toString());
-
-                // TODO
-                // Get the user
-
-                Comment newComment = new Comment(d, curr_comment.get("content").toString(), new User(), curr_comment.get("date_created").toString());
-
-                commentList.add(newComment);
-
-
-            } catch (JSONException e){
-                Log.i("Comment_list_error", e.getMessage());
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void add_json_str(String data) {
-        JSONArray comments = JSONParser.get_json(data);
-
-        // Iterate through serialized objects and create disc models
-        Comment c = null;
-
-        for(int i = 0; i < comments.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject comm = comments.getJSONObject(i);
-
-                // Get the discussion object
-//                DiscussionManager d_manager = new DiscussionManager();
-                Discussion d = new Discussion();
-                d.setTitle(comm.get("discussion").toString());
-
-                // Create comm model
-                c = new Comment(d, comm.get("content").toString(), new User(), comm.get("date_created").toString());
-
-                // Add to the list
-                if (c != null) {
-                    add(c);
-                }
-
-            } catch (JSONException e) {
-                Log.i("DISCUSSION_LIST", e.getMessage());
-            }
-        }
-    }
-
-    // get commentList of a specific user
-    public ArrayList<Comment> get(User user){
-
-        ArrayList<Comment> userCommentList = new ArrayList<>();
-
-        for(int i = 0; i < commentList.size(); i++){
-
-            Comment curr = commentList.get(i);
-            if(curr.getUser() == user){
-                userCommentList.add(curr);
-            }
-        }
-
-        return userCommentList;
-
+        // Update list
+        commentList = cp.get_all();
     }
 
     // Filter comment query set by discussion title
@@ -125,26 +48,63 @@ public class CommentManager implements BaseManager, FilterManager{
                 Comment c = commentList.get(i);
                 Discussion c_discussion = c.getDiscussion();
 
-                Log.i("COMM_MANAGER", "discussion_comment: " + c_discussion.getTitle());
-
                 if(c_discussion != null && c_discussion.getTitle().equals(title) && !querySet.contains(c)){
                     querySet.add(c);
-                    Log.i("COMM_MANAGER", "Comment added to query set: " + c_discussion.getTitle());
                 }
             }
         }
 
         return querySet;
     }
+
+    public ArrayList filter(int id) {
+
+        ArrayList<Comment> querySet = new ArrayList<>();
+
+        // If blank string, filter for all
+        if (id == -1) {
+            querySet = commentList;
+        } else {
+
+            // Get any comment items from commentList that are a part of discussion_title
+            // and add them to the query set
+            for(int i = 0; i < commentList.size(); i++){
+                Comment c = commentList.get(i);
+                Discussion c_discussion = c.getDiscussion();
+
+                if(c_discussion != null && c_discussion.getId() == id && !querySet.contains(c)){
+                    querySet.add(c);
+                }
+            }
+        }
+
+        return querySet;
+    }
+
     @Override
-    public void add(Object item) {
+    public boolean add(Object item) {
 
         Comment c = (Comment) item;
+
+        // Set user and date
+        c.set_user( UserManager.get_logged_in_user() );
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        c.set_date(dtf.format(new Date()));
+
         // validation
         Validation comment_val = new comment_validate(c);
         if(comment_val.validate()) {
-            commentList.add(c);
+
+            if(use_stub) {
+                commentList.add(c);
+                c.setId(commentList.size());
+            } else {
+                cp.insert_comment(c);
+                commentList = cp.get_all();
+            }
         }
+
+        return exists(c.getContent());
     }
 
     @Override
@@ -163,6 +123,18 @@ public class CommentManager implements BaseManager, FilterManager{
             c = commentList.get(index);
         }
         return c;
+    }
+
+    @Override
+    public Object get_id(int id) {
+
+        for(Comment c : commentList){
+            if(c.getId() == id){
+                return c;
+            }
+        }
+
+        return null;
     }
 
     //returns the number of comments

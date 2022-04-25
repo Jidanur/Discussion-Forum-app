@@ -1,134 +1,71 @@
 package com.example.simple_forum.controller.managers;
 
-
-import android.content.Context;
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import com.example.simple_forum.controller.JSONParser;
-import com.example.simple_forum.controller.application.Services;
-import com.example.simple_forum.controller.persistence.TopicPersistenceHSQLDB;
+import com.example.simple_forum.controller.persistence.interfaces.ITopicPersistence;
+import com.example.simple_forum.controller.persistence.PersistenceManager;
 import com.example.simple_forum.controller.validator.Topic_validate;
 import com.example.simple_forum.controller.validator.Validation;
 import com.example.simple_forum.models.Topic;
-import com.example.simple_forum.models.User;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 // Topic manager class for CRUD operations
 // implements interface BaseManager
 public class TopicManager implements BaseManager {
 
     private static ArrayList<Topic> topic_list = new ArrayList<Topic>();
-    private boolean use_persistence;
-    private static TopicPersistenceHSQLDB tp;
+    private static ITopicPersistence tp;
 
+    // If stub
+    private boolean use_stub = false;
+
+    // Use stub DB
     public TopicManager() {
 
-        this.tp = null;
-        use_persistence = false;
+        // Use stub
+        use_stub = true;
     }
 
-    public TopicManager(boolean use_persistence){
-        this.use_persistence = use_persistence;
+    // Use HTTP/SQL for persistence
+    public TopicManager(boolean use_local) {
 
-        if(use_persistence){
-            tp = (TopicPersistenceHSQLDB) Services.getTopicPersistence();
-            topic_list = tp.get_all();
-        }
-    }
+        // Use HTTP/SQL based persistence
+        tp = PersistenceManager.get_topic_persistence(use_local, false);
 
-
-    // Add a collection of json entries from a file
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_file(String filename, Context context) {
-
-        // Init JSON parser
-        JSONArray topics = JSONParser.get_json(context, filename);
-
-        // Clear manager first
-        TopicManager t_manager = new TopicManager();
-        t_manager.clear();
-
-        // Iterate through serialized objects and create topic models
-        for (int i = 0; i < topics.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject topic = topics.getJSONObject(i);
-
-                // TODO
-                // Query for user model to create a new entry
-
-                // Create topic model
-                Topic t = new Topic(topic.get("title").toString(), new User(), topic.get("date_created").toString());
-
-                // Add to the list
-                add(t);
-
-            } catch (JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
-            }
-        }
-    }
-
-    // Add a collection of json entries from a string
-    // Ignore for now until our API is available for use
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void add_json_str(String data) {
-        JSONArray topics = JSONParser.get_json(data);
-
-        // Iterate through serialized objects and create topic models
-        for (int i = 0; i < topics.length(); i++) {
-            try {
-
-                // Get json object
-                JSONObject topic = topics.getJSONObject(i);
-
-                // TODO
-                // Query for user model to create a new entry
-
-                // Create topic model
-                Topic t = new Topic(topic.get("title").toString(), new User(), topic.get("date_created").toString());
-
-                // Add to the list
-                add(t);
-
-            } catch (JSONException e) {
-                Log.i("TOPIC_LIST", e.getMessage());
-            }
-        }
+        // Update list
+        topic_list = tp.get_all();
     }
 
     // Add a new topic to the list
-    public void add(Object item) {
+    public boolean add(Object item) {
 
         // Cast item
         Topic t = (Topic) item;
-        System.out.println(t);
 
-        // TODO
-        // add(t) should return true or false if it was added via api successfully
+        // Set date and user
+        t.setUser(UserManager.get_logged_in_user());
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        t.set_date(dtf.format(new Date()));
 
         // Make sure title does not exist already
         Validation topic_val = new Topic_validate(t);
 
         if (topic_val.validate() && !exists(t.getTitle())) {
 
-            // Add the topic object to the list
-            if (use_persistence) {
-                tp.insert_topic(t);
-                topic_list = tp.get_all();
-            } else {
+            if(use_stub){
                 topic_list.add(t);
+            } else {
+
+                // Add the topic object to the list
+                tp.insert_topic(t);
+
+                // Update topic list
+                topic_list = tp.get_all();
             }
+            t.setId(topic_list.size());
         }
+        return exists(t.getTitle());
     }
 
     // Get a topic by title
@@ -160,6 +97,18 @@ public class TopicManager implements BaseManager {
         return t;
     }
 
+    @Override
+    public Object get_id(int id) {
+
+        for(Topic t : topic_list){
+            if(t.getId() == id){
+                return t;
+            }
+        }
+
+        return null;
+    }
+
     // Get size
     public int size() {
         return topic_list.size();
@@ -186,8 +135,5 @@ public class TopicManager implements BaseManager {
     @Override
     public void clear() {
         topic_list.clear();
-    }
-
-    public void add_json_file(String filepath) {
     }
 }
