@@ -8,7 +8,7 @@ Our project is a forum app which allows users to discuss with one another inside
 How to run our project
 ==============
 
-Once you've opened the repository in Android studio, simply click the 'build' button, then click the 'run' button (shaped like a play icon).
+Once you've opened the repository in Android studio, simply click the 'build' button, then click the 'run' button (shaped like a play icon). Once the app is open you'll have to create a new account or login to an existing one to use the app.
 
 
 
