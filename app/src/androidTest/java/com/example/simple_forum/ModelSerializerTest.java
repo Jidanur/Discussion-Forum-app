@@ -2,7 +2,7 @@ package com.example.simple_forum;
 
 import static org.junit.Assert.*;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.simple_forum.models.Comment;
 import com.example.simple_forum.models.Discussion;

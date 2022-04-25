@@ -8,8 +8,10 @@ import com.example.simple_forum.models.User;
 import org.json.JSONArray;
 import static org.junit.Assert.*;
 
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
