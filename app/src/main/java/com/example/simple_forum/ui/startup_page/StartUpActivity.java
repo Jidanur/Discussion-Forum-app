@@ -30,7 +30,7 @@ public class StartUpActivity extends AppCompatActivity {
         new Utils(getApplicationContext());
 
         // Set local to true if server is unavailable
-        if( !new HttpUtils().get_server_status() ) {
+        if( !new HttpUtils().get_server_status() || Main.get_local_setting() ) {
             Main.set_local_setting(true);
             System.out.println("USING HSQLDB BASED PERSISTENCE");
         } else{

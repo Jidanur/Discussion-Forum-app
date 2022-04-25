@@ -24,10 +24,13 @@ public class CommentPersistenceHTTP implements ICommentPersistence{
     private static UserPersistenceHTTP up;
     private static DiscussionPersistenceHTTP dp;
 
+    private static ArrayList<Comment> comment_list;
+
     public CommentPersistenceHTTP(){
         http = new HttpUtils();
         up = new UserPersistenceHTTP();
         dp = new DiscussionPersistenceHTTP();
+        comment_list = get_all();
     }
 
     @Override
@@ -40,7 +43,7 @@ public class CommentPersistenceHTTP implements ICommentPersistence{
     public Comment get(String content) {
 
         // Iterate and find
-        for(Comment c : get_all()){
+        for(Comment c : comment_list){
             if(c.getContent().equals(content)){
                 return c;
             }
@@ -82,6 +85,7 @@ public class CommentPersistenceHTTP implements ICommentPersistence{
                 e.printStackTrace();
             }
         }
+        comment_list = comments_list;
         return comments_list;
     }
 

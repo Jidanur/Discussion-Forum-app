@@ -19,11 +19,12 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     private static IHTTPUtils http;
     private static SF_API endpoint = SF_API.TOPICS;
 
-    private static UserPersistenceHTTP up;
+    private static ArrayList<Topic> topics_list;
+
 
     public TopicPersistenceHTTP(){
         http = new HttpUtils();
-        up = new UserPersistenceHTTP();
+        topics_list = get_all();
     }
 
     // Insert topic via API to server
@@ -44,7 +45,7 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     public Topic get(String title) {
 
         // Iterate and find
-        for(Topic t : get_all()){
+        for(Topic t : topics_list){
             if(t.getTitle().equals(title)){
                 return t;
             }
@@ -55,7 +56,7 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
     @Override
     public Topic get(int id) {
         // Iterate and find
-        for(Topic t : get_all()){
+        for(Topic t : topics_list){
             if(t.getId() == id){
                 return t;
             }
@@ -90,6 +91,7 @@ public class TopicPersistenceHTTP implements ITopicPersistence {
                 e.printStackTrace();
             }
         }
+        this.topics_list = topic_list;
         return topic_list;
     }
 
