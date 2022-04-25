@@ -26,7 +26,7 @@ public class StartUpActivity extends AppCompatActivity {
         // Set utils app context
         new Utils(getApplicationContext());
         
-        // Check if intent exitst
+        // Check if intent exists for testing
         if(getIntent().hasExtra("TEST_MODE")){
             boolean test_mode = getIntent().getExtras().getBoolean("TEST_MODE");
             

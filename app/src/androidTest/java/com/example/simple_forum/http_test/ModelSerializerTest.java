@@ -1,4 +1,4 @@
-package com.example.simple_forum;
+package com.example.simple_forum.http_test;
 
 import static org.junit.Assert.*;
 
