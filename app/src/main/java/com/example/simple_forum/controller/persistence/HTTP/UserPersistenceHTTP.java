@@ -18,9 +18,12 @@ public class UserPersistenceHTTP implements IUserPersistence {
 
     private static IHTTPUtils http;
     private static SF_API endpoint = SF_API.USERS;
+    private static ArrayList<User> users_list;
 
     public UserPersistenceHTTP(){
+
         http = new HttpUtils();
+        users_list = get_all();
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserPersistenceHTTP implements IUserPersistence {
     public User get(String username) {
 
         // Find user
-        for(User u : get_all()){
+        for(User u : users_list){
             if(u.getUsername().equals(username)){
                 return u;
             }
@@ -62,7 +65,7 @@ public class UserPersistenceHTTP implements IUserPersistence {
     public User get(int id) {
 
         // Find user
-        for(User u : get_all()){
+        for(User u : users_list){
             if(u.getId() == id){
                 return u;
             }
@@ -114,6 +117,7 @@ public class UserPersistenceHTTP implements IUserPersistence {
             }
         }
 
+        this.users_list = user_list;
         return user_list;
     }
 

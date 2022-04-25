@@ -22,10 +22,13 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
     private static UserPersistenceHTTP up;
     private static TopicPersistenceHTTP tp;
 
+    private static ArrayList<Discussion> disc_list;
+
     public DiscussionPersistenceHTTP(){
         http = new HttpUtils();;
         up = new UserPersistenceHTTP();
         tp = new TopicPersistenceHTTP();
+        disc_list = get_all();
     }
 
     @Override
@@ -44,7 +47,7 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
     public Discussion get(String title) {
 
         // Find the discussion
-        for(Discussion d : get_all()){
+        for(Discussion d : disc_list){
             if(title.equals(d.getTitle())){
                 return d;
             }
@@ -56,7 +59,7 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
     public Discussion get(int id) {
 
         // Find the discussion
-        for(Discussion d : get_all()){
+        for(Discussion d : disc_list){
             if(id == d.getId()){
                 return d;
             }
@@ -94,7 +97,7 @@ public class DiscussionPersistenceHTTP implements IDiscussionPersistence {
                 e.printStackTrace();
             }
         }
-
+        this.disc_list = disc_list;
         return disc_list;
     }
 
