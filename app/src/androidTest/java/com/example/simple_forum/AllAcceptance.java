@@ -2,7 +2,10 @@
 
 package com.example.simple_forum;
 
+import com.example.simple_forum.acceptance_test.CreateDiscussionTest;
+import com.example.simple_forum.acceptance_test.CreateNewTopicTest;
 import com.example.simple_forum.acceptance_test.LoginTest;
+import com.example.simple_forum.acceptance_test.UserRegisterTest;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -12,6 +15,9 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         LoginTest.class,
+        UserRegisterTest.class,
+        CreateNewTopicTest.class,
+        CreateDiscussionTest.class
 })
 public class AllAcceptance {
     public static void main(String[] args){

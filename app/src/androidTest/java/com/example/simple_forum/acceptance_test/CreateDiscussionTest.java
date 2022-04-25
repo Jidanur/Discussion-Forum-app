@@ -22,9 +22,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.ui.startup_page.StartUpActivity;
@@ -32,7 +32,6 @@ import com.example.simple_forum.ui.startup_page.StartUpActivity;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,8 +39,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateNewTopicTest {
-
+public class CreateDiscussionTest {
     @Rule
     // Set launch activity to false
     public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class, true, false);
@@ -56,9 +54,8 @@ public class CreateNewTopicTest {
         // Launch activity
         mActivityTestRule.launchActivity(intent);
     }
-
     @Test
-    public void createNewTopicTest() throws InterruptedException {
+    public void createDiscussionTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.username),
                         childAtPosition(
@@ -88,6 +85,7 @@ public class CreateNewTopicTest {
                                 1),
                         isDisplayed()));
         appCompatEditText3.perform(replaceText("kurt123"), closeSoftKeyboard());
+
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.login), withText("Sign in"),
@@ -119,18 +117,7 @@ public class CreateNewTopicTest {
                                                 1)),
                                 0),
                         isDisplayed()));
-        appCompatEditText5.perform(click());
-
-        ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.topic_create_input),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.LinearLayout")),
-                                                1)),
-                                0),
-                        isDisplayed()));
-        appCompatEditText6.perform(replaceText("testtopic"), closeSoftKeyboard());
+        appCompatEditText5.perform(replaceText("testtopic"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.topic_create_btn), withText("Create"),
@@ -143,19 +130,62 @@ public class CreateNewTopicTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
+
+
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.topic_list),
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 3)));
-
         recyclerView.perform(actionOnItemAtPosition(5, click()));
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.discussion_topic_title), withText("testtopic"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.view.View.class))),
+        ViewInteraction materialButton3 = onView(
+                allOf(withId(R.id.button2), withText("New Discussion"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                2),
                         isDisplayed()));
-        textView.check(matches(withText("testtopic")));
+        materialButton3.perform(click());
+
+        ViewInteraction appCompatEditText6 = onView(
+                allOf(withId(R.id.discussion_title_entry),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                3),
+                        isDisplayed()));
+        appCompatEditText6.perform(click());
+
+        ViewInteraction appCompatEditText7 = onView(
+                allOf(withId(R.id.discussion_title_entry),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                3),
+                        isDisplayed()));
+        appCompatEditText7.perform(replaceText("testDiscussion"), closeSoftKeyboard());
+
+
+
+        ViewInteraction materialButton4 = onView(
+                allOf(withId(R.id.create_btn), withText("Create"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        0),
+                                6),
+                        isDisplayed()));
+        materialButton4.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.discussion_title), withText("testDiscussion"),
+                        withParent(withParent(withId(R.id.discussion_list))),
+                        isDisplayed()));
+        textView.check(matches(withText("testDiscussion")));
     }
 
     private static Matcher<View> childAtPosition(

@@ -1,26 +1,27 @@
 package com.example.simple_forum.acceptance_test;
 
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.Intent;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.filters.LargeTest;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.example.simple_forum.R;
 import com.example.simple_forum.ui.startup_page.StartUpActivity;
@@ -36,9 +37,11 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UserRegistrationTest {
+public class UserRegisterTest {
+
 
     @Rule
+    // Set launch activity to false
     public ActivityTestRule<StartUpActivity> mActivityTestRule = new ActivityTestRule<>(StartUpActivity.class, true, false);
 
     @Before
@@ -53,7 +56,7 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void userRegistrationTest() {
+    public void userRegisterTest() {
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.newUser), withText("If you are new, please register here"),
                         childAtPosition(
@@ -82,7 +85,7 @@ public class UserRegistrationTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("testname"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("test"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.emailAddrs),
@@ -114,7 +117,7 @@ public class UserRegistrationTest {
                                         0),
                                 4),
                         isDisplayed()));
-        appCompatEditText5.perform(replaceText("nothing"), closeSoftKeyboard());
+        appCompatEditText5.perform(replaceText("noting"), closeSoftKeyboard());
 
 
 
@@ -146,7 +149,7 @@ public class UserRegistrationTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText7.perform(replaceText("testname"), closeSoftKeyboard());
+        appCompatEditText7.perform(replaceText("test"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText8 = onView(
                 allOf(withId(R.id.password),
@@ -157,6 +160,8 @@ public class UserRegistrationTest {
                                 1),
                         isDisplayed()));
         appCompatEditText8.perform(replaceText("test123"), closeSoftKeyboard());
+
+
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.login), withText("Sign in"),
