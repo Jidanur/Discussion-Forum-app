@@ -34,6 +34,7 @@ public class UserPersistenceHTTP implements IUserPersistence {
 
         // Send bio to profiles endpoint
         JSONObject user_p = new JSONObject();
+        users_list = get_all();
         int id = get(u.getUsername()).getId();
         try {
             user_p.put("user", id);
