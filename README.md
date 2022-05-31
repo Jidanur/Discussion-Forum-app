@@ -16,3 +16,6 @@ To run the tests:
 We have regular JUNIT tests located in the test folder with its corresponding AllTests and AllIntegration test files. 
 We also have instrumented tests for our acceptance tests in espresso and our HTTP utils tests. These can be found under the androidTest folder with its corresponding AllHTTPTest and AllAcceptance test files.
 
+Sample Video
+================
+https://youtu.be/Hr9nE6cOn9w
