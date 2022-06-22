@@ -18,4 +18,4 @@ We also have instrumented tests for our acceptance tests in espresso and our HTT
 
 Sample Video
 ================
-https://youtu.be/Hr9nE6cOn9w
+[![Watch the video]https://youtu.be/Hr9nE6cOn9w
